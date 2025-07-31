@@ -186,3 +186,36 @@ make protoc-service
   - Message from user sent will be encrypt by public key of user receive. Message encrypted will be decrypt by secret key.
   - Although public key and secret key is different, but it is a pair, encrypt message by one key and decrypt by one other key. But hacker can change public key of user receive data by public key of hacker. When that user send message, hacker can decrypt that message (can use two-way)
   - Must be `digital certificate` have identifier. User receive data have public key on certificate - like passport in real live (must be verify and sign by `Certificate Authority`).
+
+### How to use generate Go code
+
+- Write messages into `.proto` file into folder `proto`.
+
+```protobuf
+syntax = "proto3";
+
+option go_package = "/protoc";
+
+message CPU {
+  string brand = 1;
+  string name = 2;
+  uint32 num_cores = 3;
+  uint32 num_threads = 4;
+  double min_ghz = 5;
+  double max_ghz = 6;
+}
+```
+
+- Install package `protoc-gen-go-grpc` and `protoc-gen-go`
+
+```bash
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+```
+
+- Run command to generate code:
+
+```bash
+# --go_out: generate code for gRPC service into package defined in option go_package
+protoc -I=proto --go_out=./ proto/*.proto
+```
