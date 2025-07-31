@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+option go_package = "/protoc";
+
+import "screen_message.proto";
+import "keyboard_message.proto";
+import "processor_message.proto";
+import "memory_message.proto";
+import "storage_message.proto";
+import "google/protobuf/timestamp.proto";
+
+message Laptop {
+  string id = 1; // Unique identifier for the laptop
+  string brand = 2; // Brand of the laptop
+  string name = 3; // Model name of the laptop
+  CPU cpu = 4; // CPU information
+  Memory ram = 5; // Memory information
+  repeated GPU gpus = 6; // List of GPUs
+  repeated Storage storages = 7; // List of storage devices
+  Screen screen = 8; // Screen information
+  Keyboard keyboard = 9; // Keyboard information
+  oneof weight {
+    double weight_kg = 10; // Weight in kilograms
+    double weight_lbs = 11; // Weight in pounds
+  }
+  double price_usd = 12; // Price of the laptop in USD
+  uint32 release_year = 13; // Release year of the laptop
+  google.protobuf.Timestamp updated_at = 14; // Updation timestamp
+}
