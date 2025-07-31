@@ -9,10 +9,11 @@ import (
 )
 
 func TestFileSerializer(t *testing.T) {
-	t.Parallel()
-
 	binaryFilePath := "./../binary/laptop.bin"
 	laptop1 := sample.NewLaptop()
-	err := serializer.WriteProtobufToBinaryFile(laptop1, binaryFilePath)
+
+	err := serializer.WriteProtobufToBinaryFile(laptop1, "../not_contains/trash_test.bin")
+	require.Error(t, err)
+	err = serializer.WriteProtobufToBinaryFile(laptop1, binaryFilePath)
 	require.NoError(t, err)
 }
