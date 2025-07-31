@@ -11,7 +11,7 @@ import (
 func TestFileSerializer(t *testing.T) {
 	t.Parallel()
 
-	binaryFilePath := "../binary/laptop.bin"
+	binaryFilePath := "./../binary/laptop.bin"
 	laptop1 := sample.NewLaptop()
 	err := serializer.WriteProtobufToBinaryFile(laptop1, binaryFilePath)
 	require.NoError(t, err)
