@@ -217,5 +217,11 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 
 ```bash
 # --go_out: generate code for gRPC service into package defined in option go_package
-protoc -I=proto --go_out=./ proto/*.proto
+protoc --proto_path=proto  --go_out=. --go_opt=paths=import  --go-grpc_out=. --go-grpc_opt=paths=import proto/*.proto
+```
+
+or
+
+```bash
+make gen-protobuf
 ```
