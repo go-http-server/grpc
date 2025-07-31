@@ -105,11 +105,87 @@ func (x *CPU) GetMaxGhz() float64 {
 	return 0
 }
 
+type GPU struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Brand         string                 `protobuf:"bytes,1,opt,name=brand,proto3" json:"brand,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	MinGhz        float64                `protobuf:"fixed64,3,opt,name=min_ghz,json=minGhz,proto3" json:"min_ghz,omitempty"`
+	MaxGhz        float64                `protobuf:"fixed64,4,opt,name=max_ghz,json=maxGhz,proto3" json:"max_ghz,omitempty"`
+	Memory        *Memory                `protobuf:"bytes,5,opt,name=memory,proto3" json:"memory,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GPU) Reset() {
+	*x = GPU{}
+	mi := &file_processor_message_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GPU) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GPU) ProtoMessage() {}
+
+func (x *GPU) ProtoReflect() protoreflect.Message {
+	mi := &file_processor_message_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GPU.ProtoReflect.Descriptor instead.
+func (*GPU) Descriptor() ([]byte, []int) {
+	return file_processor_message_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GPU) GetBrand() string {
+	if x != nil {
+		return x.Brand
+	}
+	return ""
+}
+
+func (x *GPU) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *GPU) GetMinGhz() float64 {
+	if x != nil {
+		return x.MinGhz
+	}
+	return 0
+}
+
+func (x *GPU) GetMaxGhz() float64 {
+	if x != nil {
+		return x.MaxGhz
+	}
+	return 0
+}
+
+func (x *GPU) GetMemory() *Memory {
+	if x != nil {
+		return x.Memory
+	}
+	return nil
+}
+
 var File_processor_message_proto protoreflect.FileDescriptor
 
 const file_processor_message_proto_rawDesc = "" +
 	"\n" +
-	"\x17processor_message.proto\"\x9f\x01\n" +
+	"\x17processor_message.proto\x1a\x14memory_message.proto\"\x9f\x01\n" +
 	"\x03CPU\x12\x14\n" +
 	"\x05brand\x18\x01 \x01(\tR\x05brand\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1b\n" +
@@ -117,7 +193,13 @@ const file_processor_message_proto_rawDesc = "" +
 	"\vnum_threads\x18\x04 \x01(\rR\n" +
 	"numThreads\x12\x17\n" +
 	"\amin_ghz\x18\x05 \x01(\x01R\x06minGhz\x12\x17\n" +
-	"\amax_ghz\x18\x06 \x01(\x01R\x06maxGhzB\tZ\a/protocb\x06proto3"
+	"\amax_ghz\x18\x06 \x01(\x01R\x06maxGhz\"\x82\x01\n" +
+	"\x03GPU\x12\x14\n" +
+	"\x05brand\x18\x01 \x01(\tR\x05brand\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x17\n" +
+	"\amin_ghz\x18\x03 \x01(\x01R\x06minGhz\x12\x17\n" +
+	"\amax_ghz\x18\x04 \x01(\x01R\x06maxGhz\x12\x1f\n" +
+	"\x06memory\x18\x05 \x01(\v2\a.MemoryR\x06memoryB\tZ\a/protocb\x06proto3"
 
 var (
 	file_processor_message_proto_rawDescOnce sync.Once
@@ -131,16 +213,19 @@ func file_processor_message_proto_rawDescGZIP() []byte {
 	return file_processor_message_proto_rawDescData
 }
 
-var file_processor_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_processor_message_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_processor_message_proto_goTypes = []any{
-	(*CPU)(nil), // 0: CPU
+	(*CPU)(nil),    // 0: CPU
+	(*GPU)(nil),    // 1: GPU
+	(*Memory)(nil), // 2: Memory
 }
 var file_processor_message_proto_depIdxs = []int32{
-	0, // [0:0] is the sub-list for method output_type
-	0, // [0:0] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	2, // 0: GPU.memory:type_name -> Memory
+	1, // [1:1] is the sub-list for method output_type
+	1, // [1:1] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_processor_message_proto_init() }
@@ -148,13 +233,14 @@ func file_processor_message_proto_init() {
 	if File_processor_message_proto != nil {
 		return
 	}
+	file_memory_message_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_processor_message_proto_rawDesc), len(file_processor_message_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   1,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
