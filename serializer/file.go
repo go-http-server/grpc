@@ -15,3 +15,12 @@ func WriteProtobufToBinaryFile(message proto.Message, filename string) error {
 
 	return os.WriteFile(filename, data, 0644)
 }
+
+func ReadProtobufFromBinaryFile(message proto.Message, filename string) error {
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		return err
+	}
+
+	return proto.Unmarshal(data, message)
+}
