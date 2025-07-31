@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "/protoc";
+
+message Screen {
+  message Resolution {
+    uint32 width = 1;
+    uint32 height = 2;
+  }
+
+  enum Panel {
+    UNKNOWN = 0;
+    IPS = 1;
+    OLED = 2;
+  }
+
+  float size = 1; // Diagonal size in inches
+  Resolution resulution = 2;
+  Panel panel = 3;
+  bool multitouch = 4; // Indicates if the screen is touch-enabled
+}
