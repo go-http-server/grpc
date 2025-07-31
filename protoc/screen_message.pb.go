@@ -73,7 +73,7 @@ func (Screen_Panel) EnumDescriptor() ([]byte, []int) {
 type Screen struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Size          float32                `protobuf:"fixed32,1,opt,name=size,proto3" json:"size,omitempty"` // Diagonal size in inches
-	Resulution    *Screen_Resolution     `protobuf:"bytes,2,opt,name=resulution,proto3" json:"resulution,omitempty"`
+	Resolution    *Screen_Resolution     `protobuf:"bytes,2,opt,name=resolution,proto3" json:"resolution,omitempty"`
 	Panel         Screen_Panel           `protobuf:"varint,3,opt,name=panel,proto3,enum=Screen_Panel" json:"panel,omitempty"`
 	Multitouch    bool                   `protobuf:"varint,4,opt,name=multitouch,proto3" json:"multitouch,omitempty"` // Indicates if the screen is touch-enabled
 	unknownFields protoimpl.UnknownFields
@@ -117,9 +117,9 @@ func (x *Screen) GetSize() float32 {
 	return 0
 }
 
-func (x *Screen) GetResulution() *Screen_Resolution {
+func (x *Screen) GetResolution() *Screen_Resolution {
 	if x != nil {
-		return x.Resulution
+		return x.Resolution
 	}
 	return nil
 }
@@ -198,8 +198,8 @@ const file_screen_message_proto_rawDesc = "" +
 	"\x06Screen\x12\x12\n" +
 	"\x04size\x18\x01 \x01(\x02R\x04size\x122\n" +
 	"\n" +
-	"resulution\x18\x02 \x01(\v2\x12.Screen.ResolutionR\n" +
-	"resulution\x12#\n" +
+	"resolution\x18\x02 \x01(\v2\x12.Screen.ResolutionR\n" +
+	"resolution\x12#\n" +
 	"\x05panel\x18\x03 \x01(\x0e2\r.Screen.PanelR\x05panel\x12\x1e\n" +
 	"\n" +
 	"multitouch\x18\x04 \x01(\bR\n" +
@@ -233,7 +233,7 @@ var file_screen_message_proto_goTypes = []any{
 	(*Screen_Resolution)(nil), // 2: Screen.Resolution
 }
 var file_screen_message_proto_depIdxs = []int32{
-	2, // 0: Screen.resulution:type_name -> Screen.Resolution
+	2, // 0: Screen.resolution:type_name -> Screen.Resolution
 	0, // 1: Screen.panel:type_name -> Screen.Panel
 	2, // [2:2] is the sub-list for method output_type
 	2, // [2:2] is the sub-list for method input_type

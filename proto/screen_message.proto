@@ -15,7 +15,7 @@ message Screen {
   }
 
   float size = 1; // Diagonal size in inches
-  Resolution resulution = 2;
+  Resolution resolution = 2;
   Panel panel = 3;
   bool multitouch = 4; // Indicates if the screen is touch-enabled
 }
