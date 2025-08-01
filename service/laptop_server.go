@@ -14,6 +14,7 @@ import (
 
 // LaptopServer is the server API for LaptopService service.
 type LaptopServer struct {
+	protoc.UnimplementedLaptopServiceServer
 	Store LaptopStore
 }
 
