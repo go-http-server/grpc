@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"fmt"
 	"sync"
 
 	"github.com/go-http-server/grpc/protoc"
@@ -14,6 +15,9 @@ var ErrAlreadyExists = errors.New("laptop already exists")
 type LaptopStore interface {
 	// Save persists a laptop to the storage.
 	Save(laptop *protoc.Laptop) error
+
+	// Find retrieves a laptop by its ID.
+	Find(id string) (*protoc.Laptop, error)
 }
 
 // InMemoryLaptopStore is an in-memory implementation of LaptopStore.
@@ -46,4 +50,23 @@ func (mem *InMemoryLaptopStore) Save(laptop *protoc.Laptop) error {
 
 	mem.laptops[laptop.Id] = other
 	return nil
+}
+
+func (mem *InMemoryLaptopStore) Find(id string) (*protoc.Laptop, error) {
+	mem.mu.RLock()
+	defer mem.mu.RUnlock()
+
+	laptop, ok := mem.laptops[id]
+	if !ok {
+		return nil, fmt.Errorf("laptop with id %s not found", id)
+	}
+
+	// deep copy the laptop to avoid external modifications
+	other := &protoc.Laptop{}
+	err := copier.Copy(other, laptop)
+	if err != nil {
+		return nil, err
+	}
+
+	return other, nil
 }
