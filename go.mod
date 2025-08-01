@@ -4,6 +4,7 @@ go 1.24.0
 
 require (
 	github.com/google/uuid v1.6.0
+	github.com/jinzhu/copier v0.4.0
 	github.com/stretchr/testify v1.10.0
 	google.golang.org/grpc v1.74.2
 	google.golang.org/protobuf v1.36.6
