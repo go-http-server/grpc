@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "/protoc";
+
+import "laptop_message.proto";
+
+message CreateLaptopRequest {
+  Laptop laptop = 1; // Laptop to be created
+}
+
+message CreateLaptopResponse {
+  string id = 1; // Unique identifier for the created laptop
+}
+
+service LaptopService {
+  // Create a new laptop
+  rpc CreateLaptop(CreateLaptopRequest) returns (CreateLaptopResponse);
+}
