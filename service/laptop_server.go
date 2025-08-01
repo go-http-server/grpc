@@ -18,8 +18,8 @@ type LaptopServer struct {
 }
 
 // NewLaptopServer creates a new instance of LaptopServer.
-func NewLaptopServer() *LaptopServer {
-	return &LaptopServer{}
+func NewLaptopServer(store LaptopStore) *LaptopServer {
+	return &LaptopServer{Store: store}
 }
 
 // CreateLaptop handles the creation of a new laptop.
