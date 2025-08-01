@@ -11,7 +11,7 @@ import (
 )
 
 func TestFileSerializer(t *testing.T) {
-	binaryFilePath := "./../binary/laptop.bin"
+	binaryFilePath := "./../protobuf_transfer/laptop.bin"
 	laptop1 := sample.NewLaptop()
 
 	err := serializer.WriteProtobufToBinaryFile(laptop1, binaryFilePath)
@@ -25,4 +25,8 @@ func TestFileSerializer(t *testing.T) {
 
 	err = serializer.ReadProtobufFromBinaryFile(&laptop2, "not_exists")
 	require.Error(t, err)
+
+	jsonFilePath := "./../protobuf_transfer/laptop.json"
+	err = serializer.WriteProtobufToJSONFile(laptop1, jsonFilePath)
+	require.NoError(t, err)
 }

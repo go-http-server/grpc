@@ -1,0 +1,72 @@
+{
+  "id": "9e468e16-d977-48a2-969e-334273e5be63",
+  "brand": "Acer",
+  "name": "Swift X",
+  "cpu": {
+    "brand": "AMD",
+    "name": "Ryzen Threadripper 7980X",
+    "num_cores": 9,
+    "num_threads": 2,
+    "min_ghz": 2.0343523597676634,
+    "max_ghz": 5.200031145783003
+  },
+  "ram": {
+    "value": "100",
+    "unit": "GIGABYTE"
+  },
+  "gpus": [
+    {
+      "brand": "NVIDIA",
+      "name": "Tesla V100",
+      "min_ghz": 1.5152824963132194,
+      "max_ghz": 4.7476026751633755,
+      "memory": {
+        "value": "76",
+        "unit": "GIGABYTE"
+      }
+    },
+    {
+      "brand": "Intel",
+      "name": "Intel Iris Xe",
+      "min_ghz": 1.8217224411905941,
+      "max_ghz": 4.640040321502271,
+      "memory": {
+        "value": "49",
+        "unit": "GIGABYTE"
+      }
+    }
+  ],
+  "storages": [
+    {
+      "driver": "SSD",
+      "memory": {
+        "value": "983",
+        "unit": "GIGABYTE"
+      }
+    },
+    {
+      "driver": "HDD",
+      "memory": {
+        "value": "536",
+        "unit": "GIGABYTE"
+      }
+    }
+  ],
+  "screen": {
+    "size": 15.575853,
+    "resolution": {
+      "width": 5776,
+      "height": 3249
+    },
+    "panel": "IPS",
+    "multitouch": true
+  },
+  "keyboard": {
+    "layout": "QWERTZ",
+    "backlit": true
+  },
+  "weight_kg": 2.5318670799223817,
+  "price_usd": 4322.900003799677,
+  "release_year": 2025,
+  "updated_at": "2025-08-01T02:03:09.235533576Z"
+}
