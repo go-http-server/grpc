@@ -1,6 +1,7 @@
 package service
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"sync"
@@ -19,7 +20,7 @@ type LaptopStore interface {
 	// Find retrieves a laptop by its ID.
 	Find(id string) (*protoc.Laptop, error)
 
-	Search(filter *protoc.Filter, found func(laptop *protoc.Laptop) error) error
+	Search(ctx context.Context, filter *protoc.Filter, found func(laptop *protoc.Laptop) error) error
 }
 
 // InMemoryLaptopStore is an in-memory implementation of LaptopStore.
@@ -66,11 +67,19 @@ func (mem *InMemoryLaptopStore) Find(id string) (*protoc.Laptop, error) {
 	return deepCopyLaptop(laptop)
 }
 
-func (mem *InMemoryLaptopStore) Search(filter *protoc.Filter, found func(laptop *protoc.Laptop) error) error {
+func (mem *InMemoryLaptopStore) Search(ctx context.Context, filter *protoc.Filter, found func(laptop *protoc.Laptop) error) error {
 	mem.mu.RLock()
 	defer mem.mu.RUnlock()
 
 	for _, laptop := range mem.laptops {
+		if errors.Is(ctx.Err(), context.Canceled) {
+			return ctx.Err()
+		}
+
+		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+			return ctx.Err()
+		}
+
 		if isQualified(filter, laptop) {
 			// deep copy the laptop to avoid external modifications
 			other, err := deepCopyLaptop(laptop)

@@ -75,7 +75,7 @@ func (s *LaptopServer) SearchLaptop(req *protoc.SearchLaptopRequest, streaming g
 
 	log.Printf("Received request to search laptops with filter: %+v", filter)
 
-	err := s.Store.Search(filter, func(laptop *protoc.Laptop) error {
+	err := s.Store.Search(streaming.Context(), filter, func(laptop *protoc.Laptop) error {
 		res := &protoc.SearchLaptopResponse{Laptop: laptop}
 
 		// stream the laptop response back to the client
