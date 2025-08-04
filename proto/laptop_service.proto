@@ -21,10 +21,30 @@ message SearchLaptopResponse {
   Laptop laptop = 1; // searched laptop response
 }
 
+message UploadImageRequest {
+  oneof data {
+    ImageInfo info = 1; // Image information
+    bytes chunk_data = 2; // Image data chunk
+  }
+}
+
+message ImageInfo {
+  string laptop_id = 1; // Unique identifier for the image
+  string image_type = 2; // Type of the image (e.g., thumbnail, full-size)
+}
+
+message UploadImageResponse {
+  string id = 1; // Unique identifier for the uploaded image
+  uint32 size = 2; // Size of the uploaded image in bytes
+}
+
 service LaptopService {
   // Create a new laptop
   rpc CreateLaptop(CreateLaptopRequest) returns (CreateLaptopResponse);
 
   // Search for laptops based on filter criteria
   rpc SearchLaptop(SearchLaptopRequest) returns (stream SearchLaptopResponse);
+
+  // Upload an image for a laptop -> use client streaming
+  rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse);
 }
