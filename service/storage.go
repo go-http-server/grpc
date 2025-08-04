@@ -78,7 +78,10 @@ func (mem *InMemoryLaptopStore) Search(filter *protoc.Filter, found func(laptop 
 				return err
 			}
 
-			return found(other)
+			err = found(other)
+			if err != nil {
+				return err
+			}
 		}
 	}
 
@@ -90,7 +93,7 @@ func isQualified(filter *protoc.Filter, laptop *protoc.Laptop) bool {
 		return false
 	}
 
-	if laptop.GetPriceUsd() > laptop.GetPriceUsd() {
+	if laptop.GetPriceUsd() > filter.GetMaxPriceUsd() {
 		return false
 	}
 
