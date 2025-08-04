@@ -109,17 +109,110 @@ func (x *CreateLaptopResponse) GetId() string {
 	return ""
 }
 
+type SearchLaptopRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Filter        *Filter                `protobuf:"bytes,1,opt,name=filter,proto3" json:"filter,omitempty"` // Filter criteria for searching laptops
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchLaptopRequest) Reset() {
+	*x = SearchLaptopRequest{}
+	mi := &file_laptop_service_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchLaptopRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchLaptopRequest) ProtoMessage() {}
+
+func (x *SearchLaptopRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_laptop_service_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchLaptopRequest.ProtoReflect.Descriptor instead.
+func (*SearchLaptopRequest) Descriptor() ([]byte, []int) {
+	return file_laptop_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *SearchLaptopRequest) GetFilter() *Filter {
+	if x != nil {
+		return x.Filter
+	}
+	return nil
+}
+
+type SearchLaptopResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Laptop        *Laptop                `protobuf:"bytes,1,opt,name=laptop,proto3" json:"laptop,omitempty"` // searched laptop response
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SearchLaptopResponse) Reset() {
+	*x = SearchLaptopResponse{}
+	mi := &file_laptop_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SearchLaptopResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SearchLaptopResponse) ProtoMessage() {}
+
+func (x *SearchLaptopResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_laptop_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SearchLaptopResponse.ProtoReflect.Descriptor instead.
+func (*SearchLaptopResponse) Descriptor() ([]byte, []int) {
+	return file_laptop_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *SearchLaptopResponse) GetLaptop() *Laptop {
+	if x != nil {
+		return x.Laptop
+	}
+	return nil
+}
+
 var File_laptop_service_proto protoreflect.FileDescriptor
 
 const file_laptop_service_proto_rawDesc = "" +
 	"\n" +
-	"\x14laptop_service.proto\x1a\x14laptop_message.proto\"6\n" +
+	"\x14laptop_service.proto\x1a\x14laptop_message.proto\x1a\x14filter_message.proto\"6\n" +
 	"\x13CreateLaptopRequest\x12\x1f\n" +
 	"\x06laptop\x18\x01 \x01(\v2\a.LaptopR\x06laptop\"&\n" +
 	"\x14CreateLaptopResponse\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id2L\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"6\n" +
+	"\x13SearchLaptopRequest\x12\x1f\n" +
+	"\x06filter\x18\x01 \x01(\v2\a.FilterR\x06filter\"7\n" +
+	"\x14SearchLaptopResponse\x12\x1f\n" +
+	"\x06laptop\x18\x01 \x01(\v2\a.LaptopR\x06laptop2\x8b\x01\n" +
 	"\rLaptopService\x12;\n" +
-	"\fCreateLaptop\x12\x14.CreateLaptopRequest\x1a\x15.CreateLaptopResponseB\tZ\a/protocb\x06proto3"
+	"\fCreateLaptop\x12\x14.CreateLaptopRequest\x1a\x15.CreateLaptopResponse\x12=\n" +
+	"\fSearchLaptop\x12\x14.SearchLaptopRequest\x1a\x15.SearchLaptopResponse0\x01B\tZ\a/protocb\x06proto3"
 
 var (
 	file_laptop_service_proto_rawDescOnce sync.Once
@@ -133,21 +226,28 @@ func file_laptop_service_proto_rawDescGZIP() []byte {
 	return file_laptop_service_proto_rawDescData
 }
 
-var file_laptop_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_laptop_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_laptop_service_proto_goTypes = []any{
 	(*CreateLaptopRequest)(nil),  // 0: CreateLaptopRequest
 	(*CreateLaptopResponse)(nil), // 1: CreateLaptopResponse
-	(*Laptop)(nil),               // 2: Laptop
+	(*SearchLaptopRequest)(nil),  // 2: SearchLaptopRequest
+	(*SearchLaptopResponse)(nil), // 3: SearchLaptopResponse
+	(*Laptop)(nil),               // 4: Laptop
+	(*Filter)(nil),               // 5: Filter
 }
 var file_laptop_service_proto_depIdxs = []int32{
-	2, // 0: CreateLaptopRequest.laptop:type_name -> Laptop
-	0, // 1: LaptopService.CreateLaptop:input_type -> CreateLaptopRequest
-	1, // 2: LaptopService.CreateLaptop:output_type -> CreateLaptopResponse
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	4, // 0: CreateLaptopRequest.laptop:type_name -> Laptop
+	5, // 1: SearchLaptopRequest.filter:type_name -> Filter
+	4, // 2: SearchLaptopResponse.laptop:type_name -> Laptop
+	0, // 3: LaptopService.CreateLaptop:input_type -> CreateLaptopRequest
+	2, // 4: LaptopService.SearchLaptop:input_type -> SearchLaptopRequest
+	1, // 5: LaptopService.CreateLaptop:output_type -> CreateLaptopResponse
+	3, // 6: LaptopService.SearchLaptop:output_type -> SearchLaptopResponse
+	5, // [5:7] is the sub-list for method output_type
+	3, // [3:5] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_laptop_service_proto_init() }
@@ -156,13 +256,14 @@ func file_laptop_service_proto_init() {
 		return
 	}
 	file_laptop_message_proto_init()
+	file_filter_message_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_laptop_service_proto_rawDesc), len(file_laptop_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
