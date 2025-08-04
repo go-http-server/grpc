@@ -84,10 +84,10 @@ func main() {
 
 	filter := &protoc.Filter{
 		MaxPriceUsd: 3000,
-		MinCpuCores: 1,
+		MinCpuCores: 2,
 		MinCpuGhz:   1.5,
 		MinMemory: &protoc.Memory{
-			Value: 1,
+			Value: 4,
 			Unit:  protoc.Memory_GIGABYTE,
 		},
 	}
