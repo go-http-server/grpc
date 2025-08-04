@@ -1,6 +1,7 @@
 package service_test
 
 import (
+	"io"
 	"net"
 	"testing"
 
@@ -16,7 +17,7 @@ import (
 func TestClientCreateLaptop(t *testing.T) {
 	t.Parallel()
 
-	laptopServer, serverAddr := startTestLaptopServer(t)
+	laptopServer, serverAddr := startTestLaptopServer(t, service.NewInMemoryLaptopStore())
 
 	conn := newClientConnection(t, serverAddr)
 	defer conn.Close()
@@ -39,9 +40,82 @@ func TestClientCreateLaptop(t *testing.T) {
 	requireSameLaptop(t, laptop, laptopFound)
 }
 
-func startTestLaptopServer(t *testing.T) (*service.LaptopServer, string) {
+func TestClientSearchLaptop(t *testing.T) {
+	t.Parallel()
+
+	filter := &protoc.Filter{
+		MaxPriceUsd: 3000,
+		MinCpuCores: 2,
+		MinCpuGhz:   1.5,
+		MinMemory: &protoc.Memory{
+			Value: 4,
+			Unit:  protoc.Memory_GIGABYTE,
+		},
+	}
+
+	store := service.NewInMemoryLaptopStore()
+	expectedIDs := make(map[string]bool)
+
+	for i := range 6 {
+		laptop := sample.NewLaptop()
+
+		switch i {
+		case 0:
+			laptop.PriceUsd = 3500
+		case 1:
+			laptop.Cpu.NumCores = 1
+		case 2:
+			laptop.Cpu.MinGhz = 1.0
+		case 3:
+			laptop.Ram = &protoc.Memory{Value: 4096, Unit: protoc.Memory_MEGABYTE}
+		case 4:
+			laptop.PriceUsd = 2500
+			laptop.Cpu.NumCores = 4
+			laptop.Cpu.MinGhz = 2.5
+			laptop.Cpu.MaxGhz = 3.5
+			laptop.Ram = &protoc.Memory{Value: 16, Unit: protoc.Memory_GIGABYTE}
+			expectedIDs[laptop.Id] = true
+		case 5:
+			laptop.PriceUsd = 3000
+			laptop.Cpu.NumCores = 4
+			laptop.Cpu.MinGhz = 2.5
+			laptop.Cpu.MaxGhz = 3.5
+			laptop.Ram = &protoc.Memory{Value: 24, Unit: protoc.Memory_GIGABYTE}
+			expectedIDs[laptop.Id] = true
+		}
+
+		err := store.Save(laptop)
+		require.NoError(t, err)
+	}
+
+	_, serverAddr := startTestLaptopServer(t, store)
+	conn := newClientConnection(t, serverAddr)
+	defer conn.Close()
+	laptopClient := protoc.NewLaptopServiceClient(conn)
+
+	req := &protoc.SearchLaptopRequest{Filter: filter}
+	stream, err := laptopClient.SearchLaptop(t.Context(), req)
+	require.NoError(t, err)
+
+	found := 0
+
+	for {
+		res, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+
+		require.NoError(t, err)
+		require.Contains(t, expectedIDs, res.GetLaptop().GetId())
+		found++
+	}
+
+	require.Equal(t, len(expectedIDs), found)
+}
+
+func startTestLaptopServer(t *testing.T, store service.LaptopStore) (*service.LaptopServer, string) {
 	t.Helper()
-	laptopServer := service.NewLaptopServer(service.NewInMemoryLaptopStore())
+	laptopServer := service.NewLaptopServer(store)
 
 	grpcServer := grpc.NewServer()
 	protoc.RegisterLaptopServiceServer(grpcServer, laptopServer)
