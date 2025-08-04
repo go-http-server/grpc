@@ -8,6 +8,7 @@ import (
 
 	"github.com/go-http-server/grpc/protoc"
 	"github.com/google/uuid"
+	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -66,4 +67,29 @@ func (s *LaptopServer) CreateLaptop(ctx context.Context, req *protoc.CreateLapto
 		Id: laptopReq.Id, // Return the ID of the created laptop
 	}
 	return res, nil
+}
+
+// SearchLaptop handles the search for laptops based on filter criteria.
+func (s *LaptopServer) SearchLaptop(req *protoc.SearchLaptopRequest, streaming grpc.ServerStreamingServer[protoc.SearchLaptopResponse]) error {
+	filter := req.GetFilter()
+
+	log.Printf("Received request to search laptops with filter: %+v", filter)
+
+	err := s.Store.Search(filter, func(laptop *protoc.Laptop) error {
+		res := &protoc.SearchLaptopResponse{Laptop: laptop}
+
+		// stream the laptop response back to the client
+		err := streaming.Send(res)
+		if err != nil {
+			return err
+		}
+
+		log.Printf("Sent laptop: %s", laptop.GetId())
+
+		return nil
+	})
+	if err != nil {
+		return status.Errorf(codes.Internal, "failed to search laptops: %s", err)
+	}
+	return nil
 }
