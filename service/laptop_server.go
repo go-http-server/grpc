@@ -44,6 +44,14 @@ func (s *LaptopServer) CreateLaptop(ctx context.Context, req *protoc.CreateLapto
 		laptopReq.Id = id.String()
 	}
 
+	if errors.Is(ctx.Err(), context.Canceled) {
+		return nil, status.Errorf(codes.Canceled, "context was canceled")
+	}
+
+	if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+		return nil, status.Errorf(codes.DeadlineExceeded, "deadline context exceed")
+	}
+
 	// save laptop to database
 	err := s.Store.Save(laptopReq)
 	if err != nil {
