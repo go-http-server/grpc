@@ -32,7 +32,7 @@ func TestClientCreateLaptop(t *testing.T) {
 	require.NotNil(t, res)
 	require.Equal(t, expectedID, res.GetId())
 
-	laptopFound, err := laptopServer.Store.Find(expectedID)
+	laptopFound, err := laptopServer.LaptopStore.Find(expectedID)
 	require.NoError(t, err)
 	require.NotNil(t, laptopFound)
 	require.Equal(t, expectedID, laptopFound.GetId())

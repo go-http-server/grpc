@@ -16,12 +16,13 @@ import (
 // LaptopServer is the server API for LaptopService service.
 type LaptopServer struct {
 	protoc.UnimplementedLaptopServiceServer
-	Store LaptopStore
+	LaptopStore LaptopStore
+	ImgStore    ImageStore
 }
 
 // NewLaptopServer creates a new instance of LaptopServer.
 func NewLaptopServer(store LaptopStore) *LaptopServer {
-	return &LaptopServer{Store: store}
+	return &LaptopServer{LaptopStore: store}
 }
 
 // CreateLaptop handles the creation of a new laptop.
@@ -54,7 +55,7 @@ func (s *LaptopServer) CreateLaptop(ctx context.Context, req *protoc.CreateLapto
 	}
 
 	// save laptop to database
-	err := s.Store.Save(laptopReq)
+	err := s.LaptopStore.Save(laptopReq)
 	if err != nil {
 		if errors.Is(err, ErrAlreadyExists) {
 			return nil, status.Errorf(codes.AlreadyExists, "laptop with id %s already exists", laptopReq.GetId())
@@ -75,7 +76,7 @@ func (s *LaptopServer) SearchLaptop(req *protoc.SearchLaptopRequest, streaming g
 
 	log.Printf("Received request to search laptops with filter: %+v", filter)
 
-	err := s.Store.Search(streaming.Context(), filter, func(laptop *protoc.Laptop) error {
+	err := s.LaptopStore.Search(streaming.Context(), filter, func(laptop *protoc.Laptop) error {
 		res := &protoc.SearchLaptopResponse{Laptop: laptop}
 
 		// stream the laptop response back to the client
