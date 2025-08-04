@@ -18,6 +18,8 @@ type LaptopStore interface {
 
 	// Find retrieves a laptop by its ID.
 	Find(id string) (*protoc.Laptop, error)
+
+	Search(filter *protoc.Filter, found func(laptop *protoc.Laptop) error) error
 }
 
 // InMemoryLaptopStore is an in-memory implementation of LaptopStore.
@@ -42,8 +44,7 @@ func (mem *InMemoryLaptopStore) Save(laptop *protoc.Laptop) error {
 	}
 
 	// deep copy the laptop to avoid external modifications
-	other := &protoc.Laptop{}
-	err := copier.Copy(other, laptop)
+	other, err := deepCopyLaptop(laptop)
 	if err != nil {
 		return err
 	}
@@ -62,6 +63,78 @@ func (mem *InMemoryLaptopStore) Find(id string) (*protoc.Laptop, error) {
 	}
 
 	// deep copy the laptop to avoid external modifications
+	return deepCopyLaptop(laptop)
+}
+
+func (mem *InMemoryLaptopStore) Search(filter *protoc.Filter, found func(laptop *protoc.Laptop) error) error {
+	mem.mu.RLock()
+	defer mem.mu.RUnlock()
+
+	for _, laptop := range mem.laptops {
+		if isQualified(filter, laptop) {
+			// deep copy the laptop to avoid external modifications
+			other, err := deepCopyLaptop(laptop)
+			if err != nil {
+				return err
+			}
+
+			return found(other)
+		}
+	}
+
+	return nil
+}
+
+func isQualified(filter *protoc.Filter, laptop *protoc.Laptop) bool {
+	if laptop == nil || filter == nil {
+		return false
+	}
+
+	if laptop.GetPriceUsd() > laptop.GetPriceUsd() {
+		return false
+	}
+
+	if laptop.GetCpu().GetNumCores() < filter.GetMinCpuCores() {
+		return false
+	}
+
+	if laptop.GetCpu().GetMinGhz() < filter.GetMinCpuGhz() {
+		return false
+	}
+
+	if toBit(laptop.GetRam()) < toBit(filter.GetMinMemory()) {
+		return false
+	}
+
+	return true
+}
+
+func toBit(memory *protoc.Memory) uint64 {
+	value := memory.GetValue()
+
+	switch memory.GetUnit() {
+	case protoc.Memory_BIT:
+		return value
+	case protoc.Memory_BYTE:
+		return value << 3
+	case protoc.Memory_KILOBYTE:
+		return value << 13
+	case protoc.Memory_MEGABYTE:
+		return value << 23
+	case protoc.Memory_GIGABYTE:
+		return value << 33
+	case protoc.Memory_TERABYTE:
+		return value << 43
+	default:
+		return 0
+	}
+}
+
+func deepCopyLaptop(laptop *protoc.Laptop) (*protoc.Laptop, error) {
+	if laptop == nil {
+		return nil, nil
+	}
+
 	other := &protoc.Laptop{}
 	err := copier.Copy(other, laptop)
 	if err != nil {
