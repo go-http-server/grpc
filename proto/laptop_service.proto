@@ -3,6 +3,7 @@ syntax = "proto3";
 option go_package = "/protoc";
 
 import "laptop_message.proto";
+import "filter_message.proto";
 
 message CreateLaptopRequest {
   Laptop laptop = 1; // Laptop to be created
@@ -12,7 +13,18 @@ message CreateLaptopResponse {
   string id = 1; // Unique identifier for the created laptop
 }
 
+message SearchLaptopRequest {
+  Filter filter = 1; // Filter criteria for searching laptops
+}
+
+message SearchLaptopResponse {
+  Laptop laptop = 1; // searched laptop response
+}
+
 service LaptopService {
   // Create a new laptop
   rpc CreateLaptop(CreateLaptopRequest) returns (CreateLaptopResponse);
+
+  // Search for laptops based on filter criteria
+  rpc SearchLaptop(SearchLaptopRequest) returns (stream SearchLaptopResponse);
 }
