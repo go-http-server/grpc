@@ -52,12 +52,8 @@ func (s *LaptopServer) CreateLaptop(ctx context.Context, req *protoc.CreateLapto
 		laptopReq.Id = id.String()
 	}
 
-	if errors.Is(ctx.Err(), context.Canceled) {
-		return nil, status.Errorf(codes.Canceled, "context was canceled")
-	}
-
-	if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-		return nil, status.Errorf(codes.DeadlineExceeded, "deadline context exceed")
+	if err := contextError(ctx); err != nil {
+		return nil, err
 	}
 
 	// save laptop to database
@@ -123,6 +119,9 @@ func (s *LaptopServer) UploadImage(clientStreaming grpc.ClientStreamingServer[pr
 	imageSize := 0
 
 	for {
+		if err := contextError(clientStreaming.Context()); err != nil {
+			return err
+		}
 		req, err := clientStreaming.Recv()
 		if err == io.EOF {
 			break
@@ -160,4 +159,15 @@ func (s *LaptopServer) UploadImage(clientStreaming grpc.ClientStreamingServer[pr
 	log.Printf("Image uploaded successfully for laptop %s, image ID: %s, size: %d bytes", laptopID, imageID, imageSize)
 
 	return nil
+}
+
+func contextError(ctx context.Context) error {
+	switch ctx.Err() {
+	case context.Canceled:
+		return status.Errorf(codes.Canceled, "context was canceled")
+	case context.DeadlineExceeded:
+		return status.Errorf(codes.DeadlineExceeded, "deadline context exceed")
+	default:
+		return nil
+	}
 }
