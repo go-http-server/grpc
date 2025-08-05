@@ -1,8 +1,12 @@
 package service_test
 
 import (
+	"bufio"
+	"fmt"
 	"io"
 	"net"
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/go-http-server/grpc/protoc"
@@ -150,4 +154,70 @@ func requireSameLaptop(t *testing.T, expected, actual *protoc.Laptop) {
 	require.NotEmpty(t, actualJSON)
 
 	require.Equal(t, expectedJSON, actualJSON, "Expected and actual laptops do not match")
+}
+
+func TestClientUploadImage(t *testing.T) {
+	testImagePath := "../tmp/image.jpg"
+
+	laptopStore := service.NewInMemoryLaptopStore()
+	imageStore := service.NewDiskImageStore("../images")
+
+	laptop := sample.NewLaptop()
+	err := laptopStore.Save(laptop)
+	require.NoError(t, err)
+
+	serverAddr := startTestLaptopServer(t, laptopStore, imageStore)
+	conn := newClientConnection(t, serverAddr)
+	defer conn.Close()
+	laptopClient := protoc.NewLaptopServiceClient(conn)
+
+	file, err := os.Open(testImagePath)
+	require.NoError(t, err)
+	defer file.Close()
+
+	stream, err := laptopClient.UploadImage(t.Context())
+	require.NoError(t, err)
+
+	imageType := filepath.Ext(testImagePath)
+
+	req := &protoc.UploadImageRequest{Data: &protoc.UploadImageRequest_Info{
+		Info: &protoc.ImageInfo{
+			LaptopId:  laptop.GetId(),
+			ImageType: imageType, // Assuming JPEG for simplicity
+		},
+	}}
+	err = stream.Send(req)
+	require.NoError(t, err)
+
+	reader := bufio.NewReader(file)
+	buffer := make([]byte, 1024) // 1KB buffer
+	size := 0
+
+	for {
+		n, err := reader.Read(buffer)
+		if err == io.EOF {
+			break
+		}
+
+		require.NoError(t, err)
+		size += n
+
+		req := &protoc.UploadImageRequest{
+			Data: &protoc.UploadImageRequest_ChunkData{
+				ChunkData: buffer[:n],
+			},
+		}
+
+		err = stream.Send(req)
+		require.NoError(t, err)
+	}
+
+	res, err := stream.CloseAndRecv()
+	require.NoError(t, err)
+	require.NotZero(t, size)
+	require.NotZero(t, res.GetId())
+	require.EqualValues(t, size, res.GetSize())
+
+	saveImagePath := fmt.Sprintf("../images/%s%s", res.GetId(), imageType)
+	require.FileExists(t, saveImagePath)
 }
