@@ -1,10 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"flag"
 	"io"
 	"log"
+	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/go-http-server/grpc/protoc"
@@ -15,9 +18,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func createLaptop(laptopClient protoc.LaptopServiceClient) {
-	randLap := sample.NewLaptop()
-	req := &protoc.CreateLaptopRequest{Laptop: randLap}
+func createLaptop(laptopClient protoc.LaptopServiceClient, laptop *protoc.Laptop) {
+	req := &protoc.CreateLaptopRequest{Laptop: laptop}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
@@ -26,7 +28,7 @@ func createLaptop(laptopClient protoc.LaptopServiceClient) {
 	if err != nil {
 		st, ok := status.FromError(err)
 		if ok && st.Code() == codes.AlreadyExists {
-			log.Printf("Laptop with ID %s already exists", randLap.GetId())
+			log.Printf("Laptop with ID %s already exists", laptop.GetId())
 		} else {
 			log.Fatalf("Failed to create laptop: %v", err)
 		}
@@ -68,18 +70,13 @@ func searchLaptop(laptopClient protoc.LaptopServiceClient, filter *protoc.Filter
 	}
 }
 
-func main() {
-	addr := flag.String("address", "localhost:8080", "Server address in the format host:port")
-	flag.Parse()
+func testCreateLaptop(laptopClient protoc.LaptopServiceClient) {
+	createLaptop(laptopClient, sample.NewLaptop()) // Create a sample laptop
+}
 
-	conn, err := grpc.NewClient(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		log.Fatalf("Failed to connect to server: %v", err)
-	}
-
-	laptopClient := protoc.NewLaptopServiceClient(conn)
+func testSearchLaptop(laptopClient protoc.LaptopServiceClient) {
 	for range 10 {
-		createLaptop(laptopClient)
+		createLaptop(laptopClient, sample.NewLaptop()) // Create a sample laptop
 	}
 
 	filter := &protoc.Filter{
@@ -92,4 +89,81 @@ func main() {
 		},
 	}
 	searchLaptop(laptopClient, filter)
+}
+
+func uploadImage(laptopClient protoc.LaptopServiceClient, laptopID string, imagePath string) {
+	file, err := os.Open(imagePath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	stream, err := laptopClient.UploadImage(ctx)
+	if err != nil {
+		log.Fatal("Failed to upload image: ", err, stream.RecvMsg(nil))
+	}
+
+	req := &protoc.UploadImageRequest{Data: &protoc.UploadImageRequest_Info{
+		Info: &protoc.ImageInfo{
+			LaptopId:  laptopID,
+			ImageType: filepath.Ext(imagePath), // Assuming JPEG for simplicity
+		},
+	}}
+	err = stream.Send(req)
+	if err != nil {
+		log.Fatal("Failed to send image info: ", err, stream.RecvMsg(nil))
+	}
+
+	reader := bufio.NewReader(file)
+	buffer := make([]byte, 1024) // 1KB buffer
+	for {
+		n, err := reader.Read(buffer)
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			log.Fatalf("cannot read chunk to buffer: %v", err)
+		}
+
+		req := &protoc.UploadImageRequest{
+			Data: &protoc.UploadImageRequest_ChunkData{
+				ChunkData: buffer[:n],
+			},
+		}
+
+		err = stream.Send(req)
+		if err != nil {
+			log.Fatalf("Failed to send image chunk: %v", err)
+		}
+	}
+
+	res, err := stream.CloseAndRecv()
+	if err != nil {
+		log.Fatalf("Failed to receive upload image response: %v", err)
+	}
+
+	log.Printf("Image uploaded successfully for laptop %s, image ID: %s, size: %d", laptopID, res.GetId(), res.GetSize())
+}
+
+func testUploadImage(laptopClient protoc.LaptopServiceClient) {
+	laptop := sample.NewLaptop()
+	createLaptop(laptopClient, laptop)
+	uploadImage(laptopClient, laptop.GetId(), "./tmp/image.jpg")
+}
+
+func main() {
+	addr := flag.String("address", "localhost:8080", "Server address in the format host:port")
+	flag.Parse()
+
+	conn, err := grpc.NewClient(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("Failed to connect to server: %v", err)
+	}
+
+	laptopClient := protoc.NewLaptopServiceClient(conn)
+	testUploadImage(laptopClient)
 }
