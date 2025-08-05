@@ -62,7 +62,7 @@ func TestServerCreateLaptop(t *testing.T) {
 		t.Run(currCase.name, func(t *testing.T) {
 			t.Parallel()
 
-			server := service.NewLaptopServer(currCase.store)
+			server := service.NewLaptopServer(currCase.store, nil)
 			req := &protoc.CreateLaptopRequest{
 				Laptop: currCase.laptop,
 			}

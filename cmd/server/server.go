@@ -15,7 +15,7 @@ func main() {
 	port := flag.Int("port", 8080, "Port to run the server on")
 	flag.Parse()
 
-	laptopServer := service.NewLaptopServer(service.NewInMemoryLaptopStore())
+	laptopServer := service.NewLaptopServer(service.NewInMemoryLaptopStore(), service.NewDiskImageStore("images"))
 	grpcServer := grpc.NewServer()
 	protoc.RegisterLaptopServiceServer(grpcServer, laptopServer)
 
