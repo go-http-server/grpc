@@ -2,8 +2,10 @@
 package service
 
 import (
+	"bytes"
 	"context"
 	"errors"
+	"io"
 	"log"
 
 	"github.com/go-http-server/grpc/protoc"
@@ -11,6 +13,10 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+)
+
+const (
+	maxImageSize = 10 << 20
 )
 
 // LaptopServer is the server API for LaptopService service.
@@ -92,5 +98,66 @@ func (s *LaptopServer) SearchLaptop(req *protoc.SearchLaptopRequest, streaming g
 	if err != nil {
 		return status.Errorf(codes.Internal, "failed to search laptops: %s", err)
 	}
+	return nil
+}
+
+func (s *LaptopServer) UploadImage(clientStreaming grpc.ClientStreamingServer[protoc.UploadImageRequest, protoc.UploadImageResponse]) error {
+	req, err := clientStreaming.Recv()
+	if err != nil {
+		return status.Errorf(codes.Unknown, "cannot receive image info req: %s", err)
+	}
+
+	laptopID := req.GetInfo().GetLaptopId()
+	imageType := req.GetInfo().GetImageType()
+	log.Printf("Received request to upload image for laptop: %s, type: %s", laptopID, imageType)
+
+	laptop, err := s.LaptopStore.Find(laptopID)
+	if err != nil {
+		return status.Errorf(codes.Internal, "cannot find laptop with id %s: %s", laptopID, err)
+	}
+	if laptop == nil {
+		return status.Errorf(codes.InvalidArgument, "laptop not found")
+	}
+
+	imageData := bytes.Buffer{}
+	imageSize := 0
+
+	for {
+		req, err := clientStreaming.Recv()
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			return status.Errorf(codes.Unknown, "cannot receive chunk image data: %s", err)
+		}
+
+		chunk := req.GetChunkData()
+		size := len(chunk)
+		imageSize += size
+
+		if imageSize > maxImageSize {
+			return status.Errorf(codes.InvalidArgument, "image size exceeds the limit of %d bytes", maxImageSize)
+		}
+
+		_, err = imageData.Write(chunk)
+		if err != nil {
+			return status.Errorf(codes.Internal, "cannot write image data: %s", err)
+		}
+	}
+
+	imageID, err := s.ImgStore.Save(laptopID, imageType, imageData)
+	if err != nil {
+		return status.Errorf(codes.Internal, "cannot save image: %s", err)
+	}
+
+	res := &protoc.UploadImageResponse{Id: imageID, Size: uint32(imageSize)}
+	err = clientStreaming.SendAndClose(res)
+	if err != nil {
+		return status.Errorf(codes.Unknown, "cannot send response to client")
+	}
+
+	log.Printf("Image uploaded successfully for laptop %s, image ID: %s, size: %d bytes", laptopID, imageID, imageSize)
+
 	return nil
 }
