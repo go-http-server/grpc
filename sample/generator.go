@@ -105,3 +105,9 @@ func NewLaptop() *protoc.Laptop {
 
 	return laptop
 }
+
+// RandomLaptopScore generates a random score for a laptop.
+func RandomLaptopScore() float64 {
+	// Generate a random score between 0.5 and 10
+	return randomFloat64(0.5, 10)
+}
