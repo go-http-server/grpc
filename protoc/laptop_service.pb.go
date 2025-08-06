@@ -383,6 +383,118 @@ func (x *UploadImageResponse) GetSize() uint32 {
 	return 0
 }
 
+type RateLaptopRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LaptopId      string                 `protobuf:"bytes,1,opt,name=laptop_id,json=laptopId,proto3" json:"laptop_id,omitempty"` // Unique identifier for the laptop being rated
+	Score         uint32                 `protobuf:"varint,2,opt,name=score,proto3" json:"score,omitempty"`                      // Rating score (e.g., 1-5)
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RateLaptopRequest) Reset() {
+	*x = RateLaptopRequest{}
+	mi := &file_laptop_service_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RateLaptopRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RateLaptopRequest) ProtoMessage() {}
+
+func (x *RateLaptopRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_laptop_service_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RateLaptopRequest.ProtoReflect.Descriptor instead.
+func (*RateLaptopRequest) Descriptor() ([]byte, []int) {
+	return file_laptop_service_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *RateLaptopRequest) GetLaptopId() string {
+	if x != nil {
+		return x.LaptopId
+	}
+	return ""
+}
+
+func (x *RateLaptopRequest) GetScore() uint32 {
+	if x != nil {
+		return x.Score
+	}
+	return 0
+}
+
+type RateLaptopResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	LaptopId      string                 `protobuf:"bytes,1,opt,name=laptop_id,json=laptopId,proto3" json:"laptop_id,omitempty"`               // Unique identifier for the rated laptop
+	RatedCount    uint32                 `protobuf:"varint,2,opt,name=rated_count,json=ratedCount,proto3" json:"rated_count,omitempty"`        // Total number of ratings received
+	AverageScore  float64                `protobuf:"fixed64,3,opt,name=average_score,json=averageScore,proto3" json:"average_score,omitempty"` // Average score of the laptop
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RateLaptopResponse) Reset() {
+	*x = RateLaptopResponse{}
+	mi := &file_laptop_service_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RateLaptopResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RateLaptopResponse) ProtoMessage() {}
+
+func (x *RateLaptopResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_laptop_service_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RateLaptopResponse.ProtoReflect.Descriptor instead.
+func (*RateLaptopResponse) Descriptor() ([]byte, []int) {
+	return file_laptop_service_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *RateLaptopResponse) GetLaptopId() string {
+	if x != nil {
+		return x.LaptopId
+	}
+	return ""
+}
+
+func (x *RateLaptopResponse) GetRatedCount() uint32 {
+	if x != nil {
+		return x.RatedCount
+	}
+	return 0
+}
+
+func (x *RateLaptopResponse) GetAverageScore() float64 {
+	if x != nil {
+		return x.AverageScore
+	}
+	return 0
+}
+
 var File_laptop_service_proto protoreflect.FileDescriptor
 
 const file_laptop_service_proto_rawDesc = "" +
@@ -408,11 +520,21 @@ const file_laptop_service_proto_rawDesc = "" +
 	"image_type\x18\x02 \x01(\tR\timageType\"9\n" +
 	"\x13UploadImageResponse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x12\n" +
-	"\x04size\x18\x02 \x01(\rR\x04size2\xc7\x01\n" +
+	"\x04size\x18\x02 \x01(\rR\x04size\"F\n" +
+	"\x11RateLaptopRequest\x12\x1b\n" +
+	"\tlaptop_id\x18\x01 \x01(\tR\blaptopId\x12\x14\n" +
+	"\x05score\x18\x02 \x01(\rR\x05score\"w\n" +
+	"\x12RateLaptopResponse\x12\x1b\n" +
+	"\tlaptop_id\x18\x01 \x01(\tR\blaptopId\x12\x1f\n" +
+	"\vrated_count\x18\x02 \x01(\rR\n" +
+	"ratedCount\x12#\n" +
+	"\raverage_score\x18\x03 \x01(\x01R\faverageScore2\x82\x02\n" +
 	"\rLaptopService\x12;\n" +
 	"\fCreateLaptop\x12\x14.CreateLaptopRequest\x1a\x15.CreateLaptopResponse\x12=\n" +
 	"\fSearchLaptop\x12\x14.SearchLaptopRequest\x1a\x15.SearchLaptopResponse0\x01\x12:\n" +
-	"\vUploadImage\x12\x13.UploadImageRequest\x1a\x14.UploadImageResponse(\x01B\tZ\a/protocb\x06proto3"
+	"\vUploadImage\x12\x13.UploadImageRequest\x1a\x14.UploadImageResponse(\x01\x129\n" +
+	"\n" +
+	"RateLaptop\x12\x12.RateLaptopRequest\x1a\x13.RateLaptopResponse(\x010\x01B\tZ\a/protocb\x06proto3"
 
 var (
 	file_laptop_service_proto_rawDescOnce sync.Once
@@ -426,7 +548,7 @@ func file_laptop_service_proto_rawDescGZIP() []byte {
 	return file_laptop_service_proto_rawDescData
 }
 
-var file_laptop_service_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_laptop_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_laptop_service_proto_goTypes = []any{
 	(*CreateLaptopRequest)(nil),  // 0: CreateLaptopRequest
 	(*CreateLaptopResponse)(nil), // 1: CreateLaptopResponse
@@ -435,25 +557,29 @@ var file_laptop_service_proto_goTypes = []any{
 	(*UploadImageRequest)(nil),   // 4: UploadImageRequest
 	(*ImageInfo)(nil),            // 5: ImageInfo
 	(*UploadImageResponse)(nil),  // 6: UploadImageResponse
-	(*Laptop)(nil),               // 7: Laptop
-	(*Filter)(nil),               // 8: Filter
+	(*RateLaptopRequest)(nil),    // 7: RateLaptopRequest
+	(*RateLaptopResponse)(nil),   // 8: RateLaptopResponse
+	(*Laptop)(nil),               // 9: Laptop
+	(*Filter)(nil),               // 10: Filter
 }
 var file_laptop_service_proto_depIdxs = []int32{
-	7, // 0: CreateLaptopRequest.laptop:type_name -> Laptop
-	8, // 1: SearchLaptopRequest.filter:type_name -> Filter
-	7, // 2: SearchLaptopResponse.laptop:type_name -> Laptop
-	5, // 3: UploadImageRequest.info:type_name -> ImageInfo
-	0, // 4: LaptopService.CreateLaptop:input_type -> CreateLaptopRequest
-	2, // 5: LaptopService.SearchLaptop:input_type -> SearchLaptopRequest
-	4, // 6: LaptopService.UploadImage:input_type -> UploadImageRequest
-	1, // 7: LaptopService.CreateLaptop:output_type -> CreateLaptopResponse
-	3, // 8: LaptopService.SearchLaptop:output_type -> SearchLaptopResponse
-	6, // 9: LaptopService.UploadImage:output_type -> UploadImageResponse
-	7, // [7:10] is the sub-list for method output_type
-	4, // [4:7] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	9,  // 0: CreateLaptopRequest.laptop:type_name -> Laptop
+	10, // 1: SearchLaptopRequest.filter:type_name -> Filter
+	9,  // 2: SearchLaptopResponse.laptop:type_name -> Laptop
+	5,  // 3: UploadImageRequest.info:type_name -> ImageInfo
+	0,  // 4: LaptopService.CreateLaptop:input_type -> CreateLaptopRequest
+	2,  // 5: LaptopService.SearchLaptop:input_type -> SearchLaptopRequest
+	4,  // 6: LaptopService.UploadImage:input_type -> UploadImageRequest
+	7,  // 7: LaptopService.RateLaptop:input_type -> RateLaptopRequest
+	1,  // 8: LaptopService.CreateLaptop:output_type -> CreateLaptopResponse
+	3,  // 9: LaptopService.SearchLaptop:output_type -> SearchLaptopResponse
+	6,  // 10: LaptopService.UploadImage:output_type -> UploadImageResponse
+	8,  // 11: LaptopService.RateLaptop:output_type -> RateLaptopResponse
+	8,  // [8:12] is the sub-list for method output_type
+	4,  // [4:8] is the sub-list for method input_type
+	4,  // [4:4] is the sub-list for extension type_name
+	4,  // [4:4] is the sub-list for extension extendee
+	0,  // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_laptop_service_proto_init() }
@@ -473,7 +599,7 @@ func file_laptop_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_laptop_service_proto_rawDesc), len(file_laptop_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
