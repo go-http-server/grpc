@@ -4,10 +4,12 @@ import (
 	"bufio"
 	"context"
 	"flag"
+	"fmt"
 	"io"
 	"log"
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/go-http-server/grpc/protoc"
@@ -155,6 +157,86 @@ func testUploadImage(laptopClient protoc.LaptopServiceClient) {
 	uploadImage(laptopClient, laptop.GetId(), "./tmp/image.jpg")
 }
 
+func rateLaptop(client protoc.LaptopServiceClient, laptopIDs []string, scores []float64) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	stream, err := client.RateLaptop(ctx)
+	if err != nil {
+		return err
+	}
+
+	waitResponse := make(chan error)
+	go func() {
+		for {
+			res, err := stream.Recv()
+			if err == io.EOF {
+				waitResponse <- nil
+				return
+			}
+			if err != nil {
+				waitResponse <- err
+				return
+			}
+
+			log.Printf("Received response for laptop %s: RatedCount=%d, AverageScore=%.2f", res.GetLaptopId(), res.GetRatedCount(), res.GetAverageScore())
+		}
+	}()
+
+	// send request rating laptop
+	for i, laptopID := range laptopIDs {
+		req := &protoc.RateLaptopRequest{
+			LaptopId: laptopID,
+			Score:    scores[i],
+		}
+
+		err := stream.Send(req)
+		if err != nil {
+			return fmt.Errorf("failed to send rate laptop request: %v, %v", err, stream.RecvMsg(nil))
+		}
+
+		log.Printf("Sent rating for laptop %s with score %.2f", laptopID, scores[i])
+	}
+
+	err = stream.CloseSend()
+	if err != nil {
+		return fmt.Errorf("failed to close stream: %v, %v", err, stream.RecvMsg(nil))
+	}
+
+	err = <-waitResponse
+	return err
+}
+
+func testRateLaptop(laptopClient protoc.LaptopServiceClient) {
+	n := 3
+	laptopIDs := make([]string, n)
+	for i := range n {
+		laptop := sample.NewLaptop()
+		laptopIDs[i] = laptop.GetId()
+		createLaptop(laptopClient, laptop)
+	}
+
+	scores := make([]float64, n)
+	for {
+		fmt.Print("create laptop: y/n?")
+		var answer string
+		fmt.Scan(&answer)
+
+		if strings.ToLower(answer) != "y" {
+			break
+		}
+
+		for i := range n {
+			scores[i] = sample.RandomLaptopScore()
+		}
+
+		err := rateLaptop(laptopClient, laptopIDs, scores)
+		if err != nil {
+			log.Fatalf("Failed to rate laptops: %v", err)
+		}
+	}
+}
+
 func main() {
 	addr := flag.String("address", "localhost:8080", "Server address in the format host:port")
 	flag.Parse()
@@ -165,5 +247,5 @@ func main() {
 	}
 
 	laptopClient := protoc.NewLaptopServiceClient(conn)
-	testUploadImage(laptopClient)
+	testRateLaptop(laptopClient) // Test rating laptops
 }
