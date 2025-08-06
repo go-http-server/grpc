@@ -175,5 +175,50 @@ func contextError(ctx context.Context) error {
 
 // RateLaptop handles the rating of laptops through a bidirectional streaming RPC.
 func (s *LaptopServer) RateLaptop(stream grpc.BidiStreamingServer[protoc.RateLaptopRequest, protoc.RateLaptopResponse]) error {
-	return nil // This method is not implemented in this example.
+	for {
+		err := contextError(stream.Context())
+		if err != nil {
+			return err
+		}
+
+		req, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			return status.Errorf(codes.Unknown, "cannot receive rate laptop request: %s", err)
+		}
+
+		laptopID := req.GetLaptopId()
+		score := req.GetScore()
+		log.Printf("Received rating for laptop %s with score %.2f", laptopID, score)
+
+		found, err := s.LaptopStore.Find(laptopID)
+		if err != nil {
+			return status.Errorf(codes.Internal, "cannot find laptop with id %s: %s", laptopID, err)
+		}
+
+		if found == nil {
+			return status.Errorf(codes.NotFound, "laptop with id %s not found", laptopID)
+		}
+
+		rating, err := s.RateStore.AddRating(laptopID, score)
+		if err != nil {
+			return status.Errorf(codes.Internal, "cannot add rating for laptop %s: %s", laptopID, err)
+		}
+
+		res := &protoc.RateLaptopResponse{
+			LaptopId:     laptopID,
+			RatedCount:   rating.Count,
+			AverageScore: rating.Sum / float64(rating.Count),
+		}
+
+		err = stream.Send(res)
+		if err != nil {
+			return status.Errorf(codes.Unknown, "cannot send response to client: %s", err)
+		}
+	}
+
+	return nil
 }
