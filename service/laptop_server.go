@@ -24,11 +24,12 @@ type LaptopServer struct {
 	protoc.UnimplementedLaptopServiceServer
 	LaptopStore LaptopStore
 	ImgStore    ImageStore
+	RateStore   RatingStore
 }
 
 // NewLaptopServer creates a new instance of LaptopServer.
-func NewLaptopServer(store LaptopStore, imgStore ImageStore) *LaptopServer {
-	return &LaptopServer{LaptopStore: store, ImgStore: imgStore}
+func NewLaptopServer(store LaptopStore, imgStore ImageStore, rateStore RatingStore) *LaptopServer {
+	return &LaptopServer{LaptopStore: store, ImgStore: imgStore, RateStore: rateStore}
 }
 
 // CreateLaptop handles the creation of a new laptop.
@@ -170,4 +171,9 @@ func contextError(ctx context.Context) error {
 	default:
 		return nil
 	}
+}
+
+// RateLaptop handles the rating of laptops through a bidirectional streaming RPC.
+func (s *LaptopServer) RateLaptop(stream grpc.BidiStreamingServer[protoc.RateLaptopRequest, protoc.RateLaptopResponse]) error {
+	return nil // This method is not implemented in this example.
 }
