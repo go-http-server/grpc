@@ -38,6 +38,17 @@ message UploadImageResponse {
   uint32 size = 2; // Size of the uploaded image in bytes
 }
 
+message RateLaptopRequest {
+  string laptop_id = 1; // Unique identifier for the laptop being rated
+  uint32 score = 2; // Rating score (e.g., 1-5)
+}
+
+message RateLaptopResponse {
+  string laptop_id = 1; // Unique identifier for the rated laptop
+  uint32 rated_count = 2; // Total number of ratings received
+  double average_score = 3; // Average score of the laptop
+}
+
 service LaptopService {
   // Create a new laptop
   rpc CreateLaptop(CreateLaptopRequest) returns (CreateLaptopResponse);
@@ -47,4 +58,7 @@ service LaptopService {
 
   // Upload an image for a laptop -> use client streaming
   rpc UploadImage(stream UploadImageRequest) returns (UploadImageResponse);
+
+  // Rate laptop -> use bidirectional streaming
+  rpc RateLaptop(stream RateLaptopRequest) returns (stream RateLaptopResponse);
 }
