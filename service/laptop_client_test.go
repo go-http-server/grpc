@@ -220,4 +220,5 @@ func TestClientUploadImage(t *testing.T) {
 
 	saveImagePath := fmt.Sprintf("../images/%s%s", res.GetId(), imageType)
 	require.FileExists(t, saveImagePath)
+	require.NoError(t, os.Remove(saveImagePath))
 }
