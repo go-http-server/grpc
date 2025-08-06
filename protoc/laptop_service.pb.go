@@ -386,7 +386,7 @@ func (x *UploadImageResponse) GetSize() uint32 {
 type RateLaptopRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	LaptopId      string                 `protobuf:"bytes,1,opt,name=laptop_id,json=laptopId,proto3" json:"laptop_id,omitempty"` // Unique identifier for the laptop being rated
-	Score         uint32                 `protobuf:"varint,2,opt,name=score,proto3" json:"score,omitempty"`                      // Rating score (e.g., 1-5)
+	Score         float64                `protobuf:"fixed64,2,opt,name=score,proto3" json:"score,omitempty"`                     // Rating score (e.g., 1-5)
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -428,7 +428,7 @@ func (x *RateLaptopRequest) GetLaptopId() string {
 	return ""
 }
 
-func (x *RateLaptopRequest) GetScore() uint32 {
+func (x *RateLaptopRequest) GetScore() float64 {
 	if x != nil {
 		return x.Score
 	}
@@ -523,7 +523,7 @@ const file_laptop_service_proto_rawDesc = "" +
 	"\x04size\x18\x02 \x01(\rR\x04size\"F\n" +
 	"\x11RateLaptopRequest\x12\x1b\n" +
 	"\tlaptop_id\x18\x01 \x01(\tR\blaptopId\x12\x14\n" +
-	"\x05score\x18\x02 \x01(\rR\x05score\"w\n" +
+	"\x05score\x18\x02 \x01(\x01R\x05score\"w\n" +
 	"\x12RateLaptopResponse\x12\x1b\n" +
 	"\tlaptop_id\x18\x01 \x01(\tR\blaptopId\x12\x1f\n" +
 	"\vrated_count\x18\x02 \x01(\rR\n" +

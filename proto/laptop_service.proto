@@ -40,7 +40,7 @@ message UploadImageResponse {
 
 message RateLaptopRequest {
   string laptop_id = 1; // Unique identifier for the laptop being rated
-  uint32 score = 2; // Rating score (e.g., 1-5)
+  double score = 2; // Rating score (e.g., 1-5)
 }
 
 message RateLaptopResponse {
