@@ -9,6 +9,7 @@ import (
 	"github.com/go-http-server/grpc/protoc"
 	"github.com/go-http-server/grpc/service"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
 
 func main() {
@@ -18,6 +19,7 @@ func main() {
 	laptopServer := service.NewLaptopServer(service.NewInMemoryLaptopStore(), service.NewDiskImageStore("images"), service.NewInMemoryRatingStore())
 	grpcServer := grpc.NewServer()
 	protoc.RegisterLaptopServiceServer(grpcServer, laptopServer)
+	reflection.Register(grpcServer)
 
 	addr := fmt.Sprintf("0.0.0.0:%d", *port)
 	listener, err := net.Listen("tcp", addr)
