@@ -222,3 +222,51 @@ func TestClientUploadImage(t *testing.T) {
 	require.FileExists(t, saveImagePath)
 	require.NoError(t, os.Remove(saveImagePath))
 }
+
+func TestClientRateLaptop(t *testing.T) {
+	laptopStore := service.NewInMemoryLaptopStore()
+	ratingStore := service.NewInMemoryRatingStore()
+
+	laptop := sample.NewLaptop()
+	err := laptopStore.Save(laptop)
+	require.NoError(t, err)
+
+	serverAddr := startTestLaptopServer(t, laptopStore, nil, ratingStore)
+	conn := newClientConnection(t, serverAddr)
+	defer conn.Close()
+	laptopClient := protoc.NewLaptopServiceClient(conn)
+
+	stream, err := laptopClient.RateLaptop(t.Context())
+	require.NoError(t, err)
+
+	scores := []float64{8, 7.5, 10}
+	averages := []float64{8, 7.75, 8.5}
+	n := len(scores)
+
+	for i := range n {
+		req := &protoc.RateLaptopRequest{
+			LaptopId: laptop.GetId(),
+			Score:    scores[i],
+		}
+
+		err := stream.Send(req)
+		require.NoError(t, err)
+	}
+
+	err = stream.CloseSend()
+	require.NoError(t, err)
+
+	for i := 0; ; i++ {
+		res, err := stream.Recv()
+		if err == io.EOF {
+			require.Equal(t, n, i) // reverse the loop when all responses are received
+			return
+		}
+
+		require.NoError(t, err)
+
+		require.Equal(t, laptop.GetId(), res.GetLaptopId())
+		require.Equal(t, uint32(i+1), res.GetRatedCount())
+		require.Equal(t, averages[i], res.GetAverageScore())
+	}
+}
