@@ -1,9 +1,12 @@
 package main
 
 import (
+	"crypto/tls"
+	"crypto/x509"
 	"flag"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 	"time"
 
@@ -11,7 +14,7 @@ import (
 	"github.com/go-http-server/grpc/protoc"
 	"github.com/go-http-server/grpc/sample"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/credentials"
 )
 
 func testCreateLaptop(laptopClient *client.LaptopClient) {
@@ -81,23 +84,49 @@ func authMethods() map[string]bool {
 	}
 }
 
+func loadTLSCredentials() (credentials.TransportCredentials, error) {
+	// Load TLS credentials from a file or other source
+	// For simplicity, we are returning insecure credentials here.
+	// In a real application, you would load your TLS certs and keys.
+	pemServerCA, err := os.ReadFile("certs/ca.crt")
+	if err != nil {
+		return nil, nil
+	}
+
+	certPool := x509.NewCertPool()
+	if !certPool.AppendCertsFromPEM(pemServerCA) {
+		return nil, fmt.Errorf("failed to append server CA certificate")
+	}
+
+	// Create credentials from the loaded certs
+	config := &tls.Config{
+		RootCAs: certPool,
+	}
+	return credentials.NewTLS(config), nil
+}
+
 func main() {
 	addr := flag.String("address", "localhost:8080", "Server address in the format host:port")
 	flag.Parse()
 
-	conn, err := grpc.NewClient(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	tlsCredentials, err := loadTLSCredentials()
+	if err != nil {
+		log.Fatalf("Failed to load TLS credentials: %v", err)
+	}
+
+	conn, err := grpc.NewClient(*addr, grpc.WithTransportCredentials(tlsCredentials))
 	if err != nil {
 		log.Fatalf("Failed to connect to server: %v", err)
 	}
 
-	authClient := client.NewAuthClient(conn, "user", "password")
+	authClient := client.NewAuthClient(conn, "admin", "password")
 	interceptor, err := client.NewAuthInterceptor(authClient, authMethods(), 5*time.Second)
 	if err != nil {
 		log.Fatalf("Failed to create auth interceptor: %v", err)
 	}
 
 	connAuth, err := grpc.NewClient(*addr,
-		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithTransportCredentials(tlsCredentials),
 		grpc.WithUnaryInterceptor(interceptor.Unary()),
 		grpc.WithStreamInterceptor(interceptor.Stream()),
 	)

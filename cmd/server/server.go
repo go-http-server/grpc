@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crypto/tls"
 	"flag"
 	"fmt"
 	"log"
@@ -10,6 +11,7 @@ import (
 	"github.com/go-http-server/grpc/protoc"
 	"github.com/go-http-server/grpc/service"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -41,6 +43,23 @@ func accessableRoles() map[string][]string {
 	}
 }
 
+func loadTLSCredentials() (credentials.TransportCredentials, error) {
+	// Load TLS credentials from a file or other source
+	// For simplicity, we are returning nil here, which means no TLS is used.
+	// In a real application, you would load your TLS certs and keys.
+	serverCert, err := tls.LoadX509KeyPair("certs/server.crt", "certs/server.key")
+	if err != nil {
+		return nil, err
+	}
+
+	// create credentials from the loaded certs
+	config := &tls.Config{
+		Certificates: []tls.Certificate{serverCert},
+		ClientAuth:   tls.NoClientCert,
+	}
+	return credentials.NewTLS(config), nil
+}
+
 func main() {
 	port := flag.Int("port", 8080, "Port to run the server on")
 	flag.Parse()
@@ -52,7 +71,13 @@ func main() {
 
 	authInterceptor := service.NewAuthInterceptor(tokenMaker, accessableRoles())
 
+	tlsCredentials, err := loadTLSCredentials()
+	if err != nil {
+		log.Fatalf("failed to load TLS credentials: %v", err)
+	}
+
 	grpcServer := grpc.NewServer(
+		grpc.Creds(tlsCredentials),
 		grpc.UnaryInterceptor(authInterceptor.Unary()),
 		grpc.StreamInterceptor(authInterceptor.Stream()),
 	)
@@ -60,7 +85,7 @@ func main() {
 	protoc.RegisterAuthServiceServer(grpcServer, authServer)
 	reflection.Register(grpcServer)
 
-	err := seedAccounts(accountStore)
+	err = seedAccounts(accountStore)
 	if err != nil {
 		log.Fatalf("cannot seed accounts: %s", err)
 	}
