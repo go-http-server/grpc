@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
 	"log"
@@ -13,17 +12,6 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
-
-func unaryInterceptor(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
-	log.Println("--- Unary Interceptor ---", info.FullMethod)
-
-	return handler(ctx, req)
-}
-
-func serverStreamInterceptor(srv any, ss grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
-	log.Println("--- Stream Interceptor ---", info.FullMethod)
-	return handler(srv, ss)
-}
 
 func createAccount(accStore service.AccountStore, username, password, role string) error {
 	user, err := service.NewAccount(username, password, role)
@@ -43,6 +31,16 @@ func seedAccounts(accStore service.AccountStore) error {
 	return createAccount(accStore, "user", "password", "user")
 }
 
+func accessableRoles() map[string][]string {
+	const laptopServiceMethod = "/LaptopService/"
+	return map[string][]string{
+		laptopServiceMethod + "CreateLaptop": {"admin"},
+		laptopServiceMethod + "SearchLaptop": {"admin", "user"},
+		laptopServiceMethod + "RateLaptop":   {"admin", "user"},
+		laptopServiceMethod + "UploadImage":  {"admin"},
+	}
+}
+
 func main() {
 	port := flag.Int("port", 8080, "Port to run the server on")
 	flag.Parse()
@@ -52,9 +50,11 @@ func main() {
 	tokenMaker := service.NewPasetoMaker(paseto.NewV4AsymmetricSecretKey(), paseto.NewParserWithoutExpiryCheck())
 	authServer := service.NewAuthServer(accountStore, tokenMaker)
 
+	authInterceptor := service.NewAuthInterceptor(tokenMaker, accessableRoles())
+
 	grpcServer := grpc.NewServer(
-		grpc.UnaryInterceptor(unaryInterceptor),
-		grpc.StreamInterceptor(serverStreamInterceptor),
+		grpc.UnaryInterceptor(authInterceptor.Unary()),
+		grpc.StreamInterceptor(authInterceptor.Stream()),
 	)
 	protoc.RegisterLaptopServiceServer(grpcServer, laptopServer)
 	protoc.RegisterAuthServiceServer(grpcServer, authServer)
