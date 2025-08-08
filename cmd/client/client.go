@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"time"
 
 	"github.com/go-http-server/grpc/client"
 	"github.com/go-http-server/grpc/protoc"
@@ -70,6 +71,16 @@ func testRateLaptop(laptopClient *client.LaptopClient) {
 	}
 }
 
+func authMethods() map[string]bool {
+	const laptopServiceMethod = "/LaptopService/"
+	return map[string]bool{
+		laptopServiceMethod + "CreateLaptop": true,
+		laptopServiceMethod + "SearchLaptop": false,
+		laptopServiceMethod + "RateLaptop":   true,
+		laptopServiceMethod + "UploadImage":  true,
+	}
+}
+
 func main() {
 	addr := flag.String("address", "localhost:8080", "Server address in the format host:port")
 	flag.Parse()
@@ -79,6 +90,21 @@ func main() {
 		log.Fatalf("Failed to connect to server: %v", err)
 	}
 
-	laptopClient := client.NewLaptopClient(conn)
+	authClient := client.NewAuthClient(conn, "user", "password")
+	interceptor, err := client.NewAuthInterceptor(authClient, authMethods(), 5*time.Second)
+	if err != nil {
+		log.Fatalf("Failed to create auth interceptor: %v", err)
+	}
+
+	connAuth, err := grpc.NewClient(*addr,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+		grpc.WithUnaryInterceptor(interceptor.Unary()),
+		grpc.WithStreamInterceptor(interceptor.Stream()),
+	)
+	if err != nil {
+		log.Fatalf("Failed to connect to server: %v", err)
+	}
+
+	laptopClient := client.NewLaptopClient(connAuth)
 	testRateLaptop(laptopClient) // Test rating laptops
 }
