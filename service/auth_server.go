@@ -32,7 +32,7 @@ func (s *AuthServer) Login(ctx context.Context, req *protoc.LoginRequest) (*prot
 		return nil, status.Errorf(codes.Unauthenticated, "password is incorrect: %s", err)
 	}
 
-	token, err := s.maker.CreateToken(acc, 5*time.Second)
+	token, err := s.maker.CreateToken(acc, 5*time.Minute)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "camnnot create token: %s", err)
 	}
