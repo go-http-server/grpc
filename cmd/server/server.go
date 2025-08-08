@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 
+	"aidanwoods.dev/go-paseto"
 	"github.com/go-http-server/grpc/protoc"
 	"github.com/go-http-server/grpc/service"
 	"google.golang.org/grpc"
@@ -24,17 +25,45 @@ func serverStreamInterceptor(srv any, ss grpc.ServerStream, info *grpc.StreamSer
 	return handler(srv, ss)
 }
 
+func createAccount(accStore service.AccountStore, username, password, role string) error {
+	user, err := service.NewAccount(username, password, role)
+	if err != nil {
+		return err
+	}
+
+	return accStore.Save(user)
+}
+
+func seedAccounts(accStore service.AccountStore) error {
+	err := createAccount(accStore, "admin", "password", "admin")
+	if err != nil {
+		return err
+	}
+
+	return createAccount(accStore, "user", "password", "user")
+}
+
 func main() {
 	port := flag.Int("port", 8080, "Port to run the server on")
 	flag.Parse()
 
 	laptopServer := service.NewLaptopServer(service.NewInMemoryLaptopStore(), service.NewDiskImageStore("images"), service.NewInMemoryRatingStore())
+	accountStore := service.NewInMemoryAccountStore()
+	tokenMaker := service.NewPasetoMaker(paseto.NewV4AsymmetricSecretKey(), paseto.NewParserWithoutExpiryCheck())
+	authServer := service.NewAuthServer(accountStore, tokenMaker)
+
 	grpcServer := grpc.NewServer(
 		grpc.UnaryInterceptor(unaryInterceptor),
 		grpc.StreamInterceptor(serverStreamInterceptor),
 	)
 	protoc.RegisterLaptopServiceServer(grpcServer, laptopServer)
+	protoc.RegisterAuthServiceServer(grpcServer, authServer)
 	reflection.Register(grpcServer)
+
+	err := seedAccounts(accountStore)
+	if err != nil {
+		log.Fatalf("cannot seed accounts: %s", err)
+	}
 
 	addr := fmt.Sprintf("0.0.0.0:%d", *port)
 	listener, err := net.Listen("tcp", addr)
