@@ -75,6 +75,7 @@ func loadTLSCredentials() (credentials.TransportCredentials, error) {
 
 func main() {
 	port := flag.Int("port", 8080, "Port to run the server on")
+	enableTLS := flag.Bool("tls", false, "Enable TLS for the server")
 	flag.Parse()
 
 	laptopServer := service.NewLaptopServer(service.NewInMemoryLaptopStore(), service.NewDiskImageStore("images"), service.NewInMemoryRatingStore())
@@ -84,21 +85,28 @@ func main() {
 
 	authInterceptor := service.NewAuthInterceptor(tokenMaker, accessableRoles())
 
-	tlsCredentials, err := loadTLSCredentials()
-	if err != nil {
-		log.Fatalf("failed to load TLS credentials: %v", err)
-	}
-
-	grpcServer := grpc.NewServer(
-		grpc.Creds(tlsCredentials),
+	// configure gRPC server options, enabling authentication and optionally TLS
+	grpcServerOpts := []grpc.ServerOption{
 		grpc.UnaryInterceptor(authInterceptor.Unary()),
 		grpc.StreamInterceptor(authInterceptor.Stream()),
-	)
+	}
+	if *enableTLS {
+		tlsCredentials, err := loadTLSCredentials()
+		if err != nil {
+			log.Fatalf("failed to load TLS credentials: %v", err)
+		}
+		grpcServerOpts = append(grpcServerOpts, grpc.Creds(tlsCredentials))
+	}
+
+	// create a new gRPC server with the configured options
+	grpcServer := grpc.NewServer(grpcServerOpts...)
+
+	// register the services with the gRPC server
 	protoc.RegisterLaptopServiceServer(grpcServer, laptopServer)
 	protoc.RegisterAuthServiceServer(grpcServer, authServer)
 	reflection.Register(grpcServer)
 
-	err = seedAccounts(accountStore)
+	err := seedAccounts(accountStore)
 	if err != nil {
 		log.Fatalf("cannot seed accounts: %s", err)
 	}
@@ -109,7 +117,7 @@ func main() {
 		log.Fatalf("cannot create server on port :%d, err: %s", *port, err)
 	}
 
-	log.Printf("Starting server on port :%d", *port)
+	log.Printf("Starting server on port :%d with tls option: %t", *port, *enableTLS)
 	err = grpcServer.Serve(listener)
 	if err != nil {
 		log.Fatalf("cannot start server on port :%d, err: %s", *port, err)
