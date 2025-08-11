@@ -93,6 +93,11 @@ func loadTLSCredentials() (credentials.TransportCredentials, error) {
 		return nil, nil
 	}
 
+	clientCert, err := tls.LoadX509KeyPair("certs/client.crt", "certs/client.key")
+	if err != nil {
+		return nil, err
+	}
+
 	certPool := x509.NewCertPool()
 	if !certPool.AppendCertsFromPEM(pemServerCA) {
 		return nil, fmt.Errorf("failed to append server CA certificate")
@@ -100,7 +105,8 @@ func loadTLSCredentials() (credentials.TransportCredentials, error) {
 
 	// Create credentials from the loaded certs
 	config := &tls.Config{
-		RootCAs: certPool,
+		RootCAs:      certPool,
+		Certificates: []tls.Certificate{clientCert},
 	}
 	return credentials.NewTLS(config), nil
 }

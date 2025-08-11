@@ -2,10 +2,12 @@ package main
 
 import (
 	"crypto/tls"
+	"crypto/x509"
 	"flag"
 	"fmt"
 	"log"
 	"net"
+	"os"
 
 	"aidanwoods.dev/go-paseto"
 	"github.com/go-http-server/grpc/protoc"
@@ -52,10 +54,21 @@ func loadTLSCredentials() (credentials.TransportCredentials, error) {
 		return nil, err
 	}
 
+	pemClientCA, err := os.ReadFile("certs/ca.crt")
+	if err != nil {
+		return nil, nil
+	}
+
+	clientCertPool := x509.NewCertPool()
+	if !clientCertPool.AppendCertsFromPEM(pemClientCA) {
+		return nil, fmt.Errorf("failed to append client CA certificate")
+	}
+
 	// create credentials from the loaded certs
 	config := &tls.Config{
 		Certificates: []tls.Certificate{serverCert},
-		ClientAuth:   tls.NoClientCert,
+		ClientAuth:   tls.RequireAndVerifyClientCert,
+		ClientCAs:    clientCertPool,
 	}
 	return credentials.NewTLS(config), nil
 }
