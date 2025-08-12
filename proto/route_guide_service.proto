@@ -22,6 +22,16 @@ message Feature {
   Point location = 2;
 }
 
+// A latitude-longitude rectangle, represented as two diagonally opposite
+// points "lo" and "hi".
+message Rectangle {
+  // One corner of the rectangle.
+  Point lo = 1;
+
+  // The other corner of the rectangle.
+  Point hi = 2;
+}
+
 // Interface exported by the server.
 service RouteGuide {
   // Returns the feature at the given point.  It is not an error if no feature
@@ -30,4 +40,11 @@ service RouteGuide {
   // A feature with an empty name is returned if there's no feature at the given
   // position.
   rpc GetFeature(Point) returns (Feature);
+
+  // A server-to-client streaming RPC.
+  // Obtains the Features available within the given Rectangle.  Results are
+  // streamed rather than returned at once (e.g. in a response message with a
+  // repeated field), as the rectangle may cover a large area and contain a
+  // huge number of features.
+  rpc ListFeatures(Rectangle) returns (stream Feature) {}
 }
