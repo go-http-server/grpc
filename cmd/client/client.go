@@ -79,11 +79,12 @@ func authMethods() map[string]bool {
 	const laptopServiceMethod = "/LaptopService/"
 	const routeGuideServiceMethod = "/RouteGuide/"
 	return map[string]bool{
-		laptopServiceMethod + "CreateLaptop":   true,
-		laptopServiceMethod + "SearchLaptop":   false,
-		laptopServiceMethod + "RateLaptop":     true,
-		laptopServiceMethod + "UploadImage":    true,
-		routeGuideServiceMethod + "GetFeature": true,
+		laptopServiceMethod + "CreateLaptop":     true,
+		laptopServiceMethod + "SearchLaptop":     false,
+		laptopServiceMethod + "RateLaptop":       true,
+		laptopServiceMethod + "UploadImage":      true,
+		routeGuideServiceMethod + "GetFeature":   true,
+		routeGuideServiceMethod + "ListFeatures": true,
 	}
 }
 
@@ -163,4 +164,13 @@ func main() {
 		log.Fatalf("Failed to get feature: %v", err)
 	}
 	log.Printf("Feature: %+v", feature)
+
+	// server streaming
+	err = routeGuideClient.ListFeatures(&protoc.Rectangle{
+		Lo: &protoc.Point{Latitude: 400000000, Longitude: -750000000},
+		Hi: &protoc.Point{Latitude: 420000000, Longitude: -730000000},
+	})
+	if err != nil {
+		log.Fatalf("Failed to list features: %v", err)
+	}
 }
