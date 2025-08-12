@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"fmt"
 	"io"
 	"log"
 	"time"
@@ -57,5 +58,30 @@ func (rgCli *RouteGuideClient) ListFeatures(rectangle *protoc.Rectangle) error {
 			feature.GetLocation().GetLatitude(), feature.GetLocation().GetLongitude())
 	}
 
+	return nil
+}
+
+func (rgCli *RouteGuideClient) RecordRoute(points []*protoc.Point) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	stream, err := rgCli.service.RecordRoute(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to record route: %s, %s", err, stream.RecvMsg(nil))
+	}
+
+	for _, point := range points {
+		err = stream.Send(point)
+		if err != nil {
+			return fmt.Errorf("failed send point to server: %s, %s", err, stream.RecvMsg(nil))
+		}
+	}
+
+	res, err := stream.CloseAndRecv()
+	if err != nil {
+		return err
+	}
+
+	log.Printf("record route summary: %+v", res)
 	return nil
 }
