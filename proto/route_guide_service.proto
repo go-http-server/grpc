@@ -51,6 +51,15 @@ message RouteSummary {
   int32 elapsed_time = 4;
 }
 
+// A RouteNote is a message sent while at a given point.
+message RouteNote {
+  // The location from which the message is sent.
+  Point location = 1;
+
+  // The message to be sent.
+  string message = 2;
+}
+
 // Interface exported by the server.
 service RouteGuide {
   // Returns the feature at the given point.  It is not an error if no feature
@@ -71,4 +80,9 @@ service RouteGuide {
   // Accepts a stream of Points on a route being traversed, returning a
   // RouteSummary when traversal is completed.
   rpc RecordRoute(stream Point) returns (RouteSummary) {}
+
+  // A Bidirectional streaming RPC.
+  // Accepts a stream of RouteNotes sent while a route is being traversed,
+  // while receiving other RouteNotes (e.g. from other users).
+  rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}
 }
