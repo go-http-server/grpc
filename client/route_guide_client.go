@@ -97,18 +97,20 @@ func (rgCli *RouteGuideClient) RouteChat(notes []*protoc.RouteNote) error {
 
 	waitResponse := make(chan error)
 	go func() {
-		res, err := stream.Recv()
+		for {
+			res, err := stream.Recv()
 
-		if err == io.EOF {
-			waitResponse <- nil
-			return
-		}
-		if err != nil {
-			waitResponse <- err
-			return
-		}
+			if err == io.EOF {
+				waitResponse <- nil
+				return
+			}
+			if err != nil {
+				waitResponse <- err
+				return
+			}
 
-		log.Printf("Got message %s at point(%d, %d)", res.Message, res.Location.Latitude, res.Location.Longitude)
+			log.Printf("Got message %s at point(%d, %d)", res.Message, res.Location.Latitude, res.Location.Longitude)
+		}
 	}()
 
 	// send route with client streaming
