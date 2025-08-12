@@ -48,10 +48,11 @@ func (s *RouteGuideServer) GetFeature(ctx context.Context, point *protoc.Point) 
 	return &protoc.Feature{Location: point}, nil
 }
 
+// NewRouteGuideServer creates a new instance of RouteGuideServer and loads features from a JSON file.
 func NewRouteGuideServer() (*RouteGuideServer, error) {
 	s := &RouteGuideServer{}
 
-	err := s.loadFeatures("../sample/route_guide_db.json")
+	err := s.loadFeatures("./sample/route_guide.json")
 	if err != nil {
 		return nil, err
 	}
