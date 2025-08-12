@@ -82,6 +82,10 @@ func main() {
 	accountStore := service.NewInMemoryAccountStore()
 	tokenMaker := service.NewPasetoMaker(paseto.NewV4AsymmetricSecretKey(), paseto.NewParserWithoutExpiryCheck())
 	authServer := service.NewAuthServer(accountStore, tokenMaker)
+	routeGuideServer, err := service.NewRouteGuideServer()
+	if err != nil {
+		log.Fatalf("failed to create route guide server: %v", err)
+	}
 
 	authInterceptor := service.NewAuthInterceptor(tokenMaker, accessableRoles())
 
@@ -104,9 +108,10 @@ func main() {
 	// register the services with the gRPC server
 	protoc.RegisterLaptopServiceServer(grpcServer, laptopServer)
 	protoc.RegisterAuthServiceServer(grpcServer, authServer)
+	protoc.RegisterRouteGuideServer(grpcServer, routeGuideServer)
 	reflection.Register(grpcServer)
 
-	err := seedAccounts(accountStore)
+	err = seedAccounts(accountStore)
 	if err != nil {
 		log.Fatalf("cannot seed accounts: %s", err)
 	}
