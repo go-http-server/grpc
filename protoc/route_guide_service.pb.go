@@ -190,6 +190,83 @@ func (x *Rectangle) GetHi() *Point {
 	return nil
 }
 
+// A RouteSummary is received in response to a RecordRoute rpc.
+//
+// It contains the number of individual points received, the number of
+// detected features, and the total distance covered as the cumulative sum of
+// the distance between each point.
+type RouteSummary struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The number of points received.
+	PointCount int32 `protobuf:"varint,1,opt,name=point_count,json=pointCount,proto3" json:"point_count,omitempty"`
+	// The number of known features passed while traversing the route.
+	FeatureCount int32 `protobuf:"varint,2,opt,name=feature_count,json=featureCount,proto3" json:"feature_count,omitempty"`
+	// The distance covered in metres.
+	Distance int32 `protobuf:"varint,3,opt,name=distance,proto3" json:"distance,omitempty"`
+	// The duration of the traversal in seconds.
+	ElapsedTime   int32 `protobuf:"varint,4,opt,name=elapsed_time,json=elapsedTime,proto3" json:"elapsed_time,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RouteSummary) Reset() {
+	*x = RouteSummary{}
+	mi := &file_route_guide_service_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RouteSummary) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RouteSummary) ProtoMessage() {}
+
+func (x *RouteSummary) ProtoReflect() protoreflect.Message {
+	mi := &file_route_guide_service_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RouteSummary.ProtoReflect.Descriptor instead.
+func (*RouteSummary) Descriptor() ([]byte, []int) {
+	return file_route_guide_service_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *RouteSummary) GetPointCount() int32 {
+	if x != nil {
+		return x.PointCount
+	}
+	return 0
+}
+
+func (x *RouteSummary) GetFeatureCount() int32 {
+	if x != nil {
+		return x.FeatureCount
+	}
+	return 0
+}
+
+func (x *RouteSummary) GetDistance() int32 {
+	if x != nil {
+		return x.Distance
+	}
+	return 0
+}
+
+func (x *RouteSummary) GetElapsedTime() int32 {
+	if x != nil {
+		return x.ElapsedTime
+	}
+	return 0
+}
+
 var File_route_guide_service_proto protoreflect.FileDescriptor
 
 const file_route_guide_service_proto_rawDesc = "" +
@@ -203,13 +280,20 @@ const file_route_guide_service_proto_rawDesc = "" +
 	"\blocation\x18\x02 \x01(\v2\x06.PointR\blocation\";\n" +
 	"\tRectangle\x12\x16\n" +
 	"\x02lo\x18\x01 \x01(\v2\x06.PointR\x02lo\x12\x16\n" +
-	"\x02hi\x18\x02 \x01(\v2\x06.PointR\x02hi2V\n" +
+	"\x02hi\x18\x02 \x01(\v2\x06.PointR\x02hi\"\x93\x01\n" +
+	"\fRouteSummary\x12\x1f\n" +
+	"\vpoint_count\x18\x01 \x01(\x05R\n" +
+	"pointCount\x12#\n" +
+	"\rfeature_count\x18\x02 \x01(\x05R\ffeatureCount\x12\x1a\n" +
+	"\bdistance\x18\x03 \x01(\x05R\bdistance\x12!\n" +
+	"\felapsed_time\x18\x04 \x01(\x05R\velapsedTime2\x80\x01\n" +
 	"\n" +
 	"RouteGuide\x12\x1e\n" +
 	"\n" +
 	"GetFeature\x12\x06.Point\x1a\b.Feature\x12(\n" +
 	"\fListFeatures\x12\n" +
-	".Rectangle\x1a\b.Feature\"\x000\x01B\tZ\a/protocb\x06proto3"
+	".Rectangle\x1a\b.Feature\"\x000\x01\x12(\n" +
+	"\vRecordRoute\x12\x06.Point\x1a\r.RouteSummary\"\x00(\x01B\tZ\a/protocb\x06proto3"
 
 var (
 	file_route_guide_service_proto_rawDescOnce sync.Once
@@ -223,11 +307,12 @@ func file_route_guide_service_proto_rawDescGZIP() []byte {
 	return file_route_guide_service_proto_rawDescData
 }
 
-var file_route_guide_service_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
+var file_route_guide_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_route_guide_service_proto_goTypes = []any{
-	(*Point)(nil),     // 0: Point
-	(*Feature)(nil),   // 1: Feature
-	(*Rectangle)(nil), // 2: Rectangle
+	(*Point)(nil),        // 0: Point
+	(*Feature)(nil),      // 1: Feature
+	(*Rectangle)(nil),    // 2: Rectangle
+	(*RouteSummary)(nil), // 3: RouteSummary
 }
 var file_route_guide_service_proto_depIdxs = []int32{
 	0, // 0: Feature.location:type_name -> Point
@@ -235,10 +320,12 @@ var file_route_guide_service_proto_depIdxs = []int32{
 	0, // 2: Rectangle.hi:type_name -> Point
 	0, // 3: RouteGuide.GetFeature:input_type -> Point
 	2, // 4: RouteGuide.ListFeatures:input_type -> Rectangle
-	1, // 5: RouteGuide.GetFeature:output_type -> Feature
-	1, // 6: RouteGuide.ListFeatures:output_type -> Feature
-	5, // [5:7] is the sub-list for method output_type
-	3, // [3:5] is the sub-list for method input_type
+	0, // 5: RouteGuide.RecordRoute:input_type -> Point
+	1, // 6: RouteGuide.GetFeature:output_type -> Feature
+	1, // 7: RouteGuide.ListFeatures:output_type -> Feature
+	3, // 8: RouteGuide.RecordRoute:output_type -> RouteSummary
+	6, // [6:9] is the sub-list for method output_type
+	3, // [3:6] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
 	3, // [3:3] is the sub-list for extension extendee
 	0, // [0:3] is the sub-list for field type_name
@@ -255,7 +342,7 @@ func file_route_guide_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_route_guide_service_proto_rawDesc), len(file_route_guide_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   3,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
