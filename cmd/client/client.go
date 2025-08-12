@@ -157,4 +157,10 @@ func main() {
 		log.Fatalf("Failed to get feature: %v", err)
 	}
 	log.Printf("Feature: %+v", feature)
+
+	feature, err = routeGuideClient.GetFeature(&protoc.Point{Latitude: 0, Longitude: 0})
+	if err != nil {
+		log.Fatalf("Failed to get feature: %v", err)
+	}
+	log.Printf("Feature: %+v", feature)
 }
