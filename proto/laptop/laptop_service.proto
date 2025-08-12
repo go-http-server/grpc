@@ -2,8 +2,8 @@ syntax = "proto3";
 
 option go_package = "/protoc";
 
-import "laptop_message.proto";
-import "filter_message.proto";
+import "laptop/laptop_message.proto";
+import "laptop/filter_message.proto";
 
 message CreateLaptopRequest {
   Laptop laptop = 1; // Laptop to be created

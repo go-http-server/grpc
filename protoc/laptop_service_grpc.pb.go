@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.31.1
-// source: laptop_service.proto
+// source: laptop/laptop_service.proto
 
 package protoc
 
@@ -230,5 +230,5 @@ var LaptopService_ServiceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 	},
-	Metadata: "laptop_service.proto",
+	Metadata: "laptop/laptop_service.proto",
 }

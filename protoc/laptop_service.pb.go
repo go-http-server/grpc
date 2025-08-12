@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.1
-// source: laptop_service.proto
+// source: laptop/laptop_service.proto
 
 package protoc
 
@@ -30,7 +30,7 @@ type CreateLaptopRequest struct {
 
 func (x *CreateLaptopRequest) Reset() {
 	*x = CreateLaptopRequest{}
-	mi := &file_laptop_service_proto_msgTypes[0]
+	mi := &file_laptop_laptop_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -42,7 +42,7 @@ func (x *CreateLaptopRequest) String() string {
 func (*CreateLaptopRequest) ProtoMessage() {}
 
 func (x *CreateLaptopRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_laptop_service_proto_msgTypes[0]
+	mi := &file_laptop_laptop_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,7 +55,7 @@ func (x *CreateLaptopRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateLaptopRequest.ProtoReflect.Descriptor instead.
 func (*CreateLaptopRequest) Descriptor() ([]byte, []int) {
-	return file_laptop_service_proto_rawDescGZIP(), []int{0}
+	return file_laptop_laptop_service_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *CreateLaptopRequest) GetLaptop() *Laptop {
@@ -74,7 +74,7 @@ type CreateLaptopResponse struct {
 
 func (x *CreateLaptopResponse) Reset() {
 	*x = CreateLaptopResponse{}
-	mi := &file_laptop_service_proto_msgTypes[1]
+	mi := &file_laptop_laptop_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -86,7 +86,7 @@ func (x *CreateLaptopResponse) String() string {
 func (*CreateLaptopResponse) ProtoMessage() {}
 
 func (x *CreateLaptopResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_laptop_service_proto_msgTypes[1]
+	mi := &file_laptop_laptop_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -99,7 +99,7 @@ func (x *CreateLaptopResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateLaptopResponse.ProtoReflect.Descriptor instead.
 func (*CreateLaptopResponse) Descriptor() ([]byte, []int) {
-	return file_laptop_service_proto_rawDescGZIP(), []int{1}
+	return file_laptop_laptop_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *CreateLaptopResponse) GetId() string {
@@ -118,7 +118,7 @@ type SearchLaptopRequest struct {
 
 func (x *SearchLaptopRequest) Reset() {
 	*x = SearchLaptopRequest{}
-	mi := &file_laptop_service_proto_msgTypes[2]
+	mi := &file_laptop_laptop_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -130,7 +130,7 @@ func (x *SearchLaptopRequest) String() string {
 func (*SearchLaptopRequest) ProtoMessage() {}
 
 func (x *SearchLaptopRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_laptop_service_proto_msgTypes[2]
+	mi := &file_laptop_laptop_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -143,7 +143,7 @@ func (x *SearchLaptopRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchLaptopRequest.ProtoReflect.Descriptor instead.
 func (*SearchLaptopRequest) Descriptor() ([]byte, []int) {
-	return file_laptop_service_proto_rawDescGZIP(), []int{2}
+	return file_laptop_laptop_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *SearchLaptopRequest) GetFilter() *Filter {
@@ -162,7 +162,7 @@ type SearchLaptopResponse struct {
 
 func (x *SearchLaptopResponse) Reset() {
 	*x = SearchLaptopResponse{}
-	mi := &file_laptop_service_proto_msgTypes[3]
+	mi := &file_laptop_laptop_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -174,7 +174,7 @@ func (x *SearchLaptopResponse) String() string {
 func (*SearchLaptopResponse) ProtoMessage() {}
 
 func (x *SearchLaptopResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_laptop_service_proto_msgTypes[3]
+	mi := &file_laptop_laptop_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -187,7 +187,7 @@ func (x *SearchLaptopResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SearchLaptopResponse.ProtoReflect.Descriptor instead.
 func (*SearchLaptopResponse) Descriptor() ([]byte, []int) {
-	return file_laptop_service_proto_rawDescGZIP(), []int{3}
+	return file_laptop_laptop_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *SearchLaptopResponse) GetLaptop() *Laptop {
@@ -210,7 +210,7 @@ type UploadImageRequest struct {
 
 func (x *UploadImageRequest) Reset() {
 	*x = UploadImageRequest{}
-	mi := &file_laptop_service_proto_msgTypes[4]
+	mi := &file_laptop_laptop_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -222,7 +222,7 @@ func (x *UploadImageRequest) String() string {
 func (*UploadImageRequest) ProtoMessage() {}
 
 func (x *UploadImageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_laptop_service_proto_msgTypes[4]
+	mi := &file_laptop_laptop_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -235,7 +235,7 @@ func (x *UploadImageRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadImageRequest.ProtoReflect.Descriptor instead.
 func (*UploadImageRequest) Descriptor() ([]byte, []int) {
-	return file_laptop_service_proto_rawDescGZIP(), []int{4}
+	return file_laptop_laptop_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UploadImageRequest) GetData() isUploadImageRequest_Data {
@@ -289,7 +289,7 @@ type ImageInfo struct {
 
 func (x *ImageInfo) Reset() {
 	*x = ImageInfo{}
-	mi := &file_laptop_service_proto_msgTypes[5]
+	mi := &file_laptop_laptop_service_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -301,7 +301,7 @@ func (x *ImageInfo) String() string {
 func (*ImageInfo) ProtoMessage() {}
 
 func (x *ImageInfo) ProtoReflect() protoreflect.Message {
-	mi := &file_laptop_service_proto_msgTypes[5]
+	mi := &file_laptop_laptop_service_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -314,7 +314,7 @@ func (x *ImageInfo) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ImageInfo.ProtoReflect.Descriptor instead.
 func (*ImageInfo) Descriptor() ([]byte, []int) {
-	return file_laptop_service_proto_rawDescGZIP(), []int{5}
+	return file_laptop_laptop_service_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *ImageInfo) GetLaptopId() string {
@@ -341,7 +341,7 @@ type UploadImageResponse struct {
 
 func (x *UploadImageResponse) Reset() {
 	*x = UploadImageResponse{}
-	mi := &file_laptop_service_proto_msgTypes[6]
+	mi := &file_laptop_laptop_service_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -353,7 +353,7 @@ func (x *UploadImageResponse) String() string {
 func (*UploadImageResponse) ProtoMessage() {}
 
 func (x *UploadImageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_laptop_service_proto_msgTypes[6]
+	mi := &file_laptop_laptop_service_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -366,7 +366,7 @@ func (x *UploadImageResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UploadImageResponse.ProtoReflect.Descriptor instead.
 func (*UploadImageResponse) Descriptor() ([]byte, []int) {
-	return file_laptop_service_proto_rawDescGZIP(), []int{6}
+	return file_laptop_laptop_service_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *UploadImageResponse) GetId() string {
@@ -393,7 +393,7 @@ type RateLaptopRequest struct {
 
 func (x *RateLaptopRequest) Reset() {
 	*x = RateLaptopRequest{}
-	mi := &file_laptop_service_proto_msgTypes[7]
+	mi := &file_laptop_laptop_service_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -405,7 +405,7 @@ func (x *RateLaptopRequest) String() string {
 func (*RateLaptopRequest) ProtoMessage() {}
 
 func (x *RateLaptopRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_laptop_service_proto_msgTypes[7]
+	mi := &file_laptop_laptop_service_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -418,7 +418,7 @@ func (x *RateLaptopRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RateLaptopRequest.ProtoReflect.Descriptor instead.
 func (*RateLaptopRequest) Descriptor() ([]byte, []int) {
-	return file_laptop_service_proto_rawDescGZIP(), []int{7}
+	return file_laptop_laptop_service_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *RateLaptopRequest) GetLaptopId() string {
@@ -446,7 +446,7 @@ type RateLaptopResponse struct {
 
 func (x *RateLaptopResponse) Reset() {
 	*x = RateLaptopResponse{}
-	mi := &file_laptop_service_proto_msgTypes[8]
+	mi := &file_laptop_laptop_service_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -458,7 +458,7 @@ func (x *RateLaptopResponse) String() string {
 func (*RateLaptopResponse) ProtoMessage() {}
 
 func (x *RateLaptopResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_laptop_service_proto_msgTypes[8]
+	mi := &file_laptop_laptop_service_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -471,7 +471,7 @@ func (x *RateLaptopResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RateLaptopResponse.ProtoReflect.Descriptor instead.
 func (*RateLaptopResponse) Descriptor() ([]byte, []int) {
-	return file_laptop_service_proto_rawDescGZIP(), []int{8}
+	return file_laptop_laptop_service_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *RateLaptopResponse) GetLaptopId() string {
@@ -495,11 +495,11 @@ func (x *RateLaptopResponse) GetAverageScore() float64 {
 	return 0
 }
 
-var File_laptop_service_proto protoreflect.FileDescriptor
+var File_laptop_laptop_service_proto protoreflect.FileDescriptor
 
-const file_laptop_service_proto_rawDesc = "" +
+const file_laptop_laptop_service_proto_rawDesc = "" +
 	"\n" +
-	"\x14laptop_service.proto\x1a\x14laptop_message.proto\x1a\x14filter_message.proto\"6\n" +
+	"\x1blaptop/laptop_service.proto\x1a\x1blaptop/laptop_message.proto\x1a\x1blaptop/filter_message.proto\"6\n" +
 	"\x13CreateLaptopRequest\x12\x1f\n" +
 	"\x06laptop\x18\x01 \x01(\v2\a.LaptopR\x06laptop\"&\n" +
 	"\x14CreateLaptopResponse\x12\x0e\n" +
@@ -537,19 +537,19 @@ const file_laptop_service_proto_rawDesc = "" +
 	"RateLaptop\x12\x12.RateLaptopRequest\x1a\x13.RateLaptopResponse(\x010\x01B\tZ\a/protocb\x06proto3"
 
 var (
-	file_laptop_service_proto_rawDescOnce sync.Once
-	file_laptop_service_proto_rawDescData []byte
+	file_laptop_laptop_service_proto_rawDescOnce sync.Once
+	file_laptop_laptop_service_proto_rawDescData []byte
 )
 
-func file_laptop_service_proto_rawDescGZIP() []byte {
-	file_laptop_service_proto_rawDescOnce.Do(func() {
-		file_laptop_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_laptop_service_proto_rawDesc), len(file_laptop_service_proto_rawDesc)))
+func file_laptop_laptop_service_proto_rawDescGZIP() []byte {
+	file_laptop_laptop_service_proto_rawDescOnce.Do(func() {
+		file_laptop_laptop_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_laptop_laptop_service_proto_rawDesc), len(file_laptop_laptop_service_proto_rawDesc)))
 	})
-	return file_laptop_service_proto_rawDescData
+	return file_laptop_laptop_service_proto_rawDescData
 }
 
-var file_laptop_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
-var file_laptop_service_proto_goTypes = []any{
+var file_laptop_laptop_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
+var file_laptop_laptop_service_proto_goTypes = []any{
 	(*CreateLaptopRequest)(nil),  // 0: CreateLaptopRequest
 	(*CreateLaptopResponse)(nil), // 1: CreateLaptopResponse
 	(*SearchLaptopRequest)(nil),  // 2: SearchLaptopRequest
@@ -562,7 +562,7 @@ var file_laptop_service_proto_goTypes = []any{
 	(*Laptop)(nil),               // 9: Laptop
 	(*Filter)(nil),               // 10: Filter
 }
-var file_laptop_service_proto_depIdxs = []int32{
+var file_laptop_laptop_service_proto_depIdxs = []int32{
 	9,  // 0: CreateLaptopRequest.laptop:type_name -> Laptop
 	10, // 1: SearchLaptopRequest.filter:type_name -> Filter
 	9,  // 2: SearchLaptopResponse.laptop:type_name -> Laptop
@@ -582,14 +582,14 @@ var file_laptop_service_proto_depIdxs = []int32{
 	0,  // [0:4] is the sub-list for field type_name
 }
 
-func init() { file_laptop_service_proto_init() }
-func file_laptop_service_proto_init() {
-	if File_laptop_service_proto != nil {
+func init() { file_laptop_laptop_service_proto_init() }
+func file_laptop_laptop_service_proto_init() {
+	if File_laptop_laptop_service_proto != nil {
 		return
 	}
-	file_laptop_message_proto_init()
-	file_filter_message_proto_init()
-	file_laptop_service_proto_msgTypes[4].OneofWrappers = []any{
+	file_laptop_laptop_message_proto_init()
+	file_laptop_filter_message_proto_init()
+	file_laptop_laptop_service_proto_msgTypes[4].OneofWrappers = []any{
 		(*UploadImageRequest_Info)(nil),
 		(*UploadImageRequest_ChunkData)(nil),
 	}
@@ -597,17 +597,17 @@ func file_laptop_service_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_laptop_service_proto_rawDesc), len(file_laptop_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_laptop_laptop_service_proto_rawDesc), len(file_laptop_laptop_service_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_laptop_service_proto_goTypes,
-		DependencyIndexes: file_laptop_service_proto_depIdxs,
-		MessageInfos:      file_laptop_service_proto_msgTypes,
+		GoTypes:           file_laptop_laptop_service_proto_goTypes,
+		DependencyIndexes: file_laptop_laptop_service_proto_depIdxs,
+		MessageInfos:      file_laptop_laptop_service_proto_msgTypes,
 	}.Build()
-	File_laptop_service_proto = out.File
-	file_laptop_service_proto_goTypes = nil
-	file_laptop_service_proto_depIdxs = nil
+	File_laptop_laptop_service_proto = out.File
+	file_laptop_laptop_service_proto_goTypes = nil
+	file_laptop_laptop_service_proto_depIdxs = nil
 }

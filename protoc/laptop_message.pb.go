@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.1
-// source: laptop_message.proto
+// source: laptop/laptop_message.proto
 
 package protoc
 
@@ -47,7 +47,7 @@ type Laptop struct {
 
 func (x *Laptop) Reset() {
 	*x = Laptop{}
-	mi := &file_laptop_message_proto_msgTypes[0]
+	mi := &file_laptop_laptop_message_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -59,7 +59,7 @@ func (x *Laptop) String() string {
 func (*Laptop) ProtoMessage() {}
 
 func (x *Laptop) ProtoReflect() protoreflect.Message {
-	mi := &file_laptop_message_proto_msgTypes[0]
+	mi := &file_laptop_laptop_message_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -72,7 +72,7 @@ func (x *Laptop) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Laptop.ProtoReflect.Descriptor instead.
 func (*Laptop) Descriptor() ([]byte, []int) {
-	return file_laptop_message_proto_rawDescGZIP(), []int{0}
+	return file_laptop_laptop_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Laptop) GetId() string {
@@ -200,11 +200,11 @@ func (*Laptop_WeightKg) isLaptop_Weight() {}
 
 func (*Laptop_WeightLbs) isLaptop_Weight() {}
 
-var File_laptop_message_proto protoreflect.FileDescriptor
+var File_laptop_laptop_message_proto protoreflect.FileDescriptor
 
-const file_laptop_message_proto_rawDesc = "" +
+const file_laptop_laptop_message_proto_rawDesc = "" +
 	"\n" +
-	"\x14laptop_message.proto\x1a\x14screen_message.proto\x1a\x16keyboard_message.proto\x1a\x17processor_message.proto\x1a\x14memory_message.proto\x1a\x15storage_message.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc2\x03\n" +
+	"\x1blaptop/laptop_message.proto\x1a\x1blaptop/screen_message.proto\x1a\x1dlaptop/keyboard_message.proto\x1a\x1elaptop/processor_message.proto\x1a\x1blaptop/memory_message.proto\x1a\x1claptop/storage_message.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc2\x03\n" +
 	"\x06Laptop\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05brand\x18\x02 \x01(\tR\x05brand\x12\x12\n" +
@@ -226,19 +226,19 @@ const file_laptop_message_proto_rawDesc = "" +
 	"\x06weightB\tZ\a/protocb\x06proto3"
 
 var (
-	file_laptop_message_proto_rawDescOnce sync.Once
-	file_laptop_message_proto_rawDescData []byte
+	file_laptop_laptop_message_proto_rawDescOnce sync.Once
+	file_laptop_laptop_message_proto_rawDescData []byte
 )
 
-func file_laptop_message_proto_rawDescGZIP() []byte {
-	file_laptop_message_proto_rawDescOnce.Do(func() {
-		file_laptop_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_laptop_message_proto_rawDesc), len(file_laptop_message_proto_rawDesc)))
+func file_laptop_laptop_message_proto_rawDescGZIP() []byte {
+	file_laptop_laptop_message_proto_rawDescOnce.Do(func() {
+		file_laptop_laptop_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_laptop_laptop_message_proto_rawDesc), len(file_laptop_laptop_message_proto_rawDesc)))
 	})
-	return file_laptop_message_proto_rawDescData
+	return file_laptop_laptop_message_proto_rawDescData
 }
 
-var file_laptop_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_laptop_message_proto_goTypes = []any{
+var file_laptop_laptop_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_laptop_laptop_message_proto_goTypes = []any{
 	(*Laptop)(nil),                // 0: Laptop
 	(*CPU)(nil),                   // 1: CPU
 	(*Memory)(nil),                // 2: Memory
@@ -248,7 +248,7 @@ var file_laptop_message_proto_goTypes = []any{
 	(*Keyboard)(nil),              // 6: Keyboard
 	(*timestamppb.Timestamp)(nil), // 7: google.protobuf.Timestamp
 }
-var file_laptop_message_proto_depIdxs = []int32{
+var file_laptop_laptop_message_proto_depIdxs = []int32{
 	1, // 0: Laptop.cpu:type_name -> CPU
 	2, // 1: Laptop.ram:type_name -> Memory
 	3, // 2: Laptop.gpus:type_name -> GPU
@@ -263,17 +263,17 @@ var file_laptop_message_proto_depIdxs = []int32{
 	0, // [0:7] is the sub-list for field type_name
 }
 
-func init() { file_laptop_message_proto_init() }
-func file_laptop_message_proto_init() {
-	if File_laptop_message_proto != nil {
+func init() { file_laptop_laptop_message_proto_init() }
+func file_laptop_laptop_message_proto_init() {
+	if File_laptop_laptop_message_proto != nil {
 		return
 	}
-	file_screen_message_proto_init()
-	file_keyboard_message_proto_init()
-	file_processor_message_proto_init()
-	file_memory_message_proto_init()
-	file_storage_message_proto_init()
-	file_laptop_message_proto_msgTypes[0].OneofWrappers = []any{
+	file_laptop_screen_message_proto_init()
+	file_laptop_keyboard_message_proto_init()
+	file_laptop_processor_message_proto_init()
+	file_laptop_memory_message_proto_init()
+	file_laptop_storage_message_proto_init()
+	file_laptop_laptop_message_proto_msgTypes[0].OneofWrappers = []any{
 		(*Laptop_WeightKg)(nil),
 		(*Laptop_WeightLbs)(nil),
 	}
@@ -281,17 +281,17 @@ func file_laptop_message_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_laptop_message_proto_rawDesc), len(file_laptop_message_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_laptop_laptop_message_proto_rawDesc), len(file_laptop_laptop_message_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_laptop_message_proto_goTypes,
-		DependencyIndexes: file_laptop_message_proto_depIdxs,
-		MessageInfos:      file_laptop_message_proto_msgTypes,
+		GoTypes:           file_laptop_laptop_message_proto_goTypes,
+		DependencyIndexes: file_laptop_laptop_message_proto_depIdxs,
+		MessageInfos:      file_laptop_laptop_message_proto_msgTypes,
 	}.Build()
-	File_laptop_message_proto = out.File
-	file_laptop_message_proto_goTypes = nil
-	file_laptop_message_proto_depIdxs = nil
+	File_laptop_laptop_message_proto = out.File
+	file_laptop_laptop_message_proto_goTypes = nil
+	file_laptop_laptop_message_proto_depIdxs = nil
 }

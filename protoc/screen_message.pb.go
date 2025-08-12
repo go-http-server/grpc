@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.1
-// source: screen_message.proto
+// source: laptop/screen_message.proto
 
 package protoc
 
@@ -54,11 +54,11 @@ func (x Screen_Panel) String() string {
 }
 
 func (Screen_Panel) Descriptor() protoreflect.EnumDescriptor {
-	return file_screen_message_proto_enumTypes[0].Descriptor()
+	return file_laptop_screen_message_proto_enumTypes[0].Descriptor()
 }
 
 func (Screen_Panel) Type() protoreflect.EnumType {
-	return &file_screen_message_proto_enumTypes[0]
+	return &file_laptop_screen_message_proto_enumTypes[0]
 }
 
 func (x Screen_Panel) Number() protoreflect.EnumNumber {
@@ -67,7 +67,7 @@ func (x Screen_Panel) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Screen_Panel.Descriptor instead.
 func (Screen_Panel) EnumDescriptor() ([]byte, []int) {
-	return file_screen_message_proto_rawDescGZIP(), []int{0, 0}
+	return file_laptop_screen_message_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type Screen struct {
@@ -82,7 +82,7 @@ type Screen struct {
 
 func (x *Screen) Reset() {
 	*x = Screen{}
-	mi := &file_screen_message_proto_msgTypes[0]
+	mi := &file_laptop_screen_message_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -94,7 +94,7 @@ func (x *Screen) String() string {
 func (*Screen) ProtoMessage() {}
 
 func (x *Screen) ProtoReflect() protoreflect.Message {
-	mi := &file_screen_message_proto_msgTypes[0]
+	mi := &file_laptop_screen_message_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -107,7 +107,7 @@ func (x *Screen) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Screen.ProtoReflect.Descriptor instead.
 func (*Screen) Descriptor() ([]byte, []int) {
-	return file_screen_message_proto_rawDescGZIP(), []int{0}
+	return file_laptop_screen_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Screen) GetSize() float32 {
@@ -148,7 +148,7 @@ type Screen_Resolution struct {
 
 func (x *Screen_Resolution) Reset() {
 	*x = Screen_Resolution{}
-	mi := &file_screen_message_proto_msgTypes[1]
+	mi := &file_laptop_screen_message_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -160,7 +160,7 @@ func (x *Screen_Resolution) String() string {
 func (*Screen_Resolution) ProtoMessage() {}
 
 func (x *Screen_Resolution) ProtoReflect() protoreflect.Message {
-	mi := &file_screen_message_proto_msgTypes[1]
+	mi := &file_laptop_screen_message_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -173,7 +173,7 @@ func (x *Screen_Resolution) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Screen_Resolution.ProtoReflect.Descriptor instead.
 func (*Screen_Resolution) Descriptor() ([]byte, []int) {
-	return file_screen_message_proto_rawDescGZIP(), []int{0, 0}
+	return file_laptop_screen_message_proto_rawDescGZIP(), []int{0, 0}
 }
 
 func (x *Screen_Resolution) GetWidth() uint32 {
@@ -190,11 +190,11 @@ func (x *Screen_Resolution) GetHeight() uint32 {
 	return 0
 }
 
-var File_screen_message_proto protoreflect.FileDescriptor
+var File_laptop_screen_message_proto protoreflect.FileDescriptor
 
-const file_screen_message_proto_rawDesc = "" +
+const file_laptop_screen_message_proto_rawDesc = "" +
 	"\n" +
-	"\x14screen_message.proto\"\xfa\x01\n" +
+	"\x1blaptop/screen_message.proto\"\xfa\x01\n" +
 	"\x06Screen\x12\x12\n" +
 	"\x04size\x18\x01 \x01(\x02R\x04size\x122\n" +
 	"\n" +
@@ -214,25 +214,25 @@ const file_screen_message_proto_rawDesc = "" +
 	"\x04OLED\x10\x02B\tZ\a/protocb\x06proto3"
 
 var (
-	file_screen_message_proto_rawDescOnce sync.Once
-	file_screen_message_proto_rawDescData []byte
+	file_laptop_screen_message_proto_rawDescOnce sync.Once
+	file_laptop_screen_message_proto_rawDescData []byte
 )
 
-func file_screen_message_proto_rawDescGZIP() []byte {
-	file_screen_message_proto_rawDescOnce.Do(func() {
-		file_screen_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_screen_message_proto_rawDesc), len(file_screen_message_proto_rawDesc)))
+func file_laptop_screen_message_proto_rawDescGZIP() []byte {
+	file_laptop_screen_message_proto_rawDescOnce.Do(func() {
+		file_laptop_screen_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_laptop_screen_message_proto_rawDesc), len(file_laptop_screen_message_proto_rawDesc)))
 	})
-	return file_screen_message_proto_rawDescData
+	return file_laptop_screen_message_proto_rawDescData
 }
 
-var file_screen_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_screen_message_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
-var file_screen_message_proto_goTypes = []any{
+var file_laptop_screen_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_laptop_screen_message_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_laptop_screen_message_proto_goTypes = []any{
 	(Screen_Panel)(0),         // 0: Screen.Panel
 	(*Screen)(nil),            // 1: Screen
 	(*Screen_Resolution)(nil), // 2: Screen.Resolution
 }
-var file_screen_message_proto_depIdxs = []int32{
+var file_laptop_screen_message_proto_depIdxs = []int32{
 	2, // 0: Screen.resolution:type_name -> Screen.Resolution
 	0, // 1: Screen.panel:type_name -> Screen.Panel
 	2, // [2:2] is the sub-list for method output_type
@@ -242,27 +242,27 @@ var file_screen_message_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_screen_message_proto_init() }
-func file_screen_message_proto_init() {
-	if File_screen_message_proto != nil {
+func init() { file_laptop_screen_message_proto_init() }
+func file_laptop_screen_message_proto_init() {
+	if File_laptop_screen_message_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_screen_message_proto_rawDesc), len(file_screen_message_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_laptop_screen_message_proto_rawDesc), len(file_laptop_screen_message_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_screen_message_proto_goTypes,
-		DependencyIndexes: file_screen_message_proto_depIdxs,
-		EnumInfos:         file_screen_message_proto_enumTypes,
-		MessageInfos:      file_screen_message_proto_msgTypes,
+		GoTypes:           file_laptop_screen_message_proto_goTypes,
+		DependencyIndexes: file_laptop_screen_message_proto_depIdxs,
+		EnumInfos:         file_laptop_screen_message_proto_enumTypes,
+		MessageInfos:      file_laptop_screen_message_proto_msgTypes,
 	}.Build()
-	File_screen_message_proto = out.File
-	file_screen_message_proto_goTypes = nil
-	file_screen_message_proto_depIdxs = nil
+	File_laptop_screen_message_proto = out.File
+	file_laptop_screen_message_proto_goTypes = nil
+	file_laptop_screen_message_proto_depIdxs = nil
 }

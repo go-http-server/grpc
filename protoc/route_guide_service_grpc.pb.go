@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.31.1
-// source: route_guide_service.proto
+// source: route_guide/route_guide_service.proto
 
 package protoc
 
@@ -258,5 +258,5 @@ var RouteGuide_ServiceDesc = grpc.ServiceDesc{
 			ClientStreams: true,
 		},
 	},
-	Metadata: "route_guide_service.proto",
+	Metadata: "route_guide/route_guide_service.proto",
 }

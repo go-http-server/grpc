@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.1
-// source: filter_message.proto
+// source: laptop/filter_message.proto
 
 package protoc
 
@@ -33,7 +33,7 @@ type Filter struct {
 
 func (x *Filter) Reset() {
 	*x = Filter{}
-	mi := &file_filter_message_proto_msgTypes[0]
+	mi := &file_laptop_filter_message_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -45,7 +45,7 @@ func (x *Filter) String() string {
 func (*Filter) ProtoMessage() {}
 
 func (x *Filter) ProtoReflect() protoreflect.Message {
-	mi := &file_filter_message_proto_msgTypes[0]
+	mi := &file_laptop_filter_message_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +58,7 @@ func (x *Filter) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Filter.ProtoReflect.Descriptor instead.
 func (*Filter) Descriptor() ([]byte, []int) {
-	return file_filter_message_proto_rawDescGZIP(), []int{0}
+	return file_laptop_filter_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Filter) GetMaxPriceUsd() float64 {
@@ -89,11 +89,11 @@ func (x *Filter) GetMinMemory() *Memory {
 	return nil
 }
 
-var File_filter_message_proto protoreflect.FileDescriptor
+var File_laptop_filter_message_proto protoreflect.FileDescriptor
 
-const file_filter_message_proto_rawDesc = "" +
+const file_laptop_filter_message_proto_rawDesc = "" +
 	"\n" +
-	"\x14filter_message.proto\x1a\x14memory_message.proto\"\x98\x01\n" +
+	"\x1blaptop/filter_message.proto\x1a\x1blaptop/memory_message.proto\"\x98\x01\n" +
 	"\x06Filter\x12\"\n" +
 	"\rmax_price_usd\x18\x01 \x01(\x01R\vmaxPriceUsd\x12\"\n" +
 	"\rmin_cpu_cores\x18\x02 \x01(\rR\vminCpuCores\x12\x1e\n" +
@@ -102,23 +102,23 @@ const file_filter_message_proto_rawDesc = "" +
 	"min_memory\x18\x04 \x01(\v2\a.MemoryR\tminMemoryB\tZ\a/protocb\x06proto3"
 
 var (
-	file_filter_message_proto_rawDescOnce sync.Once
-	file_filter_message_proto_rawDescData []byte
+	file_laptop_filter_message_proto_rawDescOnce sync.Once
+	file_laptop_filter_message_proto_rawDescData []byte
 )
 
-func file_filter_message_proto_rawDescGZIP() []byte {
-	file_filter_message_proto_rawDescOnce.Do(func() {
-		file_filter_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_filter_message_proto_rawDesc), len(file_filter_message_proto_rawDesc)))
+func file_laptop_filter_message_proto_rawDescGZIP() []byte {
+	file_laptop_filter_message_proto_rawDescOnce.Do(func() {
+		file_laptop_filter_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_laptop_filter_message_proto_rawDesc), len(file_laptop_filter_message_proto_rawDesc)))
 	})
-	return file_filter_message_proto_rawDescData
+	return file_laptop_filter_message_proto_rawDescData
 }
 
-var file_filter_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_filter_message_proto_goTypes = []any{
+var file_laptop_filter_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_laptop_filter_message_proto_goTypes = []any{
 	(*Filter)(nil), // 0: Filter
 	(*Memory)(nil), // 1: Memory
 }
-var file_filter_message_proto_depIdxs = []int32{
+var file_laptop_filter_message_proto_depIdxs = []int32{
 	1, // 0: Filter.min_memory:type_name -> Memory
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
@@ -127,27 +127,27 @@ var file_filter_message_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_filter_message_proto_init() }
-func file_filter_message_proto_init() {
-	if File_filter_message_proto != nil {
+func init() { file_laptop_filter_message_proto_init() }
+func file_laptop_filter_message_proto_init() {
+	if File_laptop_filter_message_proto != nil {
 		return
 	}
-	file_memory_message_proto_init()
+	file_laptop_memory_message_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_filter_message_proto_rawDesc), len(file_filter_message_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_laptop_filter_message_proto_rawDesc), len(file_laptop_filter_message_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_filter_message_proto_goTypes,
-		DependencyIndexes: file_filter_message_proto_depIdxs,
-		MessageInfos:      file_filter_message_proto_msgTypes,
+		GoTypes:           file_laptop_filter_message_proto_goTypes,
+		DependencyIndexes: file_laptop_filter_message_proto_depIdxs,
+		MessageInfos:      file_laptop_filter_message_proto_msgTypes,
 	}.Build()
-	File_filter_message_proto = out.File
-	file_filter_message_proto_goTypes = nil
-	file_filter_message_proto_depIdxs = nil
+	File_laptop_filter_message_proto = out.File
+	file_laptop_filter_message_proto_goTypes = nil
+	file_laptop_filter_message_proto_depIdxs = nil
 }

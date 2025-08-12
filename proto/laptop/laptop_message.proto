@@ -2,11 +2,11 @@ syntax = "proto3";
 
 option go_package = "/protoc";
 
-import "screen_message.proto";
-import "keyboard_message.proto";
-import "processor_message.proto";
-import "memory_message.proto";
-import "storage_message.proto";
+import "laptop/screen_message.proto";
+import "laptop/keyboard_message.proto";
+import "laptop/processor_message.proto";
+import "laptop/memory_message.proto";
+import "laptop/storage_message.proto";
 import "google/protobuf/timestamp.proto";
 
 message Laptop {

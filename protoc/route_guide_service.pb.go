@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.1
-// source: route_guide_service.proto
+// source: route_guide/route_guide_service.proto
 
 package protoc
 
@@ -35,7 +35,7 @@ type Point struct {
 
 func (x *Point) Reset() {
 	*x = Point{}
-	mi := &file_route_guide_service_proto_msgTypes[0]
+	mi := &file_route_guide_route_guide_service_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -47,7 +47,7 @@ func (x *Point) String() string {
 func (*Point) ProtoMessage() {}
 
 func (x *Point) ProtoReflect() protoreflect.Message {
-	mi := &file_route_guide_service_proto_msgTypes[0]
+	mi := &file_route_guide_route_guide_service_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -60,7 +60,7 @@ func (x *Point) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Point.ProtoReflect.Descriptor instead.
 func (*Point) Descriptor() ([]byte, []int) {
-	return file_route_guide_service_proto_rawDescGZIP(), []int{0}
+	return file_route_guide_route_guide_service_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Point) GetLatitude() int32 {
@@ -92,7 +92,7 @@ type Feature struct {
 
 func (x *Feature) Reset() {
 	*x = Feature{}
-	mi := &file_route_guide_service_proto_msgTypes[1]
+	mi := &file_route_guide_route_guide_service_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -104,7 +104,7 @@ func (x *Feature) String() string {
 func (*Feature) ProtoMessage() {}
 
 func (x *Feature) ProtoReflect() protoreflect.Message {
-	mi := &file_route_guide_service_proto_msgTypes[1]
+	mi := &file_route_guide_route_guide_service_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -117,7 +117,7 @@ func (x *Feature) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Feature.ProtoReflect.Descriptor instead.
 func (*Feature) Descriptor() ([]byte, []int) {
-	return file_route_guide_service_proto_rawDescGZIP(), []int{1}
+	return file_route_guide_route_guide_service_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *Feature) GetName() string {
@@ -148,7 +148,7 @@ type Rectangle struct {
 
 func (x *Rectangle) Reset() {
 	*x = Rectangle{}
-	mi := &file_route_guide_service_proto_msgTypes[2]
+	mi := &file_route_guide_route_guide_service_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -160,7 +160,7 @@ func (x *Rectangle) String() string {
 func (*Rectangle) ProtoMessage() {}
 
 func (x *Rectangle) ProtoReflect() protoreflect.Message {
-	mi := &file_route_guide_service_proto_msgTypes[2]
+	mi := &file_route_guide_route_guide_service_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -173,7 +173,7 @@ func (x *Rectangle) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Rectangle.ProtoReflect.Descriptor instead.
 func (*Rectangle) Descriptor() ([]byte, []int) {
-	return file_route_guide_service_proto_rawDescGZIP(), []int{2}
+	return file_route_guide_route_guide_service_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Rectangle) GetLo() *Point {
@@ -211,7 +211,7 @@ type RouteSummary struct {
 
 func (x *RouteSummary) Reset() {
 	*x = RouteSummary{}
-	mi := &file_route_guide_service_proto_msgTypes[3]
+	mi := &file_route_guide_route_guide_service_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -223,7 +223,7 @@ func (x *RouteSummary) String() string {
 func (*RouteSummary) ProtoMessage() {}
 
 func (x *RouteSummary) ProtoReflect() protoreflect.Message {
-	mi := &file_route_guide_service_proto_msgTypes[3]
+	mi := &file_route_guide_route_guide_service_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -236,7 +236,7 @@ func (x *RouteSummary) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RouteSummary.ProtoReflect.Descriptor instead.
 func (*RouteSummary) Descriptor() ([]byte, []int) {
-	return file_route_guide_service_proto_rawDescGZIP(), []int{3}
+	return file_route_guide_route_guide_service_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *RouteSummary) GetPointCount() int32 {
@@ -280,7 +280,7 @@ type RouteNote struct {
 
 func (x *RouteNote) Reset() {
 	*x = RouteNote{}
-	mi := &file_route_guide_service_proto_msgTypes[4]
+	mi := &file_route_guide_route_guide_service_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -292,7 +292,7 @@ func (x *RouteNote) String() string {
 func (*RouteNote) ProtoMessage() {}
 
 func (x *RouteNote) ProtoReflect() protoreflect.Message {
-	mi := &file_route_guide_service_proto_msgTypes[4]
+	mi := &file_route_guide_route_guide_service_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -305,7 +305,7 @@ func (x *RouteNote) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RouteNote.ProtoReflect.Descriptor instead.
 func (*RouteNote) Descriptor() ([]byte, []int) {
-	return file_route_guide_service_proto_rawDescGZIP(), []int{4}
+	return file_route_guide_route_guide_service_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *RouteNote) GetLocation() *Point {
@@ -322,11 +322,11 @@ func (x *RouteNote) GetMessage() string {
 	return ""
 }
 
-var File_route_guide_service_proto protoreflect.FileDescriptor
+var File_route_guide_route_guide_service_proto protoreflect.FileDescriptor
 
-const file_route_guide_service_proto_rawDesc = "" +
+const file_route_guide_route_guide_service_proto_rawDesc = "" +
 	"\n" +
-	"\x19route_guide_service.proto\"A\n" +
+	"%route_guide/route_guide_service.proto\"A\n" +
 	"\x05Point\x12\x1a\n" +
 	"\blatitude\x18\x01 \x01(\x05R\blatitude\x12\x1c\n" +
 	"\tlongitude\x18\x02 \x01(\x05R\tlongitude\"A\n" +
@@ -357,26 +357,26 @@ const file_route_guide_service_proto_rawDesc = "" +
 	".RouteNote\"\x00(\x010\x01B\tZ\a/protocb\x06proto3"
 
 var (
-	file_route_guide_service_proto_rawDescOnce sync.Once
-	file_route_guide_service_proto_rawDescData []byte
+	file_route_guide_route_guide_service_proto_rawDescOnce sync.Once
+	file_route_guide_route_guide_service_proto_rawDescData []byte
 )
 
-func file_route_guide_service_proto_rawDescGZIP() []byte {
-	file_route_guide_service_proto_rawDescOnce.Do(func() {
-		file_route_guide_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_route_guide_service_proto_rawDesc), len(file_route_guide_service_proto_rawDesc)))
+func file_route_guide_route_guide_service_proto_rawDescGZIP() []byte {
+	file_route_guide_route_guide_service_proto_rawDescOnce.Do(func() {
+		file_route_guide_route_guide_service_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_route_guide_route_guide_service_proto_rawDesc), len(file_route_guide_route_guide_service_proto_rawDesc)))
 	})
-	return file_route_guide_service_proto_rawDescData
+	return file_route_guide_route_guide_service_proto_rawDescData
 }
 
-var file_route_guide_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
-var file_route_guide_service_proto_goTypes = []any{
+var file_route_guide_route_guide_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_route_guide_route_guide_service_proto_goTypes = []any{
 	(*Point)(nil),        // 0: Point
 	(*Feature)(nil),      // 1: Feature
 	(*Rectangle)(nil),    // 2: Rectangle
 	(*RouteSummary)(nil), // 3: RouteSummary
 	(*RouteNote)(nil),    // 4: RouteNote
 }
-var file_route_guide_service_proto_depIdxs = []int32{
+var file_route_guide_route_guide_service_proto_depIdxs = []int32{
 	0, // 0: Feature.location:type_name -> Point
 	0, // 1: Rectangle.lo:type_name -> Point
 	0, // 2: Rectangle.hi:type_name -> Point
@@ -396,26 +396,26 @@ var file_route_guide_service_proto_depIdxs = []int32{
 	0, // [0:4] is the sub-list for field type_name
 }
 
-func init() { file_route_guide_service_proto_init() }
-func file_route_guide_service_proto_init() {
-	if File_route_guide_service_proto != nil {
+func init() { file_route_guide_route_guide_service_proto_init() }
+func file_route_guide_route_guide_service_proto_init() {
+	if File_route_guide_route_guide_service_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_route_guide_service_proto_rawDesc), len(file_route_guide_service_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_route_guide_route_guide_service_proto_rawDesc), len(file_route_guide_route_guide_service_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_route_guide_service_proto_goTypes,
-		DependencyIndexes: file_route_guide_service_proto_depIdxs,
-		MessageInfos:      file_route_guide_service_proto_msgTypes,
+		GoTypes:           file_route_guide_route_guide_service_proto_goTypes,
+		DependencyIndexes: file_route_guide_route_guide_service_proto_depIdxs,
+		MessageInfos:      file_route_guide_route_guide_service_proto_msgTypes,
 	}.Build()
-	File_route_guide_service_proto = out.File
-	file_route_guide_service_proto_goTypes = nil
-	file_route_guide_service_proto_depIdxs = nil
+	File_route_guide_route_guide_service_proto = out.File
+	file_route_guide_route_guide_service_proto_goTypes = nil
+	file_route_guide_route_guide_service_proto_depIdxs = nil
 }

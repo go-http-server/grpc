@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option go_package = "/protoc";
 
-import "memory_message.proto";
+import "laptop/memory_message.proto";
 
 message Storage {
   enum Driver {

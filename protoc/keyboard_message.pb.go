@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.1
-// source: keyboard_message.proto
+// source: laptop/keyboard_message.proto
 
 package protoc
 
@@ -57,11 +57,11 @@ func (x Keyboard_Layout) String() string {
 }
 
 func (Keyboard_Layout) Descriptor() protoreflect.EnumDescriptor {
-	return file_keyboard_message_proto_enumTypes[0].Descriptor()
+	return file_laptop_keyboard_message_proto_enumTypes[0].Descriptor()
 }
 
 func (Keyboard_Layout) Type() protoreflect.EnumType {
-	return &file_keyboard_message_proto_enumTypes[0]
+	return &file_laptop_keyboard_message_proto_enumTypes[0]
 }
 
 func (x Keyboard_Layout) Number() protoreflect.EnumNumber {
@@ -70,7 +70,7 @@ func (x Keyboard_Layout) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Keyboard_Layout.Descriptor instead.
 func (Keyboard_Layout) EnumDescriptor() ([]byte, []int) {
-	return file_keyboard_message_proto_rawDescGZIP(), []int{0, 0}
+	return file_laptop_keyboard_message_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type Keyboard struct {
@@ -83,7 +83,7 @@ type Keyboard struct {
 
 func (x *Keyboard) Reset() {
 	*x = Keyboard{}
-	mi := &file_keyboard_message_proto_msgTypes[0]
+	mi := &file_laptop_keyboard_message_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -95,7 +95,7 @@ func (x *Keyboard) String() string {
 func (*Keyboard) ProtoMessage() {}
 
 func (x *Keyboard) ProtoReflect() protoreflect.Message {
-	mi := &file_keyboard_message_proto_msgTypes[0]
+	mi := &file_laptop_keyboard_message_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -108,7 +108,7 @@ func (x *Keyboard) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Keyboard.ProtoReflect.Descriptor instead.
 func (*Keyboard) Descriptor() ([]byte, []int) {
-	return file_keyboard_message_proto_rawDescGZIP(), []int{0}
+	return file_laptop_keyboard_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Keyboard) GetLayout() Keyboard_Layout {
@@ -125,11 +125,11 @@ func (x *Keyboard) GetBacklit() bool {
 	return false
 }
 
-var File_keyboard_message_proto protoreflect.FileDescriptor
+var File_laptop_keyboard_message_proto protoreflect.FileDescriptor
 
-const file_keyboard_message_proto_rawDesc = "" +
+const file_laptop_keyboard_message_proto_rawDesc = "" +
 	"\n" +
-	"\x16keyboard_message.proto\"\x89\x01\n" +
+	"\x1dlaptop/keyboard_message.proto\"\x89\x01\n" +
 	"\bKeyboard\x12(\n" +
 	"\x06layout\x18\x01 \x01(\x0e2\x10.Keyboard.LayoutR\x06layout\x12\x18\n" +
 	"\abacklit\x18\x02 \x01(\bR\abacklit\"9\n" +
@@ -143,24 +143,24 @@ const file_keyboard_message_proto_rawDesc = "" +
 	"\x06AZERTY\x10\x03B\tZ\a/protocb\x06proto3"
 
 var (
-	file_keyboard_message_proto_rawDescOnce sync.Once
-	file_keyboard_message_proto_rawDescData []byte
+	file_laptop_keyboard_message_proto_rawDescOnce sync.Once
+	file_laptop_keyboard_message_proto_rawDescData []byte
 )
 
-func file_keyboard_message_proto_rawDescGZIP() []byte {
-	file_keyboard_message_proto_rawDescOnce.Do(func() {
-		file_keyboard_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_keyboard_message_proto_rawDesc), len(file_keyboard_message_proto_rawDesc)))
+func file_laptop_keyboard_message_proto_rawDescGZIP() []byte {
+	file_laptop_keyboard_message_proto_rawDescOnce.Do(func() {
+		file_laptop_keyboard_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_laptop_keyboard_message_proto_rawDesc), len(file_laptop_keyboard_message_proto_rawDesc)))
 	})
-	return file_keyboard_message_proto_rawDescData
+	return file_laptop_keyboard_message_proto_rawDescData
 }
 
-var file_keyboard_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_keyboard_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_keyboard_message_proto_goTypes = []any{
+var file_laptop_keyboard_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_laptop_keyboard_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_laptop_keyboard_message_proto_goTypes = []any{
 	(Keyboard_Layout)(0), // 0: Keyboard.Layout
 	(*Keyboard)(nil),     // 1: Keyboard
 }
-var file_keyboard_message_proto_depIdxs = []int32{
+var file_laptop_keyboard_message_proto_depIdxs = []int32{
 	0, // 0: Keyboard.layout:type_name -> Keyboard.Layout
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
@@ -169,27 +169,27 @@ var file_keyboard_message_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_keyboard_message_proto_init() }
-func file_keyboard_message_proto_init() {
-	if File_keyboard_message_proto != nil {
+func init() { file_laptop_keyboard_message_proto_init() }
+func file_laptop_keyboard_message_proto_init() {
+	if File_laptop_keyboard_message_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_keyboard_message_proto_rawDesc), len(file_keyboard_message_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_laptop_keyboard_message_proto_rawDesc), len(file_laptop_keyboard_message_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_keyboard_message_proto_goTypes,
-		DependencyIndexes: file_keyboard_message_proto_depIdxs,
-		EnumInfos:         file_keyboard_message_proto_enumTypes,
-		MessageInfos:      file_keyboard_message_proto_msgTypes,
+		GoTypes:           file_laptop_keyboard_message_proto_goTypes,
+		DependencyIndexes: file_laptop_keyboard_message_proto_depIdxs,
+		EnumInfos:         file_laptop_keyboard_message_proto_enumTypes,
+		MessageInfos:      file_laptop_keyboard_message_proto_msgTypes,
 	}.Build()
-	File_keyboard_message_proto = out.File
-	file_keyboard_message_proto_goTypes = nil
-	file_keyboard_message_proto_depIdxs = nil
+	File_laptop_keyboard_message_proto = out.File
+	file_laptop_keyboard_message_proto_goTypes = nil
+	file_laptop_keyboard_message_proto_depIdxs = nil
 }

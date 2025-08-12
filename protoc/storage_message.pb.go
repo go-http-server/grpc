@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.1
-// source: storage_message.proto
+// source: laptop/storage_message.proto
 
 package protoc
 
@@ -54,11 +54,11 @@ func (x Storage_Driver) String() string {
 }
 
 func (Storage_Driver) Descriptor() protoreflect.EnumDescriptor {
-	return file_storage_message_proto_enumTypes[0].Descriptor()
+	return file_laptop_storage_message_proto_enumTypes[0].Descriptor()
 }
 
 func (Storage_Driver) Type() protoreflect.EnumType {
-	return &file_storage_message_proto_enumTypes[0]
+	return &file_laptop_storage_message_proto_enumTypes[0]
 }
 
 func (x Storage_Driver) Number() protoreflect.EnumNumber {
@@ -67,7 +67,7 @@ func (x Storage_Driver) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Storage_Driver.Descriptor instead.
 func (Storage_Driver) EnumDescriptor() ([]byte, []int) {
-	return file_storage_message_proto_rawDescGZIP(), []int{0, 0}
+	return file_laptop_storage_message_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type Storage struct {
@@ -80,7 +80,7 @@ type Storage struct {
 
 func (x *Storage) Reset() {
 	*x = Storage{}
-	mi := &file_storage_message_proto_msgTypes[0]
+	mi := &file_laptop_storage_message_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -92,7 +92,7 @@ func (x *Storage) String() string {
 func (*Storage) ProtoMessage() {}
 
 func (x *Storage) ProtoReflect() protoreflect.Message {
-	mi := &file_storage_message_proto_msgTypes[0]
+	mi := &file_laptop_storage_message_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -105,7 +105,7 @@ func (x *Storage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Storage.ProtoReflect.Descriptor instead.
 func (*Storage) Descriptor() ([]byte, []int) {
-	return file_storage_message_proto_rawDescGZIP(), []int{0}
+	return file_laptop_storage_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Storage) GetDriver() Storage_Driver {
@@ -122,11 +122,11 @@ func (x *Storage) GetMemory() *Memory {
 	return nil
 }
 
-var File_storage_message_proto protoreflect.FileDescriptor
+var File_laptop_storage_message_proto protoreflect.FileDescriptor
 
-const file_storage_message_proto_rawDesc = "" +
+const file_laptop_storage_message_proto_rawDesc = "" +
 	"\n" +
-	"\x15storage_message.proto\x1a\x14memory_message.proto\"|\n" +
+	"\x1claptop/storage_message.proto\x1a\x1blaptop/memory_message.proto\"|\n" +
 	"\aStorage\x12'\n" +
 	"\x06driver\x18\x01 \x01(\x0e2\x0f.Storage.DriverR\x06driver\x12\x1f\n" +
 	"\x06memory\x18\x02 \x01(\v2\a.MemoryR\x06memory\"'\n" +
@@ -136,25 +136,25 @@ const file_storage_message_proto_rawDesc = "" +
 	"\x03SSD\x10\x02B\tZ\a/protocb\x06proto3"
 
 var (
-	file_storage_message_proto_rawDescOnce sync.Once
-	file_storage_message_proto_rawDescData []byte
+	file_laptop_storage_message_proto_rawDescOnce sync.Once
+	file_laptop_storage_message_proto_rawDescData []byte
 )
 
-func file_storage_message_proto_rawDescGZIP() []byte {
-	file_storage_message_proto_rawDescOnce.Do(func() {
-		file_storage_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_storage_message_proto_rawDesc), len(file_storage_message_proto_rawDesc)))
+func file_laptop_storage_message_proto_rawDescGZIP() []byte {
+	file_laptop_storage_message_proto_rawDescOnce.Do(func() {
+		file_laptop_storage_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_laptop_storage_message_proto_rawDesc), len(file_laptop_storage_message_proto_rawDesc)))
 	})
-	return file_storage_message_proto_rawDescData
+	return file_laptop_storage_message_proto_rawDescData
 }
 
-var file_storage_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_storage_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_storage_message_proto_goTypes = []any{
+var file_laptop_storage_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_laptop_storage_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_laptop_storage_message_proto_goTypes = []any{
 	(Storage_Driver)(0), // 0: Storage.Driver
 	(*Storage)(nil),     // 1: Storage
 	(*Memory)(nil),      // 2: Memory
 }
-var file_storage_message_proto_depIdxs = []int32{
+var file_laptop_storage_message_proto_depIdxs = []int32{
 	0, // 0: Storage.driver:type_name -> Storage.Driver
 	2, // 1: Storage.memory:type_name -> Memory
 	2, // [2:2] is the sub-list for method output_type
@@ -164,28 +164,28 @@ var file_storage_message_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_storage_message_proto_init() }
-func file_storage_message_proto_init() {
-	if File_storage_message_proto != nil {
+func init() { file_laptop_storage_message_proto_init() }
+func file_laptop_storage_message_proto_init() {
+	if File_laptop_storage_message_proto != nil {
 		return
 	}
-	file_memory_message_proto_init()
+	file_laptop_memory_message_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_storage_message_proto_rawDesc), len(file_storage_message_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_laptop_storage_message_proto_rawDesc), len(file_laptop_storage_message_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_storage_message_proto_goTypes,
-		DependencyIndexes: file_storage_message_proto_depIdxs,
-		EnumInfos:         file_storage_message_proto_enumTypes,
-		MessageInfos:      file_storage_message_proto_msgTypes,
+		GoTypes:           file_laptop_storage_message_proto_goTypes,
+		DependencyIndexes: file_laptop_storage_message_proto_depIdxs,
+		EnumInfos:         file_laptop_storage_message_proto_enumTypes,
+		MessageInfos:      file_laptop_storage_message_proto_msgTypes,
 	}.Build()
-	File_storage_message_proto = out.File
-	file_storage_message_proto_goTypes = nil
-	file_storage_message_proto_depIdxs = nil
+	File_laptop_storage_message_proto = out.File
+	file_laptop_storage_message_proto_goTypes = nil
+	file_laptop_storage_message_proto_depIdxs = nil
 }

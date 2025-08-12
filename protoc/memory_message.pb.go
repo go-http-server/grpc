@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.1
-// source: memory_message.proto
+// source: laptop/memory_message.proto
 
 package protoc
 
@@ -66,11 +66,11 @@ func (x Memory_Unit) String() string {
 }
 
 func (Memory_Unit) Descriptor() protoreflect.EnumDescriptor {
-	return file_memory_message_proto_enumTypes[0].Descriptor()
+	return file_laptop_memory_message_proto_enumTypes[0].Descriptor()
 }
 
 func (Memory_Unit) Type() protoreflect.EnumType {
-	return &file_memory_message_proto_enumTypes[0]
+	return &file_laptop_memory_message_proto_enumTypes[0]
 }
 
 func (x Memory_Unit) Number() protoreflect.EnumNumber {
@@ -79,7 +79,7 @@ func (x Memory_Unit) Number() protoreflect.EnumNumber {
 
 // Deprecated: Use Memory_Unit.Descriptor instead.
 func (Memory_Unit) EnumDescriptor() ([]byte, []int) {
-	return file_memory_message_proto_rawDescGZIP(), []int{0, 0}
+	return file_laptop_memory_message_proto_rawDescGZIP(), []int{0, 0}
 }
 
 type Memory struct {
@@ -92,7 +92,7 @@ type Memory struct {
 
 func (x *Memory) Reset() {
 	*x = Memory{}
-	mi := &file_memory_message_proto_msgTypes[0]
+	mi := &file_laptop_memory_message_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -104,7 +104,7 @@ func (x *Memory) String() string {
 func (*Memory) ProtoMessage() {}
 
 func (x *Memory) ProtoReflect() protoreflect.Message {
-	mi := &file_memory_message_proto_msgTypes[0]
+	mi := &file_laptop_memory_message_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -117,7 +117,7 @@ func (x *Memory) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Memory.ProtoReflect.Descriptor instead.
 func (*Memory) Descriptor() ([]byte, []int) {
-	return file_memory_message_proto_rawDescGZIP(), []int{0}
+	return file_laptop_memory_message_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Memory) GetValue() uint64 {
@@ -134,11 +134,11 @@ func (x *Memory) GetUnit() Memory_Unit {
 	return Memory_UNKNOW
 }
 
-var File_memory_message_proto protoreflect.FileDescriptor
+var File_laptop_memory_message_proto protoreflect.FileDescriptor
 
-const file_memory_message_proto_rawDesc = "" +
+const file_laptop_memory_message_proto_rawDesc = "" +
 	"\n" +
-	"\x14memory_message.proto\"\x9f\x01\n" +
+	"\x1blaptop/memory_message.proto\"\x9f\x01\n" +
 	"\x06Memory\x12\x14\n" +
 	"\x05value\x18\x01 \x01(\x04R\x05value\x12 \n" +
 	"\x04unit\x18\x02 \x01(\x0e2\f.Memory.UnitR\x04unit\"]\n" +
@@ -153,24 +153,24 @@ const file_memory_message_proto_rawDesc = "" +
 	"\bTERABYTE\x10\x06B\tZ\a/protocb\x06proto3"
 
 var (
-	file_memory_message_proto_rawDescOnce sync.Once
-	file_memory_message_proto_rawDescData []byte
+	file_laptop_memory_message_proto_rawDescOnce sync.Once
+	file_laptop_memory_message_proto_rawDescData []byte
 )
 
-func file_memory_message_proto_rawDescGZIP() []byte {
-	file_memory_message_proto_rawDescOnce.Do(func() {
-		file_memory_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_memory_message_proto_rawDesc), len(file_memory_message_proto_rawDesc)))
+func file_laptop_memory_message_proto_rawDescGZIP() []byte {
+	file_laptop_memory_message_proto_rawDescOnce.Do(func() {
+		file_laptop_memory_message_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_laptop_memory_message_proto_rawDesc), len(file_laptop_memory_message_proto_rawDesc)))
 	})
-	return file_memory_message_proto_rawDescData
+	return file_laptop_memory_message_proto_rawDescData
 }
 
-var file_memory_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_memory_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_memory_message_proto_goTypes = []any{
+var file_laptop_memory_message_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_laptop_memory_message_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_laptop_memory_message_proto_goTypes = []any{
 	(Memory_Unit)(0), // 0: Memory.Unit
 	(*Memory)(nil),   // 1: Memory
 }
-var file_memory_message_proto_depIdxs = []int32{
+var file_laptop_memory_message_proto_depIdxs = []int32{
 	0, // 0: Memory.unit:type_name -> Memory.Unit
 	1, // [1:1] is the sub-list for method output_type
 	1, // [1:1] is the sub-list for method input_type
@@ -179,27 +179,27 @@ var file_memory_message_proto_depIdxs = []int32{
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_memory_message_proto_init() }
-func file_memory_message_proto_init() {
-	if File_memory_message_proto != nil {
+func init() { file_laptop_memory_message_proto_init() }
+func file_laptop_memory_message_proto_init() {
+	if File_laptop_memory_message_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_memory_message_proto_rawDesc), len(file_memory_message_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_laptop_memory_message_proto_rawDesc), len(file_laptop_memory_message_proto_rawDesc)),
 			NumEnums:      1,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_memory_message_proto_goTypes,
-		DependencyIndexes: file_memory_message_proto_depIdxs,
-		EnumInfos:         file_memory_message_proto_enumTypes,
-		MessageInfos:      file_memory_message_proto_msgTypes,
+		GoTypes:           file_laptop_memory_message_proto_goTypes,
+		DependencyIndexes: file_laptop_memory_message_proto_depIdxs,
+		EnumInfos:         file_laptop_memory_message_proto_enumTypes,
+		MessageInfos:      file_laptop_memory_message_proto_msgTypes,
 	}.Build()
-	File_memory_message_proto = out.File
-	file_memory_message_proto_goTypes = nil
-	file_memory_message_proto_depIdxs = nil
+	File_laptop_memory_message_proto = out.File
+	file_laptop_memory_message_proto_goTypes = nil
+	file_laptop_memory_message_proto_depIdxs = nil
 }
