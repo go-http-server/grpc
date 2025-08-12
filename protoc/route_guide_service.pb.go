@@ -267,6 +267,61 @@ func (x *RouteSummary) GetElapsedTime() int32 {
 	return 0
 }
 
+// A RouteNote is a message sent while at a given point.
+type RouteNote struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// The location from which the message is sent.
+	Location *Point `protobuf:"bytes,1,opt,name=location,proto3" json:"location,omitempty"`
+	// The message to be sent.
+	Message       string `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *RouteNote) Reset() {
+	*x = RouteNote{}
+	mi := &file_route_guide_service_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *RouteNote) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RouteNote) ProtoMessage() {}
+
+func (x *RouteNote) ProtoReflect() protoreflect.Message {
+	mi := &file_route_guide_service_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RouteNote.ProtoReflect.Descriptor instead.
+func (*RouteNote) Descriptor() ([]byte, []int) {
+	return file_route_guide_service_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *RouteNote) GetLocation() *Point {
+	if x != nil {
+		return x.Location
+	}
+	return nil
+}
+
+func (x *RouteNote) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
 var File_route_guide_service_proto protoreflect.FileDescriptor
 
 const file_route_guide_service_proto_rawDesc = "" +
@@ -286,14 +341,20 @@ const file_route_guide_service_proto_rawDesc = "" +
 	"pointCount\x12#\n" +
 	"\rfeature_count\x18\x02 \x01(\x05R\ffeatureCount\x12\x1a\n" +
 	"\bdistance\x18\x03 \x01(\x05R\bdistance\x12!\n" +
-	"\felapsed_time\x18\x04 \x01(\x05R\velapsedTime2\x80\x01\n" +
+	"\felapsed_time\x18\x04 \x01(\x05R\velapsedTime\"I\n" +
+	"\tRouteNote\x12\"\n" +
+	"\blocation\x18\x01 \x01(\v2\x06.PointR\blocation\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage2\xab\x01\n" +
 	"\n" +
 	"RouteGuide\x12\x1e\n" +
 	"\n" +
 	"GetFeature\x12\x06.Point\x1a\b.Feature\x12(\n" +
 	"\fListFeatures\x12\n" +
 	".Rectangle\x1a\b.Feature\"\x000\x01\x12(\n" +
-	"\vRecordRoute\x12\x06.Point\x1a\r.RouteSummary\"\x00(\x01B\tZ\a/protocb\x06proto3"
+	"\vRecordRoute\x12\x06.Point\x1a\r.RouteSummary\"\x00(\x01\x12)\n" +
+	"\tRouteChat\x12\n" +
+	".RouteNote\x1a\n" +
+	".RouteNote\"\x00(\x010\x01B\tZ\a/protocb\x06proto3"
 
 var (
 	file_route_guide_service_proto_rawDescOnce sync.Once
@@ -307,28 +368,32 @@ func file_route_guide_service_proto_rawDescGZIP() []byte {
 	return file_route_guide_service_proto_rawDescData
 }
 
-var file_route_guide_service_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_route_guide_service_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_route_guide_service_proto_goTypes = []any{
 	(*Point)(nil),        // 0: Point
 	(*Feature)(nil),      // 1: Feature
 	(*Rectangle)(nil),    // 2: Rectangle
 	(*RouteSummary)(nil), // 3: RouteSummary
+	(*RouteNote)(nil),    // 4: RouteNote
 }
 var file_route_guide_service_proto_depIdxs = []int32{
 	0, // 0: Feature.location:type_name -> Point
 	0, // 1: Rectangle.lo:type_name -> Point
 	0, // 2: Rectangle.hi:type_name -> Point
-	0, // 3: RouteGuide.GetFeature:input_type -> Point
-	2, // 4: RouteGuide.ListFeatures:input_type -> Rectangle
-	0, // 5: RouteGuide.RecordRoute:input_type -> Point
-	1, // 6: RouteGuide.GetFeature:output_type -> Feature
-	1, // 7: RouteGuide.ListFeatures:output_type -> Feature
-	3, // 8: RouteGuide.RecordRoute:output_type -> RouteSummary
-	6, // [6:9] is the sub-list for method output_type
-	3, // [3:6] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	0, // 3: RouteNote.location:type_name -> Point
+	0, // 4: RouteGuide.GetFeature:input_type -> Point
+	2, // 5: RouteGuide.ListFeatures:input_type -> Rectangle
+	0, // 6: RouteGuide.RecordRoute:input_type -> Point
+	4, // 7: RouteGuide.RouteChat:input_type -> RouteNote
+	1, // 8: RouteGuide.GetFeature:output_type -> Feature
+	1, // 9: RouteGuide.ListFeatures:output_type -> Feature
+	3, // 10: RouteGuide.RecordRoute:output_type -> RouteSummary
+	4, // 11: RouteGuide.RouteChat:output_type -> RouteNote
+	8, // [8:12] is the sub-list for method output_type
+	4, // [4:8] is the sub-list for method input_type
+	4, // [4:4] is the sub-list for extension type_name
+	4, // [4:4] is the sub-list for extension extendee
+	0, // [0:4] is the sub-list for field type_name
 }
 
 func init() { file_route_guide_service_proto_init() }
@@ -342,7 +407,7 @@ func file_route_guide_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_route_guide_service_proto_rawDesc), len(file_route_guide_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
