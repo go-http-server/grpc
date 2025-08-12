@@ -77,11 +77,13 @@ func testRateLaptop(laptopClient *client.LaptopClient) {
 
 func authMethods() map[string]bool {
 	const laptopServiceMethod = "/LaptopService/"
+	const routeGuideServiceMethod = "/RouteGuide/"
 	return map[string]bool{
-		laptopServiceMethod + "CreateLaptop": true,
-		laptopServiceMethod + "SearchLaptop": false,
-		laptopServiceMethod + "RateLaptop":   true,
-		laptopServiceMethod + "UploadImage":  true,
+		laptopServiceMethod + "CreateLaptop":   true,
+		laptopServiceMethod + "SearchLaptop":   false,
+		laptopServiceMethod + "RateLaptop":     true,
+		laptopServiceMethod + "UploadImage":    true,
+		routeGuideServiceMethod + "GetFeature": true,
 	}
 }
 
@@ -137,7 +139,7 @@ func main() {
 		log.Fatalf("Failed to create auth interceptor: %v", err)
 	}
 
-	_, err = grpc.NewClient(*addr,
+	connAuth, err := grpc.NewClient(*addr,
 		transportOpts,
 		grpc.WithUnaryInterceptor(interceptor.Unary()),
 		grpc.WithStreamInterceptor(interceptor.Stream()),
@@ -149,7 +151,7 @@ func main() {
 	log.Printf("Connected to server at %s, with transport option TLS: %t", *addr, *enableTLS)
 
 	// laptopClient := client.NewLaptopClient(connAuth)
-	routeGuideClient := client.NewRouteGuideClient(conn)
+	routeGuideClient := client.NewRouteGuideClient(connAuth)
 	feature, err := routeGuideClient.GetFeature(&protoc.Point{Latitude: 409146138, Longitude: -746188906})
 	if err != nil {
 		log.Fatalf("Failed to get feature: %v", err)
