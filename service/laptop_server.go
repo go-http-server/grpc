@@ -99,6 +99,7 @@ func (s *LaptopServer) SearchLaptop(req *protoc.SearchLaptopRequest, streaming g
 }
 
 func (s *LaptopServer) UploadImage(clientStreaming grpc.ClientStreamingServer[protoc.UploadImageRequest, protoc.UploadImageResponse]) error {
+	// listen first streaming request to receive information of image upload
 	req, err := clientStreaming.Recv()
 	if err != nil {
 		return status.Errorf(codes.Unknown, "cannot receive image info req: %s", err)
@@ -119,6 +120,7 @@ func (s *LaptopServer) UploadImage(clientStreaming grpc.ClientStreamingServer[pr
 	imageData := bytes.Buffer{}
 	imageSize := 0
 
+	// loop to receive streaming request to get chunk data image from client streaming
 	for {
 		if err := contextError(clientStreaming.Context()); err != nil {
 			return err
