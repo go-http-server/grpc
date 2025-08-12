@@ -6,6 +6,7 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math/rand/v2"
 	"os"
 	"strings"
 	"time"
@@ -115,6 +116,12 @@ func loadTLSCredentials() (credentials.TransportCredentials, error) {
 	return credentials.NewTLS(config), nil
 }
 
+func randomPoint() *protoc.Point {
+	lat := (rand.Int32N(180) - 90) * 1e7
+	long := (rand.Int32N(360) - 180) * 1e7
+	return &protoc.Point{Latitude: lat, Longitude: long}
+}
+
 func main() {
 	addr := flag.String("address", "localhost:8080", "Server address in the format host:port")
 	enableTLS := flag.Bool("tls", false, "Enable TLS for the connection")
@@ -172,5 +179,16 @@ func main() {
 	})
 	if err != nil {
 		log.Fatalf("Failed to list features: %v", err)
+	}
+
+	// Create a random number of random points
+	pointCount := int(rand.Int32N(100)) + 2 // Traverse at least two points
+	var points []*protoc.Point
+	for range pointCount {
+		points = append(points, randomPoint())
+	}
+	err = routeGuideClient.RecordRoute(points)
+	if err != nil {
+		log.Fatalf("Failed to record route: %v", err)
 	}
 }
