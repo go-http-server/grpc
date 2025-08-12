@@ -67,7 +67,7 @@ func (rgCli *RouteGuideClient) RecordRoute(points []*protoc.Point) error {
 
 	stream, err := rgCli.service.RecordRoute(ctx)
 	if err != nil {
-		return fmt.Errorf("failed to record route: %s, %s", err, stream.RecvMsg(nil))
+		return fmt.Errorf("failed to record route: %s", err)
 	}
 
 	for _, point := range points {
@@ -84,4 +84,45 @@ func (rgCli *RouteGuideClient) RecordRoute(points []*protoc.Point) error {
 
 	log.Printf("record route summary: %+v", res)
 	return nil
+}
+
+func (rgCli *RouteGuideClient) RouteChat(notes []*protoc.RouteNote) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	stream, err := rgCli.service.RouteChat(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to start route chat: %s", err)
+	}
+
+	waitResponse := make(chan error)
+	go func() {
+		res, err := stream.Recv()
+
+		if err == io.EOF {
+			waitResponse <- nil
+			return
+		}
+		if err != nil {
+			waitResponse <- err
+			return
+		}
+
+		log.Printf("Got message %s at point(%d, %d)", res.Message, res.Location.Latitude, res.Location.Longitude)
+	}()
+
+	// send route with client streaming
+	for _, note := range notes {
+		if err := stream.Send(note); err != nil {
+			return err
+		}
+	}
+
+	err = stream.CloseSend()
+	if err != nil {
+		return fmt.Errorf("failed to close stream: %v, %v", err, stream.RecvMsg(nil))
+	}
+
+	err = <-waitResponse
+	return err
 }

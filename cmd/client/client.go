@@ -192,4 +192,18 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to record route: %v", err)
 	}
+
+	// bidirectional streaming
+	notes := []*protoc.RouteNote{
+		{Location: &protoc.Point{Latitude: 0, Longitude: 1}, Message: "First message"},
+		{Location: &protoc.Point{Latitude: 0, Longitude: 2}, Message: "Second message"},
+		{Location: &protoc.Point{Latitude: 0, Longitude: 3}, Message: "Third message"},
+		{Location: &protoc.Point{Latitude: 0, Longitude: 1}, Message: "Fourth message"},
+		{Location: &protoc.Point{Latitude: 0, Longitude: 2}, Message: "Fifth message"},
+		{Location: &protoc.Point{Latitude: 0, Longitude: 3}, Message: "Sixth message"},
+	}
+	err = routeGuideClient.RouteChat(notes)
+	if err != nil {
+		log.Fatalf("Failed to chat on route: %v", err)
+	}
 }

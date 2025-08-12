@@ -3,9 +3,11 @@ package service
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"math"
 	"os"
+	"sync"
 	"time"
 
 	"github.com/go-http-server/grpc/protoc"
@@ -19,6 +21,9 @@ import (
 type RouteGuideServer struct {
 	protoc.UnimplementedRouteGuideServer
 	savedFeatures []*protoc.Feature // readonly after initialize
+
+	mutex      sync.Mutex // mutex to protect routeNotes map
+	routeNotes map[string][]*protoc.RouteNote
 }
 
 // loadFeatures loads features from a JSON file into the server's savedFeatures slice.
@@ -38,7 +43,7 @@ func (s *RouteGuideServer) loadFeatures(filename string) error {
 
 // NewRouteGuideServer creates a new instance of RouteGuideServer and loads features from a JSON file.
 func NewRouteGuideServer() (*RouteGuideServer, error) {
-	s := &RouteGuideServer{}
+	s := &RouteGuideServer{routeNotes: make(map[string][]*protoc.RouteNote)}
 
 	err := s.loadFeatures("./sample/route_guide.json")
 	if err != nil {
@@ -136,6 +141,43 @@ func (s *RouteGuideServer) RecordRoute(streaming grpc.ClientStreamingServer[prot
 		}
 		lastPoint = point
 	}
+}
+
+func (s *RouteGuideServer) RouteChat(streaming grpc.BidiStreamingServer[protoc.RouteNote, protoc.RouteNote]) error {
+	for {
+		err := contextError(streaming.Context())
+		if err != nil {
+			return err
+		}
+
+		req, err := streaming.Recv()
+		if err == io.EOF {
+			return nil
+		}
+		if err != nil {
+			return status.Errorf(codes.Internal, "cannot receive streaming request from client: %s", err)
+		}
+
+		key := serialize(req.Location)
+		s.mutex.Lock()
+		s.routeNotes[key] = append(s.routeNotes[key], req)
+		// Note: this copy prevents blocking other clients while serving this one.
+		// We don't need to do a deep copy, because elements in the slice are
+		// insert-only and never modified.
+		rn := make([]*protoc.RouteNote, len(s.routeNotes[key]))
+		copy(rn, s.routeNotes[key])
+		s.mutex.Unlock()
+
+		for _, note := range rn {
+			if err := streaming.Send(note); err != nil {
+				return status.Errorf(codes.Internal, "failed to send route note: %v", err)
+			}
+		}
+	}
+}
+
+func serialize(point *protoc.Point) string {
+	return fmt.Sprintf("%d %d", point.Latitude, point.Longitude)
 }
 
 func toRadians(num float64) float64 {
