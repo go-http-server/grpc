@@ -19,7 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	RouteGuide_GetFeature_FullMethodName = "/RouteGuide/GetFeature"
+	RouteGuide_GetFeature_FullMethodName   = "/RouteGuide/GetFeature"
+	RouteGuide_ListFeatures_FullMethodName = "/RouteGuide/ListFeatures"
 )
 
 // RouteGuideClient is the client API for RouteGuide service.
@@ -34,6 +35,12 @@ type RouteGuideClient interface {
 	// A feature with an empty name is returned if there's no feature at the given
 	// position.
 	GetFeature(ctx context.Context, in *Point, opts ...grpc.CallOption) (*Feature, error)
+	// A server-to-client streaming RPC.
+	// Obtains the Features available within the given Rectangle.  Results are
+	// streamed rather than returned at once (e.g. in a response message with a
+	// repeated field), as the rectangle may cover a large area and contain a
+	// huge number of features.
+	ListFeatures(ctx context.Context, in *Rectangle, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Feature], error)
 }
 
 type routeGuideClient struct {
@@ -54,6 +61,25 @@ func (c *routeGuideClient) GetFeature(ctx context.Context, in *Point, opts ...gr
 	return out, nil
 }
 
+func (c *routeGuideClient) ListFeatures(ctx context.Context, in *Rectangle, opts ...grpc.CallOption) (grpc.ServerStreamingClient[Feature], error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &RouteGuide_ServiceDesc.Streams[0], RouteGuide_ListFeatures_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &grpc.GenericClientStream[Rectangle, Feature]{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type RouteGuide_ListFeaturesClient = grpc.ServerStreamingClient[Feature]
+
 // RouteGuideServer is the server API for RouteGuide service.
 // All implementations must embed UnimplementedRouteGuideServer
 // for forward compatibility.
@@ -66,6 +92,12 @@ type RouteGuideServer interface {
 	// A feature with an empty name is returned if there's no feature at the given
 	// position.
 	GetFeature(context.Context, *Point) (*Feature, error)
+	// A server-to-client streaming RPC.
+	// Obtains the Features available within the given Rectangle.  Results are
+	// streamed rather than returned at once (e.g. in a response message with a
+	// repeated field), as the rectangle may cover a large area and contain a
+	// huge number of features.
+	ListFeatures(*Rectangle, grpc.ServerStreamingServer[Feature]) error
 	mustEmbedUnimplementedRouteGuideServer()
 }
 
@@ -78,6 +110,9 @@ type UnimplementedRouteGuideServer struct{}
 
 func (UnimplementedRouteGuideServer) GetFeature(context.Context, *Point) (*Feature, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetFeature not implemented")
+}
+func (UnimplementedRouteGuideServer) ListFeatures(*Rectangle, grpc.ServerStreamingServer[Feature]) error {
+	return status.Errorf(codes.Unimplemented, "method ListFeatures not implemented")
 }
 func (UnimplementedRouteGuideServer) mustEmbedUnimplementedRouteGuideServer() {}
 func (UnimplementedRouteGuideServer) testEmbeddedByValue()                    {}
@@ -118,6 +153,17 @@ func _RouteGuide_GetFeature_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RouteGuide_ListFeatures_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Rectangle)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(RouteGuideServer).ListFeatures(m, &grpc.GenericServerStream[Rectangle, Feature]{ServerStream: stream})
+}
+
+// This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
+type RouteGuide_ListFeaturesServer = grpc.ServerStreamingServer[Feature]
+
 // RouteGuide_ServiceDesc is the grpc.ServiceDesc for RouteGuide service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,6 +176,12 @@ var RouteGuide_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RouteGuide_GetFeature_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "ListFeatures",
+			Handler:       _RouteGuide_ListFeatures_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "route_guide_service.proto",
 }

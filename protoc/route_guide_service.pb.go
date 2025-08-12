@@ -134,6 +134,62 @@ func (x *Feature) GetLocation() *Point {
 	return nil
 }
 
+// A latitude-longitude rectangle, represented as two diagonally opposite
+// points "lo" and "hi".
+type Rectangle struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// One corner of the rectangle.
+	Lo *Point `protobuf:"bytes,1,opt,name=lo,proto3" json:"lo,omitempty"`
+	// The other corner of the rectangle.
+	Hi            *Point `protobuf:"bytes,2,opt,name=hi,proto3" json:"hi,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Rectangle) Reset() {
+	*x = Rectangle{}
+	mi := &file_route_guide_service_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Rectangle) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Rectangle) ProtoMessage() {}
+
+func (x *Rectangle) ProtoReflect() protoreflect.Message {
+	mi := &file_route_guide_service_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Rectangle.ProtoReflect.Descriptor instead.
+func (*Rectangle) Descriptor() ([]byte, []int) {
+	return file_route_guide_service_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Rectangle) GetLo() *Point {
+	if x != nil {
+		return x.Lo
+	}
+	return nil
+}
+
+func (x *Rectangle) GetHi() *Point {
+	if x != nil {
+		return x.Hi
+	}
+	return nil
+}
+
 var File_route_guide_service_proto protoreflect.FileDescriptor
 
 const file_route_guide_service_proto_rawDesc = "" +
@@ -144,11 +200,16 @@ const file_route_guide_service_proto_rawDesc = "" +
 	"\tlongitude\x18\x02 \x01(\x05R\tlongitude\"A\n" +
 	"\aFeature\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\"\n" +
-	"\blocation\x18\x02 \x01(\v2\x06.PointR\blocation2,\n" +
+	"\blocation\x18\x02 \x01(\v2\x06.PointR\blocation\";\n" +
+	"\tRectangle\x12\x16\n" +
+	"\x02lo\x18\x01 \x01(\v2\x06.PointR\x02lo\x12\x16\n" +
+	"\x02hi\x18\x02 \x01(\v2\x06.PointR\x02hi2V\n" +
 	"\n" +
 	"RouteGuide\x12\x1e\n" +
 	"\n" +
-	"GetFeature\x12\x06.Point\x1a\b.FeatureB\tZ\a/protocb\x06proto3"
+	"GetFeature\x12\x06.Point\x1a\b.Feature\x12(\n" +
+	"\fListFeatures\x12\n" +
+	".Rectangle\x1a\b.Feature\"\x000\x01B\tZ\a/protocb\x06proto3"
 
 var (
 	file_route_guide_service_proto_rawDescOnce sync.Once
@@ -162,20 +223,25 @@ func file_route_guide_service_proto_rawDescGZIP() []byte {
 	return file_route_guide_service_proto_rawDescData
 }
 
-var file_route_guide_service_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_route_guide_service_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_route_guide_service_proto_goTypes = []any{
-	(*Point)(nil),   // 0: Point
-	(*Feature)(nil), // 1: Feature
+	(*Point)(nil),     // 0: Point
+	(*Feature)(nil),   // 1: Feature
+	(*Rectangle)(nil), // 2: Rectangle
 }
 var file_route_guide_service_proto_depIdxs = []int32{
 	0, // 0: Feature.location:type_name -> Point
-	0, // 1: RouteGuide.GetFeature:input_type -> Point
-	1, // 2: RouteGuide.GetFeature:output_type -> Feature
-	2, // [2:3] is the sub-list for method output_type
-	1, // [1:2] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	0, // 1: Rectangle.lo:type_name -> Point
+	0, // 2: Rectangle.hi:type_name -> Point
+	0, // 3: RouteGuide.GetFeature:input_type -> Point
+	2, // 4: RouteGuide.ListFeatures:input_type -> Rectangle
+	1, // 5: RouteGuide.GetFeature:output_type -> Feature
+	1, // 6: RouteGuide.ListFeatures:output_type -> Feature
+	5, // [5:7] is the sub-list for method output_type
+	3, // [3:5] is the sub-list for method input_type
+	3, // [3:3] is the sub-list for extension type_name
+	3, // [3:3] is the sub-list for extension extendee
+	0, // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_route_guide_service_proto_init() }
@@ -189,7 +255,7 @@ func file_route_guide_service_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_route_guide_service_proto_rawDesc), len(file_route_guide_service_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
