@@ -72,12 +72,9 @@ func (mem *InMemoryLaptopStore) Search(ctx context.Context, filter *protoc.Filte
 	defer mem.mu.RUnlock()
 
 	for _, laptop := range mem.laptops {
-		if errors.Is(ctx.Err(), context.Canceled) {
-			return ctx.Err()
-		}
-
-		if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-			return ctx.Err()
+		err := contextError(ctx)
+		if err != nil {
+			return err
 		}
 
 		if isQualified(filter, laptop) {
