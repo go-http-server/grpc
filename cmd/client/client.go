@@ -137,7 +137,7 @@ func main() {
 		log.Fatalf("Failed to create auth interceptor: %v", err)
 	}
 
-	connAuth, err := grpc.NewClient(*addr,
+	_, err = grpc.NewClient(*addr,
 		transportOpts,
 		grpc.WithUnaryInterceptor(interceptor.Unary()),
 		grpc.WithStreamInterceptor(interceptor.Stream()),
@@ -148,6 +148,11 @@ func main() {
 
 	log.Printf("Connected to server at %s, with transport option TLS: %t", *addr, *enableTLS)
 
-	laptopClient := client.NewLaptopClient(connAuth)
-	testRateLaptop(laptopClient) // Test rating laptops
+	// laptopClient := client.NewLaptopClient(connAuth)
+	routeGuideClient := client.NewRouteGuideClient(conn)
+	feature, err := routeGuideClient.GetFeature(&protoc.Point{Latitude: 409146138, Longitude: -746188906})
+	if err != nil {
+		log.Fatalf("Failed to get feature: %v", err)
+	}
+	log.Printf("Feature: %+v", feature)
 }
