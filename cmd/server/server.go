@@ -45,6 +45,7 @@ func accessableRoles() map[string][]string {
 		laptopServiceMethod + "UploadImage":      {"admin"},
 		routeGuideServiceMethod + "GetFeature":   {"admin", "user"},
 		routeGuideServiceMethod + "ListFeatures": {"admin"},
+		routeGuideServiceMethod + "RecordRoute":  {"admin", "user"},
 	}
 }
 

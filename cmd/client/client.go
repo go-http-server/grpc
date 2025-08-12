@@ -86,6 +86,7 @@ func authMethods() map[string]bool {
 		laptopServiceMethod + "UploadImage":      true,
 		routeGuideServiceMethod + "GetFeature":   true,
 		routeGuideServiceMethod + "ListFeatures": true,
+		routeGuideServiceMethod + "RecordRoute":  true,
 	}
 }
 
