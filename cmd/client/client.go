@@ -142,7 +142,7 @@ func main() {
 		log.Fatalf("Failed to connect to server: %v", err)
 	}
 
-	authClient := client.NewAuthClient(conn, "admin", "password")
+	authClient := client.NewAuthClient(conn, "admin_valid", "password")
 	interceptor, err := client.NewAuthInterceptor(authClient, authMethods(), 5*time.Second)
 	if err != nil {
 		log.Fatalf("Failed to create auth interceptor: %v", err)

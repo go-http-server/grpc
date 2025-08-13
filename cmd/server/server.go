@@ -10,8 +10,10 @@ import (
 	"os"
 
 	"aidanwoods.dev/go-paseto"
+	"buf.build/go/protovalidate"
 	"github.com/go-http-server/grpc/protoc"
 	"github.com/go-http-server/grpc/service"
+	protovalidate_middleware "github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/protovalidate"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/reflection"
@@ -27,7 +29,7 @@ func createAccount(accStore service.AccountStore, username, password, role strin
 }
 
 func seedAccounts(accStore service.AccountStore) error {
-	err := createAccount(accStore, "admin", "password", "admin")
+	err := createAccount(accStore, "admin_valid", "password", "admin")
 	if err != nil {
 		return err
 	}
@@ -93,9 +95,15 @@ func main() {
 
 	authInterceptor := service.NewAuthInterceptor(tokenMaker, accessableRoles())
 
+	validator, err := protovalidate.New()
+	if err != nil {
+		log.Fatalf("failed to create validator: %v", err)
+	}
+
 	// configure gRPC server options, enabling authentication and optionally TLS
 	grpcServerOpts := []grpc.ServerOption{
-		grpc.UnaryInterceptor(authInterceptor.Unary()),
+		grpc.ChainUnaryInterceptor(protovalidate_middleware.UnaryServerInterceptor(validator), authInterceptor.Unary()),
+		// grpc.UnaryInterceptor(authInterceptor.Unary()),
 		grpc.StreamInterceptor(authInterceptor.Stream()),
 	}
 	if *enableTLS {
