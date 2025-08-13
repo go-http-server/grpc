@@ -7,6 +7,7 @@
 package protoc
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -121,9 +122,9 @@ var File_auth_auth_service_proto protoreflect.FileDescriptor
 
 const file_auth_auth_service_proto_rawDesc = "" +
 	"\n" +
-	"\x17auth/auth_service.proto\"F\n" +
-	"\fLoginRequest\x12\x1a\n" +
-	"\busername\x18\x01 \x01(\tR\busername\x12\x1a\n" +
+	"\x17auth/auth_service.proto\x1a\x1bbuf/validate/validate.proto\"O\n" +
+	"\fLoginRequest\x12#\n" +
+	"\busername\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x06R\busername\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\"2\n" +
 	"\rLoginResponse\x12!\n" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken27\n" +
