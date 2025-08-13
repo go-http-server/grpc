@@ -70,6 +70,7 @@ func (interceptor *AuthInterceptor) refreshToken() error {
 func (interceptor *AuthInterceptor) Unary() grpc.UnaryClientInterceptor {
 	return func(ctx context.Context, method string, req, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
 		log.Printf("Intercepting unary RPC: %s", method)
+
 		if interceptor.authMethods[method] {
 			return invoker(interceptor.attachToken(ctx), method, req, reply, cc, opts...)
 		}

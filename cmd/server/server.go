@@ -42,7 +42,6 @@ func accessableRoles() map[string][]string {
 	const routeGuideServiceMethod = "/RouteGuide/"
 	return map[string][]string{
 		laptopServiceMethod + "CreateLaptop":     {"admin"},
-		laptopServiceMethod + "SearchLaptop":     {"admin", "user"},
 		laptopServiceMethod + "RateLaptop":       {"admin", "user"},
 		laptopServiceMethod + "UploadImage":      {"admin"},
 		routeGuideServiceMethod + "GetFeature":   {"admin", "user"},
