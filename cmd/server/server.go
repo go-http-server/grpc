@@ -102,8 +102,10 @@ func main() {
 
 	// configure gRPC server options, enabling authentication and optionally TLS
 	grpcServerOpts := []grpc.ServerOption{
-		grpc.ChainUnaryInterceptor(protovalidate_middleware.UnaryServerInterceptor(validator), authInterceptor.Unary()),
-		// grpc.UnaryInterceptor(authInterceptor.Unary()),
+		grpc.ChainUnaryInterceptor(
+			authInterceptor.Unary(),
+			protovalidate_middleware.UnaryServerInterceptor(validator),
+		),
 		grpc.StreamInterceptor(authInterceptor.Stream()),
 	}
 	if *enableTLS {
