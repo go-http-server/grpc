@@ -106,7 +106,10 @@ func main() {
 			protovalidate_middleware.UnaryServerInterceptor(validator),
 			authInterceptor.Unary(),
 		),
-		grpc.StreamInterceptor(authInterceptor.Stream()),
+		grpc.ChainStreamInterceptor(
+			protovalidate_middleware.StreamServerInterceptor(validator),
+			authInterceptor.Stream(),
+		),
 	}
 	if *enableTLS {
 		tlsCredentials, err := loadTLSCredentials()
