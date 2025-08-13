@@ -9,21 +9,41 @@ import "laptop/memory_message.proto";
 import "laptop/storage_message.proto";
 import "google/protobuf/timestamp.proto";
 
+import "buf/validate/validate.proto";
+
 message Laptop {
   string id = 1; // Unique identifier for the laptop
-  string brand = 2; // Brand of the laptop
-  string name = 3; // Model name of the laptop
+  string brand = 2 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string = { min_len: 1, max_len: 50, in: ["Dell", "HP", "Lenovo", "Asus", "Acer"] }
+  ]; // Brand of the laptop
+  string name = 3 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string = { min_len: 1, max_len: 100 }
+  ]; // Model name of the laptop
   CPU cpu = 4; // CPU information
   Memory ram = 5; // Memory information
-  repeated GPU gpus = 6; // List of GPUs
-  repeated Storage storages = 7; // List of storage devices
+  repeated GPU gpus = 6 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).repeated.min_items = 1
+  ]; // List of GPUs
+  repeated Storage storages = 7 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).repeated.min_items = 1
+  ]; // List of storage devices
   Screen screen = 8; // Screen information
   Keyboard keyboard = 9; // Keyboard information
   oneof weight {
     double weight_kg = 10; // Weight in kilograms
     double weight_lbs = 11; // Weight in pounds
   }
-  double price_usd = 12; // Price of the laptop in USD
-  uint32 release_year = 13; // Release year of the laptop
+  double price_usd = 12 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).double.gt = 0.0
+  ]; // Price of the laptop in USD
+  uint32 release_year = 13 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).uint32.gt = 0
+  ]; // Release year of the laptop
   google.protobuf.Timestamp updated_at = 14; // Updation timestamp
 }
