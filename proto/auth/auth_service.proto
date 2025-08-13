@@ -1,9 +1,11 @@
 syntax = "proto3";
 
+import "buf/validate/validate.proto";
+
 option go_package = "/protoc";
 
 message LoginRequest {
-  string username = 1;
+  string username = 1 [(buf.validate.field).string.min_len = 6];
   string password = 2;
 }
 
