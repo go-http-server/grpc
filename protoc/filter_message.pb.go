@@ -7,6 +7,7 @@
 package protoc
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -93,11 +94,11 @@ var File_laptop_filter_message_proto protoreflect.FileDescriptor
 
 const file_laptop_filter_message_proto_rawDesc = "" +
 	"\n" +
-	"\x1blaptop/filter_message.proto\x1a\x1blaptop/memory_message.proto\"\x98\x01\n" +
-	"\x06Filter\x12\"\n" +
-	"\rmax_price_usd\x18\x01 \x01(\x01R\vmaxPriceUsd\x12\"\n" +
-	"\rmin_cpu_cores\x18\x02 \x01(\rR\vminCpuCores\x12\x1e\n" +
-	"\vmin_cpu_ghz\x18\x03 \x01(\x01R\tminCpuGhz\x12&\n" +
+	"\x1blaptop/filter_message.proto\x1a\x1bbuf/validate/validate.proto\x1a\x1blaptop/memory_message.proto\"\xc1\x01\n" +
+	"\x06Filter\x122\n" +
+	"\rmax_price_usd\x18\x01 \x01(\x01B\x0e\xbaH\v\x12\t!\x00\x00\x00\x00\x00\x00\x00\x00R\vmaxPriceUsd\x12+\n" +
+	"\rmin_cpu_cores\x18\x02 \x01(\rB\a\xbaH\x04*\x02 \x01R\vminCpuCores\x12.\n" +
+	"\vmin_cpu_ghz\x18\x03 \x01(\x01B\x0e\xbaH\v\x12\t!\x00\x00\x00\x00\x00\x00\x00\x00R\tminCpuGhz\x12&\n" +
 	"\n" +
 	"min_memory\x18\x04 \x01(\v2\a.MemoryR\tminMemoryB\tZ\a/protocb\x06proto3"
 
