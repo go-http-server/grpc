@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+import "buf/validate/validate.proto";
 option go_package = "/protoc";
 
 message Keyboard {
@@ -10,6 +11,9 @@ message Keyboard {
     AZERTY = 3;
   }
 
-  Layout layout = 1;
+  Layout layout = 1 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).enum.defined_only = true
+  ];
   bool backlit = 2;
 }
