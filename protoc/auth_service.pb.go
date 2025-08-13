@@ -23,9 +23,11 @@ const (
 )
 
 type LoginRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Username      string                 `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
-	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// username must be 3-32 characters long, can only contain letters, numbers, and underscores
+	Username string `protobuf:"bytes,1,opt,name=username,proto3" json:"username,omitempty"`
+	// password must be 6-30 characters long, must contain at least one uppercase letter and one special character
+	Password      string `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -122,10 +124,10 @@ var File_auth_auth_service_proto protoreflect.FileDescriptor
 
 const file_auth_auth_service_proto_rawDesc = "" +
 	"\n" +
-	"\x17auth/auth_service.proto\x1a\x1bbuf/validate/validate.proto\"O\n" +
-	"\fLoginRequest\x12#\n" +
-	"\busername\x18\x01 \x01(\tB\a\xbaH\x04r\x02\x10\x06R\busername\x12\x1a\n" +
-	"\bpassword\x18\x02 \x01(\tR\bpassword\"2\n" +
+	"\x17auth/auth_service.proto\x1a\x1bbuf/validate/validate.proto\"\x96\x01\n" +
+	"\fLoginRequest\x129\n" +
+	"\busername\x18\x01 \x01(\tB\x1d\xbaH\x1a\xc8\x01\x01r\x15\x10\x06\x18 2\x0f^[A-Za-z0-9_]+$R\busername\x12K\n" +
+	"\bpassword\x18\x02 \x01(\tB/\xbaH,\xc8\x01\x01r'\x10\x06\x18\x1e2!^(?=.*[A-Z])(?=.*[!@#$%^&*()]).+$R\bpassword\"2\n" +
 	"\rLoginResponse\x12!\n" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken27\n" +
 	"\vAuthService\x12(\n" +
