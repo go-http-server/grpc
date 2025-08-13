@@ -7,6 +7,7 @@
 package protoc
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -129,9 +130,9 @@ var File_laptop_keyboard_message_proto protoreflect.FileDescriptor
 
 const file_laptop_keyboard_message_proto_rawDesc = "" +
 	"\n" +
-	"\x1dlaptop/keyboard_message.proto\"\x89\x01\n" +
-	"\bKeyboard\x12(\n" +
-	"\x06layout\x18\x01 \x01(\x0e2\x10.Keyboard.LayoutR\x06layout\x12\x18\n" +
+	"\x1dlaptop/keyboard_message.proto\x1a\x1bbuf/validate/validate.proto\"\x96\x01\n" +
+	"\bKeyboard\x125\n" +
+	"\x06layout\x18\x01 \x01(\x0e2\x10.Keyboard.LayoutB\v\xbaH\b\xc8\x01\x01\x82\x01\x02\x10\x01R\x06layout\x12\x18\n" +
 	"\abacklit\x18\x02 \x01(\bR\abacklit\"9\n" +
 	"\x06Layout\x12\v\n" +
 	"\aUNKNOWN\x10\x00\x12\n" +

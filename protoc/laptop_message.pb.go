@@ -7,6 +7,7 @@
 package protoc
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
@@ -204,23 +205,24 @@ var File_laptop_laptop_message_proto protoreflect.FileDescriptor
 
 const file_laptop_laptop_message_proto_rawDesc = "" +
 	"\n" +
-	"\x1blaptop/laptop_message.proto\x1a\x1blaptop/screen_message.proto\x1a\x1dlaptop/keyboard_message.proto\x1a\x1elaptop/processor_message.proto\x1a\x1blaptop/memory_message.proto\x1a\x1claptop/storage_message.proto\x1a\x1fgoogle/protobuf/timestamp.proto\"\xc2\x03\n" +
+	"\x1blaptop/laptop_message.proto\x1a\x1blaptop/screen_message.proto\x1a\x1dlaptop/keyboard_message.proto\x1a\x1elaptop/processor_message.proto\x1a\x1blaptop/memory_message.proto\x1a\x1claptop/storage_message.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x1bbuf/validate/validate.proto\"\xb5\x04\n" +
 	"\x06Laptop\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
-	"\x05brand\x18\x02 \x01(\tR\x05brand\x12\x12\n" +
-	"\x04name\x18\x03 \x01(\tR\x04name\x12\x16\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\x12@\n" +
+	"\x05brand\x18\x02 \x01(\tB*\xbaH'\xc8\x01\x01r\"\x10\x01\x182R\x04DellR\x02HPR\x06LenovoR\x04AsusR\x04AcerR\x05brand\x12 \n" +
+	"\x04name\x18\x03 \x01(\tB\f\xbaH\t\xc8\x01\x01r\x04\x10\x01\x18dR\x04name\x12\x16\n" +
 	"\x03cpu\x18\x04 \x01(\v2\x04.CPUR\x03cpu\x12\x19\n" +
-	"\x03ram\x18\x05 \x01(\v2\a.MemoryR\x03ram\x12\x18\n" +
-	"\x04gpus\x18\x06 \x03(\v2\x04.GPUR\x04gpus\x12$\n" +
-	"\bstorages\x18\a \x03(\v2\b.StorageR\bstorages\x12\x1f\n" +
+	"\x03ram\x18\x05 \x01(\v2\a.MemoryR\x03ram\x12%\n" +
+	"\x04gpus\x18\x06 \x03(\v2\x04.GPUB\v\xbaH\b\xc8\x01\x01\x92\x01\x02\b\x01R\x04gpus\x121\n" +
+	"\bstorages\x18\a \x03(\v2\b.StorageB\v\xbaH\b\xc8\x01\x01\x92\x01\x02\b\x01R\bstorages\x12\x1f\n" +
 	"\x06screen\x18\b \x01(\v2\a.ScreenR\x06screen\x12%\n" +
 	"\bkeyboard\x18\t \x01(\v2\t.KeyboardR\bkeyboard\x12\x1d\n" +
 	"\tweight_kg\x18\n" +
 	" \x01(\x01H\x00R\bweightKg\x12\x1f\n" +
 	"\n" +
-	"weight_lbs\x18\v \x01(\x01H\x00R\tweightLbs\x12\x1b\n" +
-	"\tprice_usd\x18\f \x01(\x01R\bpriceUsd\x12!\n" +
-	"\frelease_year\x18\r \x01(\rR\vreleaseYear\x129\n" +
+	"weight_lbs\x18\v \x01(\x01H\x00R\tweightLbs\x12.\n" +
+	"\tprice_usd\x18\f \x01(\x01B\x11\xbaH\x0e\xc8\x01\x01\x12\t!\x00\x00\x00\x00\x00\x00\x00\x00R\bpriceUsd\x12-\n" +
+	"\frelease_year\x18\r \x01(\rB\n" +
+	"\xbaH\a\xc8\x01\x01*\x02 \x00R\vreleaseYear\x129\n" +
 	"\n" +
 	"updated_at\x18\x0e \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAtB\b\n" +
 	"\x06weightB\tZ\a/protocb\x06proto3"
