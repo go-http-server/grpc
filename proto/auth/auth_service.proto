@@ -13,7 +13,7 @@ message LoginRequest {
   // password must be 6-30 characters long, must contain at least one uppercase letter and one special character
   string password = 2 [
     (buf.validate.field).required = true,
-    (buf.validate.field).string = { min_len: 6, max_len: 30, pattern: "^(?=.*[A-Z])(?=.*[!@#$%^&*()]).+$" }
+    (buf.validate.field).string = { min_len: 6, max_len: 30, pattern: "[A-Za-z0-9_]+$" }
   ];
 }
 

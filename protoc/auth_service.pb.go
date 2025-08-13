@@ -124,10 +124,10 @@ var File_auth_auth_service_proto protoreflect.FileDescriptor
 
 const file_auth_auth_service_proto_rawDesc = "" +
 	"\n" +
-	"\x17auth/auth_service.proto\x1a\x1bbuf/validate/validate.proto\"\x96\x01\n" +
+	"\x17auth/auth_service.proto\x1a\x1bbuf/validate/validate.proto\"\x83\x01\n" +
 	"\fLoginRequest\x129\n" +
-	"\busername\x18\x01 \x01(\tB\x1d\xbaH\x1a\xc8\x01\x01r\x15\x10\x06\x18 2\x0f^[A-Za-z0-9_]+$R\busername\x12K\n" +
-	"\bpassword\x18\x02 \x01(\tB/\xbaH,\xc8\x01\x01r'\x10\x06\x18\x1e2!^(?=.*[A-Z])(?=.*[!@#$%^&*()]).+$R\bpassword\"2\n" +
+	"\busername\x18\x01 \x01(\tB\x1d\xbaH\x1a\xc8\x01\x01r\x15\x10\x06\x18 2\x0f^[A-Za-z0-9_]+$R\busername\x128\n" +
+	"\bpassword\x18\x02 \x01(\tB\x1c\xbaH\x19\xc8\x01\x01r\x14\x10\x06\x18\x1e2\x0e[A-Za-z0-9_]+$R\bpassword\"2\n" +
 	"\rLoginResponse\x12!\n" +
 	"\faccess_token\x18\x01 \x01(\tR\vaccessToken27\n" +
 	"\vAuthService\x12(\n" +
