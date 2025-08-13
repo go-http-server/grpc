@@ -2,11 +2,12 @@ syntax = "proto3";
 
 option go_package = "/protoc";
 
+import "buf/validate/validate.proto";
 import "laptop/memory_message.proto";
 
 message Filter {
-  double max_price_usd = 1;
-  uint32 min_cpu_cores = 2;
-  double min_cpu_ghz = 3;
+  double max_price_usd = 1 [(buf.validate.field).double.gt = 0.0];
+  uint32 min_cpu_cores = 2 [(buf.validate.field).uint32.gt = 1];
+  double min_cpu_ghz = 3 [(buf.validate.field).double.gt = 0.0];
   Memory min_memory = 4;
 }
