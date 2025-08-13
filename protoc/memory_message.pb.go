@@ -7,6 +7,7 @@
 package protoc
 
 import (
+	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -138,10 +139,11 @@ var File_laptop_memory_message_proto protoreflect.FileDescriptor
 
 const file_laptop_memory_message_proto_rawDesc = "" +
 	"\n" +
-	"\x1blaptop/memory_message.proto\"\x9f\x01\n" +
-	"\x06Memory\x12\x14\n" +
-	"\x05value\x18\x01 \x01(\x04R\x05value\x12 \n" +
-	"\x04unit\x18\x02 \x01(\x0e2\f.Memory.UnitR\x04unit\"]\n" +
+	"\x1blaptop/memory_message.proto\x1a\x1bbuf/validate/validate.proto\"\xb8\x01\n" +
+	"\x06Memory\x12 \n" +
+	"\x05value\x18\x01 \x01(\x04B\n" +
+	"\xbaH\a\xc8\x01\x012\x02 \x00R\x05value\x12-\n" +
+	"\x04unit\x18\x02 \x01(\x0e2\f.Memory.UnitB\v\xbaH\b\xc8\x01\x01\x82\x01\x02\x10\x01R\x04unit\"]\n" +
 	"\x04Unit\x12\n" +
 	"\n" +
 	"\x06UNKNOW\x10\x00\x12\a\n" +
