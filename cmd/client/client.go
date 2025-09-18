@@ -159,7 +159,7 @@ func main() {
 
 	log.Printf("Connected to server at %s, with transport option TLS: %t", *addr, *enableTLS)
 
-	// laptopClient := client.NewLaptopClient(connAuth)
+	laptopClient := client.NewLaptopClient(connAuth)
 	routeGuideClient := client.NewRouteGuideClient(connAuth)
 	feature, err := routeGuideClient.GetFeature(&protoc.Point{Latitude: 409146138, Longitude: -746188906})
 	if err != nil {
@@ -206,4 +206,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to chat on route: %v", err)
 	}
+	testCreateLaptop(laptopClient)
+	testSearchLaptop(laptopClient)
 }
