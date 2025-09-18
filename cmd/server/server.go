@@ -94,7 +94,20 @@ func main() {
 
 	authInterceptor := service.NewAuthInterceptor(tokenMaker, accessableRoles())
 
-	validator, err := protovalidate.New()
+	validator, err := protovalidate.New(
+		protovalidate.WithFailFast(),
+		protovalidate.WithMessages(
+			&protoc.LoginRequest{}, // make ensures validator has pre-warmed messages
+			&protoc.CreateLaptopRequest{},
+			&protoc.SearchLaptopRequest{},
+			&protoc.RateLaptopRequest{},
+			&protoc.UploadImageRequest{},
+			&protoc.Point{},
+			&protoc.Rectangle{},
+			&protoc.RouteNote{},
+		),
+		// protovalidate.WithMessages(protoc.File_auth_auth_service_proto.Options()), // wrong pre-warn declaration, haven't error runtime, but no effect
+	)
 	if err != nil {
 		log.Fatalf("failed to create validator: %v", err)
 	}
