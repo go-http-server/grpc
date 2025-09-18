@@ -9,6 +9,7 @@ import (
 
 	"github.com/go-http-server/grpc/protoc"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/encoding/gzip"
 )
 
 // RouteGuideClient is a client for interacting with the RouteGuide service.
@@ -25,7 +26,7 @@ func (rgCli *RouteGuideClient) GetFeature(point *protoc.Point) (*protoc.Feature,
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	feature, err := rgCli.service.GetFeature(ctx, point)
+	feature, err := rgCli.service.GetFeature(ctx, point, grpc.UseCompressor(gzip.Name))
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +38,7 @@ func (rgCli *RouteGuideClient) ListFeatures(rectangle *protoc.Rectangle) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	stream, err := rgCli.service.ListFeatures(ctx, rectangle)
+	stream, err := rgCli.service.ListFeatures(ctx, rectangle, grpc.UseCompressor(gzip.Name))
 	if err != nil {
 		return err
 	}
@@ -65,7 +66,7 @@ func (rgCli *RouteGuideClient) RecordRoute(points []*protoc.Point) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	stream, err := rgCli.service.RecordRoute(ctx)
+	stream, err := rgCli.service.RecordRoute(ctx, grpc.UseCompressor(gzip.Name))
 	if err != nil {
 		return fmt.Errorf("failed to record route: %s", err)
 	}
@@ -90,7 +91,7 @@ func (rgCli *RouteGuideClient) RouteChat(notes []*protoc.RouteNote) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	stream, err := rgCli.service.RouteChat(ctx)
+	stream, err := rgCli.service.RouteChat(ctx, grpc.UseCompressor(gzip.Name))
 	if err != nil {
 		return fmt.Errorf("failed to start route chat: %s", err)
 	}

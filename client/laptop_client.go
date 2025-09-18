@@ -13,6 +13,7 @@ import (
 	"github.com/go-http-server/grpc/protoc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/encoding/gzip"
 	"google.golang.org/grpc/status"
 )
 
@@ -34,7 +35,7 @@ func (laptopClient *LaptopClient) CreateLaptop(laptop *protoc.Laptop) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	res, err := laptopClient.service.CreateLaptop(ctx, req)
+	res, err := laptopClient.service.CreateLaptop(ctx, req, grpc.UseCompressor(gzip.Name))
 	if err != nil {
 		st, ok := status.FromError(err)
 		if ok && st.Code() == codes.AlreadyExists {
@@ -55,7 +56,7 @@ func (laptopClient *LaptopClient) SearchLaptop(filter *protoc.Filter) {
 	defer cancel()
 
 	req := &protoc.SearchLaptopRequest{Filter: filter}
-	stream, err := laptopClient.service.SearchLaptop(ctx, req)
+	stream, err := laptopClient.service.SearchLaptop(ctx, req, grpc.UseCompressor(gzip.Name))
 	if err != nil {
 		log.Fatalf("Failed to search laptops: %v", err)
 	}
@@ -92,7 +93,7 @@ func (laptopClient *LaptopClient) UploadImage(laptopID string, imagePath string)
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	stream, err := laptopClient.service.UploadImage(ctx)
+	stream, err := laptopClient.service.UploadImage(ctx, grpc.UseCompressor(gzip.Name))
 	if err != nil {
 		log.Fatal("Failed to upload image: ", err, stream.RecvMsg(nil))
 	}
@@ -145,7 +146,7 @@ func (laptopClient *LaptopClient) RateLaptop(laptopIDs []string, scores []float6
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	stream, err := laptopClient.service.RateLaptop(ctx)
+	stream, err := laptopClient.service.RateLaptop(ctx, grpc.UseCompressor(gzip.Name))
 	if err != nil {
 		return err
 	}
