@@ -36,6 +36,8 @@ func NewInMemoryLaptopStore() *InMemoryLaptopStore {
 	}
 }
 
+// TODO: use ScyllaDB storage to save laptops
+
 func (mem *InMemoryLaptopStore) Save(laptop *protoc.Laptop) error {
 	mem.mu.Lock()
 	defer mem.mu.Unlock()
