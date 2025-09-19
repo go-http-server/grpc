@@ -12,6 +12,7 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"aidanwoods.dev/go-paseto"
 	"buf.build/go/protovalidate"
@@ -22,6 +23,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	_ "google.golang.org/grpc/encoding/gzip" // gzip compression
+	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -118,8 +120,23 @@ func main() {
 		log.Fatalf("failed to create validator: %v", err)
 	}
 
+	// keepalive grpc server option make keepalive working.
+	kaep := keepalive.EnforcementPolicy{
+		MinTime:             5 * time.Second, // if a client pings more than once every 5 seconds, terminate the connection
+		PermitWithoutStream: true,            // allow pings even when there are no active streams
+	}
+	kasp := keepalive.ServerParameters{
+		MaxConnectionIdle:     15 * time.Second, // If a client is idle for 15 seconds, send a GOAWAY
+		MaxConnectionAge:      30 * time.Second, // If any connection is alive for more than 30 seconds, send a GOAWAY
+		MaxConnectionAgeGrace: 5 * time.Second,  // Allow 5 seconds for pending RPCs to complete before forcibly closing connections
+		Time:                  5 * time.Second,  // Ping the client if it is idle for 5 seconds to ensure the connection is still active
+		Timeout:               1 * time.Second,  // Wait 1 second for the ping ack before assuming the connection is dead
+	}
+
 	// configure gRPC server options, enabling authentication and optionally TLS
 	grpcServerOpts := []grpc.ServerOption{
+		grpc.KeepaliveEnforcementPolicy(kaep),
+		grpc.KeepaliveParams(kasp),
 		grpc.ChainUnaryInterceptor(
 			protovalidate_middleware.UnaryServerInterceptor(validator),
 			authInterceptor.Unary(),

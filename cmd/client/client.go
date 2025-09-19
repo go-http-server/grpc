@@ -17,6 +17,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/keepalive"
 )
 
 func testCreateLaptop(laptopClient *client.LaptopClient) {
@@ -137,7 +138,15 @@ func main() {
 		transportOpts = grpc.WithTransportCredentials(tlsCredentials)
 	}
 
-	conn, err := grpc.NewClient(*addr, transportOpts)
+	// keepalive option in connection
+	kacp := keepalive.ClientParameters{
+		Time:                10 * time.Second, // send pings every 10 seconds if there is no activity
+		Timeout:             time.Second,      // wait 1 second for ping ack before considering the connection dead
+		PermitWithoutStream: true,             // send pings even without active streams
+	}
+	kac := grpc.WithKeepaliveParams(kacp)
+
+	conn, err := grpc.NewClient(*addr, transportOpts, kac)
 	if err != nil {
 		log.Fatalf("Failed to connect to server: %v", err)
 	}
@@ -150,6 +159,7 @@ func main() {
 
 	connAuth, err := grpc.NewClient(*addr,
 		transportOpts,
+		kac,
 		grpc.WithUnaryInterceptor(interceptor.Unary()),
 		grpc.WithStreamInterceptor(interceptor.Stream()),
 	)
