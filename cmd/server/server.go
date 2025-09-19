@@ -161,6 +161,7 @@ func main() {
 	sigCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
 	defer stop()
 
+	// create group to manage server goroutine and shutdown goroutine, ctx serve task handler in worker pool
 	gr, ctx := errgroup.WithContext(sigCtx)
 
 	gr.Go(func() error {
