@@ -1,19 +1,24 @@
 package main
 
 import (
+	"context"
 	"crypto/tls"
 	"crypto/x509"
+	"errors"
 	"flag"
 	"fmt"
 	"log"
 	"net"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"aidanwoods.dev/go-paseto"
 	"buf.build/go/protovalidate"
 	"github.com/go-http-server/grpc/protoc"
 	"github.com/go-http-server/grpc/service"
 	protovalidate_middleware "github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/protovalidate"
+	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	_ "google.golang.org/grpc/encoding/gzip" // gzip compression
@@ -152,9 +157,36 @@ func main() {
 		log.Fatalf("cannot create server on port :%d, err: %s", *port, err)
 	}
 
-	log.Printf("Starting server on port :%d with tls option: %t", *port, *enableTLS)
-	err = grpcServer.Serve(listener)
-	if err != nil {
-		log.Fatalf("cannot start server on port :%d, err: %s", *port, err)
+	// create signal context to handle graceful shutdown from interrupt, sigterm, sisint signals
+	sigCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
+	defer stop()
+
+	gr, ctx := errgroup.WithContext(sigCtx)
+
+	gr.Go(func() error {
+		log.Printf("Starting server on port :%d with tls option: %t", *port, *enableTLS)
+		err = grpcServer.Serve(listener)
+		if err != nil {
+			if errors.Is(err, grpc.ErrServerStopped) {
+				return nil
+			}
+
+			log.Printf("cannot start server on port :%d, err: %s", *port, err)
+			return err
+		}
+
+		return nil
+	})
+
+	gr.Go(func() error {
+		<-ctx.Done()
+		// implement graceful shutdown
+		log.Println("shutting down gRPC server...")
+		grpcServer.GracefulStop()
+		return nil
+	})
+
+	if err := gr.Wait(); err != nil {
+		log.Fatalf("server error: %v", err)
 	}
 }
