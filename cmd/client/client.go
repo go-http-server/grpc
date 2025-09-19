@@ -150,6 +150,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to connect to server: %v", err)
 	}
+	defer conn.Close()
 
 	authClient := client.NewAuthClient(conn, "admin_valid", "password")
 	interceptor, err := client.NewAuthInterceptor(authClient, authMethods(), 5*time.Second)
@@ -166,6 +167,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to connect to server: %v", err)
 	}
+	defer connAuth.Close()
 
 	log.Printf("Connected to server at %s, with transport option TLS: %t", *addr, *enableTLS)
 
