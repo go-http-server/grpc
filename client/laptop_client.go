@@ -66,10 +66,19 @@ func (laptopClient *LaptopClient) SearchLaptop(filter *protoc.Filter) {
 		log.Fatalf("Failed to search laptops: %v", err)
 	}
 
+	header, err := stream.Header()
+	if err != nil {
+		log.Fatalf("Failed to get header from stream: %v", err)
+	}
+	log.Printf("Header: %+v", header)
+
+	var rpcErr error
+
 	for {
 		res, err := stream.Recv()
 		if err == io.EOF {
-			return
+			rpcErr = err
+			break
 		}
 
 		if err != nil {
@@ -85,6 +94,12 @@ func (laptopClient *LaptopClient) SearchLaptop(filter *protoc.Filter) {
 		log.Printf("  CPU GHz: %.2f", laptop.GetCpu().GetMinGhz())
 		log.Printf("  Memory: %d%s", laptop.GetRam().GetValue(), laptop.GetRam().GetUnit().String())
 	}
+	if rpcErr != io.EOF {
+		log.Fatalf("Failed to receive laptop: %v", rpcErr)
+	}
+
+	trailer := stream.Trailer()
+	log.Printf("Trailer server streaming: %+v", trailer)
 }
 
 // UploadImage uploads an image for a laptop identified by laptopID.

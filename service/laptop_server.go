@@ -85,9 +85,16 @@ func (s *LaptopServer) CreateLaptop(ctx context.Context, req *protoc.CreateLapto
 
 // SearchLaptop handles the search for laptops based on filter criteria.
 func (s *LaptopServer) SearchLaptop(req *protoc.SearchLaptopRequest, streaming grpc.ServerStreamingServer[protoc.SearchLaptopResponse]) error {
+	defer func() {
+		trailer := metadata.Pairs("timestamp", time.Now().Format(time.DateOnly))
+		streaming.SetTrailer(trailer)
+	}()
 	filter := req.GetFilter()
 
 	log.Printf("Received request to search laptops with filter: %+v", filter)
+
+	header := metadata.New(map[string]string{"location": "MTV", "timestamp": time.Now().Format(time.DateOnly)})
+	streaming.SendHeader(header)
 
 	err := s.LaptopStore.Search(streaming.Context(), filter, func(laptop *protoc.Laptop) error {
 		res := &protoc.SearchLaptopResponse{Laptop: laptop}
