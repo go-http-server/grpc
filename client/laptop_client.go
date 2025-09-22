@@ -14,6 +14,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/encoding/gzip"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 )
 
@@ -35,7 +36,9 @@ func (laptopClient *LaptopClient) CreateLaptop(laptop *protoc.Laptop) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	res, err := laptopClient.service.CreateLaptop(ctx, req, grpc.UseCompressor(gzip.Name))
+	var header, trailer metadata.MD
+
+	res, err := laptopClient.service.CreateLaptop(ctx, req, grpc.UseCompressor(gzip.Name), grpc.Header(&header), grpc.Trailer(&trailer))
 	if err != nil {
 		st, ok := status.FromError(err)
 		if ok && st.Code() == codes.AlreadyExists {
@@ -48,6 +51,8 @@ func (laptopClient *LaptopClient) CreateLaptop(laptop *protoc.Laptop) {
 	}
 
 	log.Printf("Laptop created: %s", res.GetId())
+	log.Printf("Header: %+v", header)
+	log.Printf("Trailer: %+v", trailer)
 }
 
 // SearchLaptop sends a request to search for laptops based on the provided filter.

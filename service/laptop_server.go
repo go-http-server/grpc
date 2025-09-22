@@ -7,11 +7,13 @@ import (
 	"errors"
 	"io"
 	"log"
+	"time"
 
 	"github.com/go-http-server/grpc/protoc"
 	"github.com/google/uuid"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 )
 
@@ -34,6 +36,10 @@ func NewLaptopServer(store LaptopStore, imgStore ImageStore, rateStore RatingSto
 
 // CreateLaptop handles the creation of a new laptop.
 func (s *LaptopServer) CreateLaptop(ctx context.Context, req *protoc.CreateLaptopRequest) (*protoc.CreateLaptopResponse, error) {
+	defer func() {
+		trailer := metadata.Pairs("timestamp", time.Now().Format(time.DateOnly))
+		grpc.SetTrailer(ctx, trailer)
+	}()
 	laptopReq := req.GetLaptop()
 	log.Printf("Received request to create laptop: %s", laptopReq.GetId())
 
@@ -66,6 +72,10 @@ func (s *LaptopServer) CreateLaptop(ctx context.Context, req *protoc.CreateLapto
 
 		return nil, status.Errorf(codes.Internal, "failed to save laptop: %s", err)
 	}
+
+	// Create and send header.
+	header := metadata.New(map[string]string{"location": "MTV", "timestamp": time.Now().Format(time.DateOnly)})
+	grpc.SendHeader(ctx, header)
 
 	res := &protoc.CreateLaptopResponse{
 		Id: laptopReq.Id, // Return the ID of the created laptop
