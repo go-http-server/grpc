@@ -1,3 +1,22 @@
+/*
+*
+* gRPC is one frame work for remote procedure call (RPC)
+* uses HTTP/2 for transport,
+* Protocol Buffers as the interface description language, and
+* provides features such as
+* authentication,
+* load balancing, and more.
+*
+* That is template client connection must have in each services, it is:
+* `RETRY_POLICY` in service config
+* `KEEPALIVE` in connection
+* `METADATA` in each request for authentication, authorization in header request. Use Trailer for each response
+* `TLS` for security transport
+* `INTERCEPTOR` for logging, monitoring, authentication, etc.
+* Implement unary request, server streaming, client streaming, bidirectional streaming
+*
+ */
+
 package main
 
 import (
