@@ -1,3 +1,21 @@
+/*
+*
+* gRPC is one frame work for remote procedure call (RPC)
+* uses HTTP/2 for transport,
+* Protocol Buffers as the interface description language, and
+* provides features such as
+* authentication,
+* load balancing, and more.
+*
+* TLS is transport layer security, it is used to encrypt the data between client and server
+* Keepalive is used to check if the connection is still alive
+* Graceful shutdown is used to shutdown the server gracefully
+* Reflection is used to get the list of services and methods
+* Proto validation is used to validate the request and response
+* Gzip compression is used to compress the data between client and server
+*
+ */
+
 package main
 
 import (
