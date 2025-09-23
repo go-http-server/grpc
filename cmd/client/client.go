@@ -20,6 +20,28 @@ import (
 	"google.golang.org/grpc/keepalive"
 )
 
+const retryPolicy = `
+{
+  "methodConfig": [
+    {
+      "name": [
+        {
+          "service": "/LaptopService/CreateLaptop"
+        }
+      ],
+      "retryPolicy": {
+        "MaxAttempts": 4,
+        "InitialBackoff": ".01s",
+        "MaxBackoff": ".01s",
+        "BackoffMultiplier": 1,
+        "RetryableStatusCodes": [
+          "UNAVAILABLE"
+        ]
+      }
+    }
+  ]
+}`
+
 func testCreateLaptop(laptopClient *client.LaptopClient) {
 	laptopClient.CreateLaptop(sample.NewLaptop()) // Create a sample laptop
 }
@@ -146,7 +168,10 @@ func main() {
 	}
 	kac := grpc.WithKeepaliveParams(kacp)
 
-	conn, err := grpc.NewClient(*addr, transportOpts, kac)
+	// serviceConfig includes: retry policy
+	sConf := grpc.WithDefaultServiceConfig(retryPolicy)
+
+	conn, err := grpc.NewClient(*addr, transportOpts, kac, sConf)
 	if err != nil {
 		log.Fatalf("Failed to connect to server: %v", err)
 	}
@@ -163,6 +188,7 @@ func main() {
 		kac,
 		grpc.WithUnaryInterceptor(interceptor.Unary()),
 		grpc.WithStreamInterceptor(interceptor.Stream()),
+		sConf,
 	)
 	if err != nil {
 		log.Fatalf("Failed to connect to server: %v", err)
