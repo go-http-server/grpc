@@ -9,11 +9,12 @@
 *
 * That is template client connection must have in each services, it is:
 * `RETRY_POLICY` in service config
-* `KEEPALIVE` in connection
-* `METADATA` in each request for authentication, authorization in header request. Use Trailer for each response
-* `TLS` for security transport
+* `KEEPALIVE` in connection with package keepalive
+* `METADATA` in each request for authentication, authorization in header request. Use Trailer for each response with package metadata
+* `TLS` for security transport with package credentials
 * `INTERCEPTOR` for logging, monitoring, authentication, etc.
 * Implement unary request, server streaming, client streaming, bidirectional streaming
+*
 *
  */
 
