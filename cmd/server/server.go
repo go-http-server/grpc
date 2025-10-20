@@ -27,6 +27,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
@@ -37,12 +38,23 @@ import (
 	"github.com/go-http-server/grpc/protoc"
 	"github.com/go-http-server/grpc/service"
 	protovalidate_middleware "github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/protovalidate"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"go.opentelemetry.io/otel/exporters/prometheus"
+	"go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
+	"go.opentelemetry.io/otel/propagation"
+	semconv "go.opentelemetry.io/otel/semconv/v1.37.0"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	_ "google.golang.org/grpc/encoding/gzip" // gzip compression
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/reflection"
+
+	sdkmetric "go.opentelemetry.io/otel/sdk/metric"
+	"go.opentelemetry.io/otel/sdk/resource"
+	sdktrace "go.opentelemetry.io/otel/sdk/trace"
+	oteltracing "google.golang.org/grpc/experimental/opentelemetry"
+	otelgrpc "google.golang.org/grpc/stats/opentelemetry"
 )
 
 func createAccount(accStore service.AccountStore, username, password, role string) error {
@@ -107,7 +119,72 @@ func loadTLSCredentials() (credentials.TransportCredentials, error) {
 func main() {
 	port := flag.Int("port", 8080, "Port to run the server on")
 	enableTLS := flag.Bool("tls", false, "Enable TLS for the server")
+	promAddr := flag.String("prometheus_endpoint", ":9464", "the Prometheus exporter endpoint for metrics")
 	flag.Parse()
+
+	// configuration open telemetry for grpc server
+	// prometheus exporter
+	exporter, err := prometheus.New()
+	if err != nil {
+		log.Fatalf("failed to initialize prometheus exporter %v", err)
+	}
+	// configure meter provider for metrics
+	mp := sdkmetric.NewMeterProvider(sdkmetric.WithReader(exporter))
+	// Configure exporter for traces
+	traceExporter, err := stdouttrace.New(stdouttrace.WithPrettyPrint())
+	if err != nil {
+		log.Fatalf("Failed to create stdouttrace exporter: %v", err)
+	}
+	r, err := resource.New(context.Background(),
+		resource.WithOS(),
+		resource.WithHost(),
+		resource.WithProcess(),
+		resource.WithFromEnv(),
+		resource.WithContainer(),
+		resource.WithSchemaURL(semconv.SchemaURL),
+		resource.WithAttributes(semconv.ServiceNameKey.String("grpc-server")),
+	)
+	// tp: trace provider setup
+	tp := sdktrace.NewTracerProvider(
+		sdktrace.WithBatcher(traceExporter),
+		sdktrace.WithResource(r),
+	)
+	// Configure W3C Trace Context Propagator for traces
+	textMapPropagator := propagation.TraceContext{}
+	so := otelgrpc.ServerOption(otelgrpc.Options{
+		MetricsOptions: otelgrpc.MetricsOptions{
+			MeterProvider: mp,
+			Metrics: otelgrpc.DefaultMetrics().Add(
+				/* https://grpc.io/docs/guides/opentelemetry-metrics/#instruments
+				* Per-call : Observe RPCs themselves (for example, latency.)
+				*   Client Per-Call (stable, on by default) : Observe a client call
+				*   Client Per-Attempt (stable, on by default) : Observe attempts for a client call, since a call can have multiple attempts due to retry or hedging.
+				*   Client Per-Call Retry (experimental) : Observe retry, transparent retry and hedging,
+				*   Server : Observe a call received at the server.
+				* LB Policy : Observe various load-balancing policies
+				*   Weighted Round Robin (experimental)
+				*   Pick-First (experimental)
+				* XdsClient (experimental)
+				 */
+				// Pick First LB Policy Instruments
+				"grpc.lb.pick_first.disconnections",
+				"grpc.lb.pick_first.connection_attempts_succeeded",
+				"grpc.lb.pick_first.connection_attempts_failed",
+				// Weighted Round Robin LB Policy Instruments
+				"grpc.lb.wrr.endpoint_weights",
+				"grpc.lb.wrr.rr_fallback",
+				"grpc.lb.wrr.endpoint_weight_not_yet_usable",
+				"grpc.lb.wrr.endpoint_weight_stale",
+			),
+		},
+		TraceOptions: oteltracing.TraceOptions{
+			TracerProvider:    tp,
+			TextMapPropagator: textMapPropagator,
+		},
+	})
+
+	// run metrics server in a separate goroutine
+	go http.ListenAndServe(*promAddr, promhttp.Handler())
 
 	laptopServer := service.NewLaptopServer(service.NewInMemoryLaptopStore(), service.NewDiskImageStore("images"), service.NewInMemoryRatingStore())
 	accountStore := service.NewInMemoryAccountStore()
@@ -163,6 +240,7 @@ func main() {
 			protovalidate_middleware.StreamServerInterceptor(validator),
 			authInterceptor.Stream(),
 		),
+		so,
 	}
 	if *enableTLS {
 		tlsCredentials, err := loadTLSCredentials()
