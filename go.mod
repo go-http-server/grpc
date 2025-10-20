@@ -11,6 +11,8 @@ require (
 	github.com/jinzhu/copier v0.4.0
 	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/otel/exporters/prometheus v0.60.0
+	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.38.0
+	go.opentelemetry.io/otel/sdk/metric v1.38.0
 	golang.org/x/crypto v0.38.0
 	golang.org/x/sync v0.15.0
 	google.golang.org/grpc v1.74.2
@@ -40,7 +42,6 @@ require (
 	go.opentelemetry.io/otel v1.38.0 // indirect
 	go.opentelemetry.io/otel/metric v1.38.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.38.0 // indirect
-	go.opentelemetry.io/otel/sdk/metric v1.38.0 // indirect
 	go.opentelemetry.io/otel/trace v1.38.0 // indirect
 	golang.org/x/exp v0.0.0-20240325151524-a685a6edb6d8 // indirect
 	golang.org/x/net v0.40.0 // indirect
