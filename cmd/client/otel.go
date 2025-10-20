@@ -34,15 +34,6 @@ func MAIN() {
 		log.Fatalf("failed to initialize prometheus exporter %v", err)
 	}
 
-	// Configure MeterProvider for metrics
-	mp := sdkmetric.NewMeterProvider(sdkmetric.WithReader(exporter))
-	// Configure TraceExporter for tracing
-	tx, err := stdouttrace.New(stdouttrace.WithPrettyPrint())
-	if err != nil {
-		log.Fatalf("failed to initialize stdout trace exporter %v", err)
-	}
-
-	// tp: TraceProvider setup
 	// r: resource setup
 	r, err := resource.New(context.Background(),
 		resource.WithHost(),
@@ -56,6 +47,19 @@ func MAIN() {
 	if err != nil {
 		log.Fatalf("failed to create resource: %v", err)
 	}
+
+	// Configure MeterProvider for metrics
+	mp := sdkmetric.NewMeterProvider(
+		sdkmetric.WithReader(exporter),
+		sdkmetric.WithResource(r),
+	)
+	// Configure TraceExporter for tracing
+	tx, err := stdouttrace.New(stdouttrace.WithPrettyPrint())
+	if err != nil {
+		log.Fatalf("failed to initialize stdout trace exporter %v", err)
+	}
+
+	// tp: TraceProvider setup
 	tp := sdktrace.NewTracerProvider(
 		sdktrace.WithBatcher(tx),
 		sdktrace.WithResource(r),
