@@ -144,6 +144,9 @@ func main() {
 		resource.WithSchemaURL(semconv.SchemaURL),
 		resource.WithAttributes(semconv.ServiceNameKey.String("grpc-server")),
 	)
+	if err != nil {
+		log.Fatalf("failed to create resource: %v", err)
+	}
 	// tp: trace provider setup
 	tp := sdktrace.NewTracerProvider(
 		sdktrace.WithBatcher(traceExporter),
