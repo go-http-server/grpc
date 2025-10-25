@@ -82,15 +82,17 @@ func MAIN() {
 				*   Pick-First (experimental)
 				* XdsClient (experimental)
 				 */
-				// Pick First LB Policy Instruments
-				"grpc.lb.pick_first.disconnections",
 				"grpc.lb.pick_first.connection_attempts_succeeded",
 				"grpc.lb.pick_first.connection_attempts_failed",
-				// Weighted Round Robin LB Policy Instruments
-				"grpc.lb.wrr.endpoint_weights",
-				"grpc.lb.wrr.rr_fallback",
-				"grpc.lb.wrr.endpoint_weight_not_yet_usable",
-				"grpc.lb.wrr.endpoint_weight_stale",
+				// "grpc.client.call.duration", // metric already included in DefaultMetrics
+				// "grpc.client.attempt.started", // metric already included in DefaultMetrics
+				// "grpc.client.attempt.duration", // metric already included in DefaultMetrics
+				// "grpc.client.attempt.sent_total_compressed_message_size",// metric already included in DefaultMetrics
+				// "grpc.client.attempt.rcvd_total_compressed_message_size",// metric already included in DefaultMetrics
+				"grpc.client.call.retries",
+				"grpc.client.call.transparent_retries",
+				"grpc.client.call.hedges",
+				"grpc.client.call.retry_delay",
 			),
 		},
 		TraceOptions: oteltracing.TraceOptions{
