@@ -24,11 +24,11 @@ import (
 // base is a common struct used by all field evaluators. It holds
 // some common information used across all field evaluators.
 type base struct {
-	// Descriptor is the FieldDescriptor targeted by this evaluator, nor nil if
+	// Descriptor is the FieldDescriptor targeted by this evaluator, or nil if
 	// there is none.
 	Descriptor protoreflect.FieldDescriptor
 
-	// FieldPatht is the field path element that pertains to this evaluator, or
+	// FieldPathElement is the field path element that pertains to this evaluator, or
 	// nil if there is none.
 	FieldPathElement *validate.FieldPathElement
 
@@ -49,11 +49,11 @@ func (b *base) fieldPath() *validate.FieldPath {
 	if b.FieldPathElement == nil {
 		return nil
 	}
-	return &validate.FieldPath{
+	return validate.FieldPath_builder{
 		Elements: []*validate.FieldPathElement{
 			b.FieldPathElement,
 		},
-	}
+	}.Build()
 }
 
 func (b *base) rulePath(suffix *validate.FieldPath) *validate.FieldPath {
@@ -62,9 +62,9 @@ func (b *base) rulePath(suffix *validate.FieldPath) *validate.FieldPath {
 
 func prefixRulePath(prefix *validate.FieldPath, suffix *validate.FieldPath) *validate.FieldPath {
 	if len(prefix.GetElements()) > 0 {
-		return &validate.FieldPath{
+		return validate.FieldPath_builder{
 			Elements: slices.Concat(prefix.GetElements(), suffix.GetElements()),
-		}
+		}.Build()
 	}
 	return suffix
 }

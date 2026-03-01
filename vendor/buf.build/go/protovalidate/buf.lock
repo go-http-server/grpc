@@ -2,8 +2,8 @@
 version: v2
 deps:
   - name: buf.build/bufbuild/protovalidate
-    commit: d22d418d82d84932ba4ba554ce4208ca
-    digest: b5:8b454cb411e14f0024bdb58ac2689aed2321e81617b61ef8a22c8147a7a9757eeb049ebfb899a699d37051bdb3251e172ba1c1ae2f5005d7c3f47a202109136a
-  - name: buf.build/bufbuild/protovalidate-testing
-    commit: 3173472a3d1147cfb60458ad0cf16f2e
-    digest: b5:628f7fd91082e885255bea51911e24ba3c92dbfdefd60960fb74224245ec00176ca2f19acd2bc5007b904c70d12b6bc95479f9aeb2f071632a3c20534fc78cca
+    commit: 2a1774d888024a9b93ce7eb4b59f6a83
+    digest: b5:6b7f9bc919b65e5b79d7b726ffc03d6f815a412d6b792970fa6f065cae162107bd0a9d47272c8ab1a2c9514e87b13d3fbf71df614374d62d2183afb64be2d30a
+  - name: buf.build/rodaine/protogofakeit
+    commit: 9caf0fc578d3413590962a1764b81b94
+    digest: b5:eeead7373f2f598ebc8f91aa3a68d6b50630076341d875b22dc6760126bc56c82cf1e98f5a2eff9815ba55fa48ab81745c93a5aeefd5e4697bf43c9ea4694735
