@@ -99,7 +99,7 @@ func loadTLSCredentials() (credentials.TransportCredentials, error) {
 
 	pemClientCA, err := os.ReadFile("certs/ca.crt")
 	if err != nil {
-		return nil, nil
+		return nil, err
 	}
 
 	clientCertPool := x509.NewCertPool()
