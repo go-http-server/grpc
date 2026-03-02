@@ -139,7 +139,7 @@ func loadTLSCredentials() (credentials.TransportCredentials, error) {
 	// In a real application, you would load your TLS certs and keys.
 	pemServerCA, err := os.ReadFile("certs/ca.crt")
 	if err != nil {
-		return nil, nil
+		return nil, err
 	}
 
 	clientCert, err := tls.LoadX509KeyPair("certs/client.crt", "certs/client.key")
